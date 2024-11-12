@@ -1,0 +1,74 @@
+/* :root{
+    --primary-color:  #c98d83;
+    --secondary : #783b31;
+    --bg: #f2f1ec;
+    --black: #000;
+    --white: #fff;
+    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+body {
+    background: linear-gradient(135deg, #f5e0c3, #e3c7a7); 
+}
+
+.login-box {
+    width: 400px;
+    padding: 40px 30px;
+    margin-top: 60px;
+}
+
+.card {
+    border-radius: 20px;
+    border: 1px solid var(--primary-color); 
+}
+
+.login-box-msg {
+    color: var(--primary-color);
+}
+
+.icheck-primary  {
+    color: var(--primary-color); 
+}
+
+.card-header a {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #b3846c; 
+}
+
+.form-group {
+    color: var(--primary-color);
+}
+
+.card-header a:hover {
+    color: var(--secondary); 
+}
+
+.fa-bread-slice {
+    color: #b3846c; 
+}
+
+.fa-bread-slice:hover{
+    color: var(--secondary); 
+}
+
+.btn-primary {
+    background-color: #b3846c;
+    border-color: #b3846c;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary); ; 
+    border-color:  var(--secondary); ;
+}
+
+.input-group-text {
+    background-color: #e3c7a7; 
+    border-color: #b3846c;
+    color: #a06b54;
+}
+
+.input-group .form-control:focus {
+    border-color: #b3846c;
+    box-shadow: none;
+} */
