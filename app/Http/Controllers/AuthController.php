@@ -14,7 +14,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return redirect('/dashboard');
+            return redirect('/home');
         }
         return view('auth.login');
     }
@@ -30,7 +30,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true, // Status login
                 'message' => 'Login Berhasil', 
-                'redirect' => url('/dashboard') 
+                'redirect' => url('/home') 
             ]);
         }
         

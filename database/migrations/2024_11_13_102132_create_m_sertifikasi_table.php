@@ -16,7 +16,6 @@ return new class extends Migration
             $table -> unsignedBigInteger('id_periode') -> index ;
 
             $table->string('nama', 100);
-            $table->string('no_sertifikasi', 50);
             $table->decimal('biaya', 15, 2);
             $table->string('jenis_sertifikasi', 50);
             $table->date('tanggal_awal');

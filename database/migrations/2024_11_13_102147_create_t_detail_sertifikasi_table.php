@@ -1,4 +1,3 @@
-t_daftar sertifikasi
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -14,6 +13,7 @@ return new class extends Migration
             $table -> unsignedBigInteger('id_user') -> index ;
             $table -> unsignedBigInteger('id_sertifikasi') -> index;
             $table->string('status', 50);
+            $table->string('no_sertifikasi', 50) -> nullable();
             $table->string('image')->nullable();
             $table->string('surat_tugas')->nullable();
             $table->timestamps();
