@@ -13,34 +13,47 @@ class AuthController extends Controller
 {
     public function login()
     {
-        if (Auth::check()) {
-            return redirect('/home');
+        if (Auth::guard('admin')->check()) {
+            return redirect('/admin/home');  // Redirect to admin dashboard if logged in as admin
         }
-        return view('auth.login');
+        
+        if (Auth::check()) {
+            return redirect('/user/home');  // Redirect to user dashboard if logged in as a regular user
+        }
+        
+        return view('auth.login');  // Show login page if not authenticated
     }
     public function postlogin(Request $request)
-{
-    if ($request->ajax() || $request->wantsJson()) {
-        
-        $credentials = $request->only('username', 'password');
-        
-        // Mencoba untuk mengautentikasi pengguna dengan kredensial yang diberikan
-        if (Auth::attempt($credentials)) {
-            // Jika autentikasi berhasil,
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            
+            $credentials = $request->only('username', 'password');
+            
+            // Check login for admin guard
+            if (Auth::guard('admin')->attempt($credentials)) {
+                return response()->json([
+                    'status' => true, 
+                    'message' => 'Login Berhasil', 
+                    'redirect' => url('/admin/home') 
+                ]);
+            }
+
+            // Check login for user guard (default)
+            if (Auth::attempt($credentials)) {
+                return response()->json([
+                    'status' => true, 
+                    'message' => 'Login Berhasil', 
+                    'redirect' => url('/user/home')
+                ]);
+            }
+            
+            // If authentication fails
             return response()->json([
-                'status' => true, // Status login
-                'message' => 'Login Berhasil', 
-                'redirect' => url('/home') 
+                'status' => false, 
+                'message' => 'Login Gagal'
             ]);
         }
-        
-        // Jika autentikasi gagal,
-        return response()->json([
-            'status' => false, // Status login
-            'message' => 'Login Gagal' 
-        ]);
     }
-}
 
     public function logout(Request $request)
     {

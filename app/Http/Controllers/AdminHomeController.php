@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class WelcomeController extends Controller
+class AdminHomeController extends Controller
 {
     public function index()
     {
@@ -13,8 +13,8 @@ class WelcomeController extends Controller
             'list' => ['Home', 'Welcome']
         ];
         $activeMenu = 'home';
-
-        return view('welcome', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        
+        return view('admin.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 }
-?>
+

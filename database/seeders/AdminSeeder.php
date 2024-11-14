@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
                 'id_level' => 1,
                 'nama' => 'Admin',
                 'username' => '1001',  
-                'password' => Hash::make('adminpassword1'),
+                'password' => Hash::make('admin1'),
                 'image' => null,
             ],
         ];

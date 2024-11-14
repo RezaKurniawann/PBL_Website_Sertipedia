@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\AdminHomeController;
+use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LevelController;
@@ -35,11 +36,8 @@ Route::get('logout', [AuthController::class, 'logout']);
 
 Route::get('/', [LandingPageController::class, 'index']);
 
-Route::middleware(['auth'])->group(function () {
-
-    Route::get('/home', [WelcomeController::class, 'index']);
-
-    Route::middleware(['authorize:ADM'])->group(function () {
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/home', [AdminHomeController::class, 'index']);
         Route::prefix('manage')->group(function () {
             Route::prefix('user')->group(function () {
                 Route::get('/', [UserController::class, 'index']);
@@ -77,11 +75,13 @@ Route::middleware(['auth'])->group(function () {
                     Route::get('/', [KompetensiController::class, 'index']);
                 });
             });
-
         });
-    });
-
 });
+
+Route::middleware(['auth:user'])->group(function () {
+    Route::get('/user/home', [UserHomeController::class, 'index']);
+});
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
