@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id('id_kompetensi');
             $table -> unsignedBigInteger('id_prodi') -> index ();
             $table->string('nama', 100);
+            $table->string('deskripsi', 255);
             $table->timestamps();
 
             $table -> foreign('id_prodi') -> references('id_prodi') -> on ('t_prodi');

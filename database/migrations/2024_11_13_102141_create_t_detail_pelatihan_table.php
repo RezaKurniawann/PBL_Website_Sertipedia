@@ -19,6 +19,7 @@ return new class extends Migration
 
             $table -> foreign('id_user') -> references('id_user') -> on ('m_user');
             $table -> foreign('id_pelatihan') -> references('id_pelatihan') -> on ('m_pelatihan');
+  
         });
     }
 

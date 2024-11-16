@@ -10,8 +10,7 @@ return new class extends Migration
     {
         Schema::create('m_sertifikasi', function (Blueprint $table) {
             $table->id('id_sertifikasi');
-            $table -> unsignedBigInteger('id_matakuliah') -> index ;
-            $table -> unsignedBigInteger('id_bidangminat') -> index ;
+            
             $table -> unsignedBigInteger('id_vendor') -> index ;
             $table -> unsignedBigInteger('id_periode') -> index ;
 
@@ -23,8 +22,7 @@ return new class extends Migration
             $table->integer('masa_berlaku'); // tanggal akhir dikurangi tanggal awal
             $table->timestamps();
 
-            $table -> foreign('id_matakuliah') -> references('id_matakuliah') -> on ('m_matakuliah');
-            $table -> foreign('id_bidangminat') -> references('id_bidangminat') -> on ('m_bidangminat');
+      
             $table -> foreign('id_vendor') -> references('id_vendor') -> on ('m_vendor');
             $table -> foreign('id_periode') -> references('id_periode') -> on ('m_periode');
         });

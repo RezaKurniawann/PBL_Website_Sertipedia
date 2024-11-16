@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id('id_detail_sertifikasi');
             $table -> unsignedBigInteger('id_user') -> index ;
             $table -> unsignedBigInteger('id_sertifikasi') -> index;
+   
             $table->string('status', 50);
             $table->string('no_sertifikasi', 50) -> nullable();
             $table->string('image')->nullable();
@@ -20,6 +21,7 @@ return new class extends Migration
 
             $table -> foreign('id_user') -> references('id_user') -> on ('m_user');
             $table -> foreign('id_sertifikasi') -> references('id_sertifikasi') -> on ('m_sertifikasi');
+     
         });
     }
 
