@@ -14,6 +14,9 @@
 <body>
     
     <!-- Header -->
+
+{{-- test ingga --}}
+
    <!-- Header -->
 <header class="header">
     <a href="{{ url('/') }}" class="logo"> <i class="fas fa-bread-slice"></i> Awan Bakery </a>
