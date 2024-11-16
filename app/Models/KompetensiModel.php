@@ -22,6 +22,7 @@ class KompetensiModel extends Model
     protected $fillable = [
         'id_prodi',
         'nama',
+        'deskripsi',
         'created_at',
         'updated_at'
     ];

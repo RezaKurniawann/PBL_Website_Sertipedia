@@ -9,16 +9,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('t_detail_pelatihan', function (Blueprint $table) {
-            $table->id('id_daftar_pelatihan');
-            $table -> unsignedBigInteger('id_user') -> index ;
-            $table -> unsignedBigInteger('id_pelatihan') -> index ;
+
+            $table -> unsignedBigInteger('id_user');
+            $table -> unsignedBigInteger('id_pelatihan');
+
+            $table->primary(['id_user', 'id_pelatihan']);
+
             $table->string('status', 50);
             $table->string('image')->nullable();
             $table->string('surat_tugas')->nullable();
             $table->timestamps();
 
-            $table -> foreign('id_user') -> references('id_user') -> on ('m_user');
-            $table -> foreign('id_pelatihan') -> references('id_pelatihan') -> on ('m_pelatihan');
+            $table -> foreign('id_user') -> references('id_user') -> on ('m_user')  -> onDelete ('cascade');
+            $table -> foreign('id_pelatihan') -> references('id_pelatihan') -> on ('m_pelatihan')  -> onDelete ('cascade');
   
         });
     }

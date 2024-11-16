@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_user_bidangminat', function (Blueprint $table) {
-            $table->id('id_user_bidangminat');
-            $table -> unsignedBigInteger('id_user') -> index;
-            $table -> unsignedBigInteger('id_bidangminat') -> index ;
+            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_bidangminat');
+
+            $table->primary(['id_user', 'id_bidangminat']);
+
             $table->timestamps();
             
-            $table -> foreign('id_user') -> references('id_user') -> on ('m_user');
-            $table -> foreign('id_bidangminat') -> references('id_bidangminat') -> on ('m_bidangminat');
+            $table -> foreign('id_user') -> references('id_user') -> on ('m_user') -> onDelete ('cascade');
+            $table -> foreign('id_bidangminat') -> references('id_bidangminat') -> on ('m_bidangminat')-> onDelete ('cascade');
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_bidangminat');
+        Schema::dropIfExists('t_user_bidangminat');
     }
 };

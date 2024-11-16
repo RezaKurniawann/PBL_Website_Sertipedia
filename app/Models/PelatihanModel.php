@@ -22,8 +22,6 @@ class PelatihanModel extends Model
      */
 
     protected $fillable = [
-        'id_matakuliah',
-        'id_bidangminat',
         'id_vendor',
         'id_periode',
         'nama',
@@ -43,16 +41,6 @@ class PelatihanModel extends Model
         'tanggal_akhir' => 'datetime',
     ];
 
-    public function matakuliah(): BelongsTo
-    {
-        return $this->belongsTo(MataKuliahModel::class, 'id_matakuliah', 'id_matakuliah');
-    }
-
-    public function bidangMinat(): BelongsTo
-    {
-        return $this->belongsTo(BidangMinatModel::class, 'id_bidangminat', 'id_bidangminat');
-    }
-
     public function vendor(): BelongsTo
     {
         return $this->belongsTo(VendorModel::class, 'id_vendor', 'id_vendor');
@@ -63,8 +51,19 @@ class PelatihanModel extends Model
         return $this->belongsTo(PeriodeModel::class, 'id_periode', 'id_periode');
     }
 
-    public function detailpelatihan(): HasMany
+    public function matakuliah()
     {
-        return $this->hasMany(DetailPelatihanModel::class, 'id_pelatihan', 'id_pelatihan');
+        return $this->belongsToMany(MataKuliahModel::class, 't_pelatihan_matakuliah', 'id_pelatihan', 'id_matakuliah');
     }
+
+    public function bidangminat()
+    {
+        return $this->belongsToMany(BidangMinatModel::class, 't_pelatihan_bidangminat', 'id_pelatihan', 'id_bidangminat');
+    }
+
+    public function user()
+    {
+        return $this->belongsToMany(UserModel::class, 't_detail_pelatihan', 'id_pelatihan', 'id_user');
+    }
+
 }

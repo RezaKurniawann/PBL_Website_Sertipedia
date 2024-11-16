@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class DetailSertifikasiModel extends Model
+class DetailSertifikasiModel extends Pivot
 {
     use HasFactory;
 
     protected $table = 't_detail_sertifikasi'; 
-    protected $primaryKey = 'id_detail_sertifikasi'; 
+
+    protected $primaryKey = ['id_user', 'id_sertifikasi'];
 
     /**
      * The attributes that are mass assignable.
@@ -30,8 +30,13 @@ class DetailSertifikasiModel extends Model
         'updated_at'
     ];
 
-    public function sertifikasi(): HasMany
+    public function user()
     {
-        return $this->hasMany(SertifikasiModel::class, 'id_detail_sertifikasi', 'id_detail_sertifikasi');
+        return $this->belongsTo(UserModel::class, 'id_user', 'id_user');
+    }
+
+    public function sertifikasi()
+    {
+        return $this->belongsTo(SertifikasiModel::class, 'id_sertifikasi', 'id_sertifikasi');
     }
 }

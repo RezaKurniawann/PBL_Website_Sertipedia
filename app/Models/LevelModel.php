@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class LevelModel extends Model
 {
@@ -21,7 +22,8 @@ class LevelModel extends Model
      */
 
     protected $fillable = [
-        'kode', 'nama', 
+        'kode', 
+        'nama', 
         'created_at', 
         'updated_at'
     ];
@@ -29,5 +31,10 @@ class LevelModel extends Model
     public function user(): HasMany
     {
         return $this->hasMany(UserModel::class, 'id_level', 'id_level');
+    }
+
+    public function admin(): HasOne
+    {
+        return $this->hasOne(AdminModel::class, 'id_level', 'id_level');
     }
 }

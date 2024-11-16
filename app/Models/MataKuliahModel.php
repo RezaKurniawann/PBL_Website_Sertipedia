@@ -20,19 +20,30 @@ class MataKuliahModel extends Model
      */
 
     protected $fillable = [
-        'kode',
         'nama',
         'created_at',
         'updated_at'
     ];
 
-    public function sertifikasi(): HasMany
+    public function user()
     {
-        return $this->hasMany(SertifikasiModel::class, 'id_matakuliah', 'id_matakuliah');
+        return $this->belongsToMany(UserModel::class, 't_user_matakuliah', 'id_matakuliah', 'id_user');
     }
 
-    public function pelatihan(): HasMany
+    public function prodi()
     {
-        return $this->hasMany(PelatihanModel::class, 'id_matakuliah', 'id_matakuliah');
+        return $this->belongsToMany(ProdiModel::class, 't_prodi_matakuliah', 'id_matakuliah', 'id_prodi');
     }
+
+    public function pelatihan()
+    {
+        return $this->belongsToMany(PelatihanModel::class, 't_pelatihan_matakuliah', 'id_matakuliah', 'id_pelatihan');
+    }
+
+    public function sertifikasi()
+    {
+        return $this->belongsToMany(SertifikasiModel::class, 't_sertifikasi_matakuliah', 'id_matakuliah', 'id_sertifikasi');
+    }
+
+
 }

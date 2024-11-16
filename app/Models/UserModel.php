@@ -21,8 +21,6 @@ class UserModel extends Authenticatable
      */
     protected $fillable = [
         'id_level', 
-        'id_matakuliah',
-        'id_bidangminat',
         'id_prodi', 
         'nama', 
         'username', 
@@ -40,21 +38,31 @@ class UserModel extends Authenticatable
         return $this->belongsTo(LevelModel::class, 'id_level', 'id_level');
     }
 
-    public function matakuliah(): BelongsTo
-    {
-        return $this->belongsTo(MataKuliahModel::class, 'id_matakuliah', 'id_matakuliah');
-    }
-
-    public function bidangminat(): BelongsTo
-    {
-        return $this->belongsTo(BidangMinatModel::class, 'id_bidangminat', 'id_bidangminat');
-    }
-
     public function prodi(): BelongsTo
     {
         return $this->belongsTo(ProdiModel::class, 'id_prodi', 'id_prodi');
     }
-    
+
+    public function matakuliah()
+    {
+        return $this->belongsToMany(MataKuliahModel::class, 't_user_matakuliah', 'id_user', 'id_matakuliah');
+    }
+
+    public function bidangminat()
+    {
+        return $this->belongsToMany(BidangMinatModel::class, 't_user_bidangminat', 'id_user', 'id_bidangminat');
+    }
+
+    public function pelatihan()
+    {
+        return $this->belongsToMany(PelatihanModel::class, 't_detail_pelatihan', 'id_user', 'id_pelatihan');
+    }
+
+    public function sertifikasi()
+    {
+        return $this->belongsToMany(SertifikasiModel::class, 't_detail_pelatihan', 'id_user', 'id_sertifikasi');
+    }
+
     public function getRoleName(): string
     {
         return $this->level->nama;

@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class DetailPelatihanModel extends Model
+class DetailPelatihanModel extends Pivot
 {
     use HasFactory;
 
     protected $table = 't_detail_pelatihan'; 
-    protected $primaryKey = 'id_detail_pelatihan'; 
+
+    protected $primaryKey = ['id_user', 'id_pelatihan'];
 
     /**
      * The attributes that are mass assignable.
@@ -23,15 +23,9 @@ class DetailPelatihanModel extends Model
         'id_user',
         'id_pelatihan',
         'status',
-        'no_pelatihan',
         'image',
         'surat_tugas',
         'created_at',
         'updated_at'
     ];
-
-    public function pelatihan(): HasMany
-    {
-        return $this->hasMany(pelatihanModel::class, 'id_detail_pelatihan', 'id_detail_pelatihan');
-    }
 }

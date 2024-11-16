@@ -25,8 +25,18 @@ class ProdiModel extends Model
         'updated_at'
     ];
 
+    public function user(): HasMany
+    {
+        return $this->hasMany(UserModel::class, 'id_prodi', 'id_prodi');
+    }
+
     public function kompetensi()
     {
         return $this->hasMany(KompetensiModel::class, 'id_prodi', 'id_prodi');
+    }
+
+    public function matakuliah()
+    {
+        return $this->belongsToMany(MataKuliahModel::class, 't_prodi_matakuliah', 'id_prodi', 'id_matakuliah');
     }
 }

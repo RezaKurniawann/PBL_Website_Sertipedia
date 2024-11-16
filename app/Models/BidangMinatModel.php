@@ -20,20 +20,24 @@ class BidangMinatModel extends Model
      */
 
     protected $fillable = [
-        'kode',
         'nama',
         'created_at',
         'updated_at'
     ];
 
-    public function sertifikasi(): HasMany
+    public function user()
     {
-        return $this->hasMany(SertifikasiModel::class, 'id_bidangminat', 'id_bidangminat');
+        return $this->belongsToMany(UserModel::class, 't_user_bidangminat', 'id_bidangminat', 'id_user');
     }
 
-    public function pelatihan(): HasMany
+    public function pelatihan()
     {
-        return $this->hasMany(PelatihanModel::class, 'id_bidangminat', 'id_bidangminat');
+        return $this->belongsToMany(PelatihanModel::class, 't_pelatihan_bidangminat', 'id_bidangminat', 'id_pelatihan');
+    }
+
+    public function sertifikasi()
+    {
+        return $this->belongsToMany(SertifikasiModel::class, 't_sertifikasi_bidangminat', 'id_bidangminat', 'id_sertifikasi');
     }
 
 }

@@ -21,8 +21,6 @@ class SertifikasiModel extends Model
      */
 
     protected $fillable = [
-        'id_matakuliah',
-        'id_bidangminat',
         'id_vendor',
         'id_periode',
         'nama',
@@ -40,16 +38,6 @@ class SertifikasiModel extends Model
         'tanggal_akhir' => 'datetime',
     ];
 
-    public function matakuliah(): BelongsTo
-    {
-        return $this->belongsTo(MataKuliahModel::class, 'id_matakuliah', 'id_matakuliah');
-    }
-
-    public function bidangMinat(): BelongsTo
-    {
-        return $this->belongsTo(BidangMinatModel::class, 'id_bidangminat', 'id_bidangminat');
-    }
-
     public function vendor(): BelongsTo
     {
         return $this->belongsTo(VendorModel::class, 'id_vendor', 'id_vendor');
@@ -60,8 +48,18 @@ class SertifikasiModel extends Model
         return $this->belongsTo(PeriodeModel::class, 'id_periode', 'id_periode');
     }
 
-    public function detailsertifikasi(): HasMany
+    public function matakuliah()
     {
-        return $this->hasMany(DetailSertifikasiModel::class, 'id_sertifikasi', 'id_sertifikasi');
+        return $this->belongsToMany(MataKuliahModel::class, 't_sertifikasi_matakuliah', 'id_sertifikasi', 'id_matakuliah');
+    }
+
+    public function bidangminat()
+    {
+        return $this->belongsToMany(BidangMinatModel::class, 't_sertifikasi_bidangminat', 'id_sertifikasi', 'id_bidangminat');
+    }
+
+    public function user()
+    {
+        return $this->belongsToMany(UserModel::class, 't_detail_sertifikasi', 'id_sertifikasi', 'id_user');
     }
 }

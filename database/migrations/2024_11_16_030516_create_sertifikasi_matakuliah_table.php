@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_sertifikasi_matakuliah', function (Blueprint $table) {
-            $table->id('id_sertifikasi_matakuliah');
-            $table -> unsignedBigInteger('id_sertifikasi') -> index;
-            $table -> unsignedBigInteger('id_matakuliah') -> index ;
+            $table -> unsignedBigInteger('id_sertifikasi');
+            $table -> unsignedBigInteger('id_matakuliah');
+
+            $table->primary(['id_sertifikasi', 'id_matakuliah']);
+
             $table->timestamps();
             
-            $table -> foreign('id_sertifikasi') -> references('id_sertifikasi') -> on ('m_sertifikasi');
-            $table -> foreign('id_matakuliah') -> references('id_matakuliah') -> on ('m_matakuliah');
+            $table -> foreign('id_sertifikasi') -> references('id_sertifikasi') -> on ('m_sertifikasi') -> onDelete ('cascade');
+            $table -> foreign('id_matakuliah') -> references('id_matakuliah') -> on ('m_matakuliah') -> onDelete ('cascade');
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sertifikasi_matakuliah');
+        Schema::dropIfExists('t_sertifikasi_matakuliah');
     }
 };
