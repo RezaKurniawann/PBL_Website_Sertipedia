@@ -18,7 +18,14 @@ use Database\Seeders\DetailSertifikasiSeeder;
 use Database\Seeders\DetailPelatihanSeeder;
 use Database\Seeders\AdminSeeder;
 
+use Database\Seeders\UserMataKuliahSeeder;
+use Database\Seeders\PelatihanMataKuliahSeeder;
+use Database\Seeders\SertifikasiMataKuliahSeeder;
+use Database\Seeders\ProdiMataKuliahSeeder;
 
+use Database\Seeders\UserBidangMinatSeeder;
+use Database\Seeders\PelatihanBidangMinatSeeder;
+use Database\Seeders\SertifikasiBidangMinatSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,19 +33,31 @@ class DatabaseSeeder extends Seeder
     {
         // Call other seeders here
         $this->call([
-            ProdiSeeder::class,
-            LevelSeeder::class,
-            KompetensiSeeder::class,
             MataKuliahSeeder::class,
             BidangMinatSeeder::class,
             VendorSeeder::class,
             PeriodeSeeder::class,
-            UserSeeder::class,
+            LevelSeeder::class,
             SertifikasiSeeder::class,
             PelatihanSeeder::class,
+            ProdiSeeder::class,
+            KompetensiSeeder::class,
+
+            AdminSeeder::class,
+            UserSeeder::class,
+            
             DetailSertifikasiSeeder::class,
             DetailPelatihanSeeder::class,
-            AdminSeeder::class,
+
+            UserMataKuliahSeeder::class,
+            PelatihanMataKuliahSeeder::class,
+            ProdiMataKuliahSeeder::class,
+            SertifikasiMataKuliahSeeder::class,
+
+            UserBidangMinatSeeder::class,
+            PelatihanBidangMinatSeeder::class,
+            SertifikasiBidangMinatSeeder::class,
+            
         ]);
     }
 }
