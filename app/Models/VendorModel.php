@@ -19,7 +19,16 @@ class VendorModel extends Model
      * @var array
      */
 
-    protected $fillable = ['nama', 'alamat', 'kota', 'telepon', 'alamatWeb', 'kategori', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'nama', 
+        'alamat', 
+        'kota', 
+        'telepon', 
+        'alamatWeb', 
+        'kategori', 
+        'created_at', 
+        'updated_at'
+    ];
 
     public function sertifikasi()
     {

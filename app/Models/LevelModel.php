@@ -20,7 +20,11 @@ class LevelModel extends Model
      * @var array
      */
 
-    protected $fillable = ['kode', 'level', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'kode', 'nama', 
+        'created_at', 
+        'updated_at'
+    ];
 
     public function user(): HasMany
     {

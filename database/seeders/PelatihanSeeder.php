@@ -16,8 +16,6 @@ class PelatihanSeeder extends Seeder
         // Dummy data for pelatihan
         $pelatihan = [
             [
-                'id_matakuliah' => 1, // ID for Matakuliah (replace with existing IDs)
-                'id_bidangminat' => 1, // ID for Bidang Minat
                 'id_vendor' => 2, // ID for Vendor
                 'id_periode' => 1, // ID for Periode
                 'nama' => 'Pelatihan Java Programming',
@@ -30,8 +28,7 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-01-10')->diffInDays(Carbon::parse('2023-01-20')),
             ],
             [
-                'id_matakuliah' => 2,
-                'id_bidangminat' => 2,
+
                 'id_vendor' => 3,
                 'id_periode' => 2,
                 'nama' => 'Pelatihan Web Development Basics',
@@ -44,8 +41,7 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-02-15')->diffInDays(Carbon::parse('2023-02-22')),
             ],
             [
-                'id_matakuliah' => 3,
-                'id_bidangminat' => 1,
+
                 'id_vendor' => 5,
                 'id_periode' => 3,
                 'nama' => 'Pelatihan Data Science Fundamentals',
@@ -58,8 +54,6 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-03-10')->diffInDays(Carbon::parse('2023-03-15')),
             ],
             [
-                'id_matakuliah' => 4,
-                'id_bidangminat' => 3,
                 'id_vendor' => 7,
                 'id_periode' => 4,
                 'nama' => 'Pelatihan Cloud Computing Solutions',
@@ -72,8 +66,6 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-04-05')->diffInDays(Carbon::parse('2023-04-12')),
             ],
             [
-                'id_matakuliah' => 5,
-                'id_bidangminat' => 2,
                 'id_vendor' => 9,
                 'id_periode' => 5,
                 'nama' => 'Pelatihan Cybersecurity Basics',
@@ -86,8 +78,7 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-05-10')->diffInDays(Carbon::parse('2023-05-17')),
             ],
             [
-                'id_matakuliah' => 6,
-                'id_bidangminat' => 1,
+
                 'id_vendor' => 11,
                 'id_periode' => 6,
                 'nama' => 'Pelatihan Full Stack Web Development',
@@ -100,8 +91,6 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-06-25')->diffInDays(Carbon::parse('2023-06-30')),
             ],
             [
-                'id_matakuliah' => 7,
-                'id_bidangminat' => 3,
                 'id_vendor' => 13,
                 'id_periode' => 7,
                 'nama' => 'Pelatihan AI and Machine Learning',
@@ -114,8 +103,6 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-07-15')->diffInDays(Carbon::parse('2023-07-20')),
             ],
             [
-                'id_matakuliah' => 8,
-                'id_bidangminat' => 2,
                 'id_vendor' => 15,
                 'id_periode' => 8,
                 'nama' => 'Pelatihan Big Data and Analytics',
@@ -128,8 +115,6 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-08-10')->diffInDays(Carbon::parse('2023-08-15')),
             ],
             [
-                'id_matakuliah' => 9,
-                'id_bidangminat' => 1,
                 'id_vendor' => 17,
                 'id_periode' => 9,
                 'nama' => 'Pelatihan Mobile App Development',
@@ -142,8 +127,6 @@ class PelatihanSeeder extends Seeder
                 'waktu_pelatihan' => Carbon::parse('2023-09-10')->diffInDays(Carbon::parse('2023-09-15')),
             ],
             [
-                'id_matakuliah' => 19,
-                'id_bidangminat' => 3,
                 'id_vendor' => 3,
                 'id_periode' => 10,
                 'nama' => 'Pelatihan DevOps Practices',

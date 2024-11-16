@@ -18,7 +18,14 @@ class AdminModel extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['id_level', 'nama', 'username', 'password', 'image', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'id_level', 
+        'nama', 
+        'username', 
+        'password', 
+        'image', 
+        'created_at', 
+        'updated_at'];
 
     protected $hidden = ['password'];
     protected $casts = ['password' => 'hashed'];

@@ -16,8 +16,6 @@ class SertifikasiSeeder extends Seeder
         // Dummy data for sertifikasi
         $sertifikasi = [
             [
-                'id_matakuliah' => 1, // ID for Matakuliah (replace with existing IDs)
-                'id_bidangminat' => 1, // ID for Bidang Minat
                 'id_vendor' => 1, // ID for Vendor
                 'id_periode' => 1, // ID for Periode
                 'nama' => 'Sertifikasi Java Developer',
@@ -28,8 +26,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 1500.00, // Example biaya (cost)
             ],
             [
-                'id_matakuliah' => 2,
-                'id_bidangminat' => 2,
                 'id_vendor' => 4,
                 'id_periode' => 2,
                 'nama' => 'Sertifikasi Web Development',
@@ -40,8 +36,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 1200.00,
             ],
             [
-                'id_matakuliah' => 3,
-                'id_bidangminat' => 1,
                 'id_vendor' => 6,
                 'id_periode' => 3,
                 'nama' => 'Sertifikasi Data Science',
@@ -52,8 +46,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 2000.00,
             ],
             [
-                'id_matakuliah' => 4,
-                'id_bidangminat' => 3,
                 'id_vendor' => 8,
                 'id_periode' => 4,
                 'nama' => 'Sertifikasi Cloud Computing',
@@ -64,8 +56,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 2500.00,
             ],
             [
-                'id_matakuliah' => 5,
-                'id_bidangminat' => 2,
                 'id_vendor' => 10,
                 'id_periode' => 5,
                 'nama' => 'Sertifikasi Cybersecurity',
@@ -76,8 +66,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 1800.00,
             ],
             [
-                'id_matakuliah' => 6,
-                'id_bidangminat' => 1,
                 'id_vendor' => 12,
                 'id_periode' => 6,
                 'nama' => 'Sertifikasi Full Stack Developer',
@@ -88,8 +76,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 2200.00,
             ],
             [
-                'id_matakuliah' => 7,
-                'id_bidangminat' => 3,
                 'id_vendor' => 14,
                 'id_periode' => 7,
                 'nama' => 'Sertifikasi AI Expert',
@@ -100,8 +86,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 3000.00,
             ],
             [
-                'id_matakuliah' => 8,
-                'id_bidangminat' => 2,
                 'id_vendor' => 16,
                 'id_periode' => 8,
                 'nama' => 'Sertifikasi Big Data',
@@ -112,8 +96,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 2700.00,
             ],
             [
-                'id_matakuliah' => 9,
-                'id_bidangminat' => 1,
                 'id_vendor' => 18,
                 'id_periode' => 9,
                 'nama' => 'Sertifikasi Mobile Development',
@@ -124,8 +106,6 @@ class SertifikasiSeeder extends Seeder
                 'biaya' => 1600.00,
             ],
             [
-                'id_matakuliah' => 10,
-                'id_bidangminat' => 3,
                 'id_vendor' => 20,
                 'id_periode' => 10,
                 'nama' => 'Sertifikasi DevOps Engineer',

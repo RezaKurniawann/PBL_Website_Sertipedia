@@ -14,28 +14,28 @@ class BidangMinatSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['kode' => 'BM01', 'nama' => 'Artificial Intelligence'],
-            ['kode' => 'BM02', 'nama' => 'Machine Learning'],
-            ['kode' => 'BM03', 'nama' => 'Data Science'],
-            ['kode' => 'BM04', 'nama' => 'Cybersecurity'],
-            ['kode' => 'BM05', 'nama' => 'Cloud Computing'],
-            ['kode' => 'BM06', 'nama' => 'Internet of Things'],
-            ['kode' => 'BM07', 'nama' => 'Blockchain'],
-            ['kode' => 'BM08', 'nama' => 'Software Engineering'],
-            ['kode' => 'BM09', 'nama' => 'Mobile Development'],
-            ['kode' => 'BM10', 'nama' => 'Web Development'],
-            ['kode' => 'BM11', 'nama' => 'Game Development'],
-            ['kode' => 'BM12', 'nama' => 'Computer Vision'],
-            ['kode' => 'BM13', 'nama' => 'Natural Language Processing'],
-            ['kode' => 'BM14', 'nama' => 'Human-Computer Interaction'],
-            ['kode' => 'BM15', 'nama' => 'Big Data Analytics'],
-            ['kode' => 'BM16', 'nama' => 'Digital Marketing'],
-            ['kode' => 'BM17', 'nama' => 'Network Administration'],
-            ['kode' => 'BM18', 'nama' => 'Robotics'],
-            ['kode' => 'BM19', 'nama' => 'Embedded Systems'],
-            ['kode' => 'BM20', 'nama' => 'Augmented Reality'],
+            ['nama' => 'Artificial Intelligence'],
+            ['nama' => 'Machine Learning'],
+            ['nama' => 'Data Science'],
+            ['nama' => 'Cybersecurity'],
+            ['nama' => 'Cloud Computing'],
+            ['nama' => 'Internet of Things'],
+            ['nama' => 'Blockchain'],
+            ['nama' => 'Software Engineering'],
+            ['nama' => 'Mobile Development'],
+            ['nama' => 'Web Development'],
+            ['nama' => 'Game Development'],
+            ['nama' => 'Computer Vision'],
+            ['nama' => 'Natural Language Processing'],
+            ['nama' => 'Human-Computer Interaction'],
+            ['nama' => 'Big Data Analytics'],
+            ['nama' => 'Digital Marketing'],
+            ['nama' => 'Network Administration'],
+            ['nama' => 'Robotics'],
+            ['nama' => 'Embedded Systems'],
+            ['nama' => 'Augmented Reality'],
         ];
-
+        
         DB::table('m_bidangminat')->insert($data);
     }
 }
