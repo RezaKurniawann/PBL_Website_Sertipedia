@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\DetailPelatihanController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 class PelatihanModel extends Model
 {
@@ -51,17 +51,17 @@ class PelatihanModel extends Model
         return $this->belongsTo(PeriodeModel::class, 'id_periode', 'id_periode');
     }
 
-    public function matakuliah()
+    public function matakuliah(): BelongsToMany
     {
         return $this->belongsToMany(MataKuliahModel::class, 't_pelatihan_matakuliah', 'id_pelatihan', 'id_matakuliah');
     }
 
-    public function bidangminat()
+    public function bidangminat(): BelongsToMany
     {
         return $this->belongsToMany(BidangMinatModel::class, 't_pelatihan_bidangminat', 'id_pelatihan', 'id_bidangminat');
     }
 
-    public function user()
+    public function user(): BelongsToMany
     {
         return $this->belongsToMany(UserModel::class, 't_detail_pelatihan', 'id_pelatihan', 'id_user');
     }

@@ -6,11 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
 {
     use HasFactory;
+
+    public function getJWTIdentifier() {
+        return $this -> getKey();
+    }
+
+    public function getJWTCustomClaims() {
+        return [];
+    }
 
     protected $table = 'm_user'; 
     protected $primaryKey = 'id_user'; 
@@ -43,22 +53,22 @@ class UserModel extends Authenticatable
         return $this->belongsTo(ProdiModel::class, 'id_prodi', 'id_prodi');
     }
 
-    public function matakuliah()
+    public function matakuliah(): BelongsToMany
     {
         return $this->belongsToMany(MataKuliahModel::class, 't_user_matakuliah', 'id_user', 'id_matakuliah');
     }
 
-    public function bidangminat()
+    public function bidangminat(): BelongsToMany
     {
         return $this->belongsToMany(BidangMinatModel::class, 't_user_bidangminat', 'id_user', 'id_bidangminat');
     }
 
-    public function pelatihan()
+    public function pelatihan(): BelongsToMany
     {
         return $this->belongsToMany(PelatihanModel::class, 't_detail_pelatihan', 'id_user', 'id_pelatihan');
     }
 
-    public function sertifikasi()
+    public function sertifikasi(): BelongsToMany
     {
         return $this->belongsToMany(SertifikasiModel::class, 't_detail_pelatihan', 'id_user', 'id_sertifikasi');
     }
