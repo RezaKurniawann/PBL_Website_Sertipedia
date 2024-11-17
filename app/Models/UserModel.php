@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -86,5 +87,12 @@ class UserModel extends Authenticatable implements JWTSubject
     public function getRole()
     {
         return $this->level->kode;
+    }
+
+    public function image() {
+
+        return Attribute::make (
+            get :fn ($image) => url ('/storage/posts/' . $image),
+        );
     }
 };
