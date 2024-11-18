@@ -132,6 +132,20 @@
                     </a>
                 </div>
             </li>  
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle {{ $activeMenu == 'rekomendasi' ? 'active' : '' }}" data-toggle="dropdown">
+                    <i class="nav-icon fas fa-thumbs-up"></i>
+                    <p>Rekomendasi</p>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="{{ url('/rekomendasi/sertifikasi') }}" class="dropdown-item">
+                        <i class="fas fa-certificate"></i> Sertifikasi
+                    </a>
+                    <a href="{{ url('/rekomendasi/pelatihan') }}" class="dropdown-item">
+                        <i class="fas fa-chalkboard-teacher"></i> Pelatihan
+                    </a>
+                </div>
+            </li> 
             <li class="nav-item">
                 <a href="{{ url('/manage/surat') }}" class="nav-link {{ $activeMenu == 'manage-surat' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-envelope"></i>

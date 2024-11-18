@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 class SertifikasiModel extends Model
 {
@@ -48,17 +49,17 @@ class SertifikasiModel extends Model
         return $this->belongsTo(PeriodeModel::class, 'id_periode', 'id_periode');
     }
 
-    public function matakuliah()
+    public function matakuliah(): BelongsToMany
     {
         return $this->belongsToMany(MataKuliahModel::class, 't_sertifikasi_matakuliah', 'id_sertifikasi', 'id_matakuliah');
     }
 
-    public function bidangminat()
+    public function bidangminat(): BelongsToMany
     {
         return $this->belongsToMany(BidangMinatModel::class, 't_sertifikasi_bidangminat', 'id_sertifikasi', 'id_bidangminat');
     }
 
-    public function user()
+    public function user(): BelongsToMany
     {
         return $this->belongsToMany(UserModel::class, 't_detail_sertifikasi', 'id_sertifikasi', 'id_user');
     }

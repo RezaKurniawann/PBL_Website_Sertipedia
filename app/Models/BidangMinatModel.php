@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class BidangMinatModel extends Model
 {
@@ -25,17 +25,17 @@ class BidangMinatModel extends Model
         'updated_at'
     ];
 
-    public function user()
+    public function user(): BelongsToMany
     {
         return $this->belongsToMany(UserModel::class, 't_user_bidangminat', 'id_bidangminat', 'id_user');
     }
 
-    public function pelatihan()
+    public function pelatihan(): BelongsToMany
     {
         return $this->belongsToMany(PelatihanModel::class, 't_pelatihan_bidangminat', 'id_bidangminat', 'id_pelatihan');
     }
 
-    public function sertifikasi()
+    public function sertifikasi(): BelongsToMany
     {
         return $this->belongsToMany(SertifikasiModel::class, 't_sertifikasi_bidangminat', 'id_bidangminat', 'id_sertifikasi');
     }

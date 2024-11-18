@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class PeriodeModel extends Model
 {
     use HasFactory;
@@ -25,12 +26,12 @@ class PeriodeModel extends Model
         'updated_at'
     ];
 
-    public function sertifikasi()
+    public function sertifikasi(): HasMany
     {
         return $this->hasMany(SertifikasiModel::class, 'id_periode', 'id_periode');
     }
 
-    public function pelatihan()
+    public function pelatihan(): HasMany
     {
         return $this->hasMany(PelatihanModel::class, 'id_periode', 'id_periode');
     }

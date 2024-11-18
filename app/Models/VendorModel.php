@@ -30,12 +30,12 @@ class VendorModel extends Model
         'updated_at'
     ];
 
-    public function sertifikasi()
+    public function sertifikasi(): HasMany
     {
         return $this->hasMany(SertifikasiModel::class, 'id_vendor', 'id_vendor');
     }
 
-    public function pelatihan()
+    public function pelatihan(): HasMany
     {
         return $this->hasMany(PelatihanModel::class, 'id_vendor', 'id_vendor');
     }
