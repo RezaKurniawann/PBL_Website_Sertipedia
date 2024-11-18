@@ -13,7 +13,7 @@ return new class extends Migration
             $table -> unsignedBigInteger('id_level') -> index;
             $table -> unsignedBigInteger('id_prodi') -> index;
             $table->string('nama', 100);
-            $table->integer('username')->unique();
+            $table->string('username') -> unique();
             $table->string('password', 255);
             $table->string('image')->nullable();
             $table->timestamps();
