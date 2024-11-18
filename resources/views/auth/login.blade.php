@@ -7,8 +7,7 @@
     <title>Login Pengguna</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallb
-ack">
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ url('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- icheck bootstrap -->
@@ -17,15 +16,23 @@ ack">
     <link rel="stylesheet" href="{{ url('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ url('css/styleLogin.css') }}">
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background: url('{{ url('storage/element/FOTO POLINEMA.jpg') }}') no-repeat center center; background-size: cover;">
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
-            <div class="card-header text-center"><a href="{{ url('/') }}" class="h1"><b>Admin</b>LTE</a></div>
+            <div class="card-header text-center">
+                <!-- Tambahan Logo -->
+                <div class="logos" style="margin-bottom: 1rem;">
+                    <img src="{{ url('storage/element/LOGO_POLINEMA.png') }}" alt="Logo Polinema" style="width: 70px; height: auto; margin-right: 10px;">
+                    <img src="{{ url('storage/element/LOGO_JTI.png') }}" alt="Logo JTI" style="width: 70px; height: auto;">
+                </div>
+                <b>Selamat Datang</b>
+            </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Sistem Informasi Pendataan Sertifikasi dan Pelatihan Dosen Jurusan Teknologi Informasi</p>
                 <form action="{{ url('login') }}" method="POST" id="form-login">
                     @csrf
                     <div class="input-group mb-3">
@@ -56,7 +63,7 @@ ack">
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block">Masuk</button>
                         </div>
                         <!-- /.col -->
                     </div>
