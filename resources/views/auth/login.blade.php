@@ -25,9 +25,9 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <!-- Tambahan Logo -->
-                <div class="logos" style="margin-bottom: 1rem;">
-                    <img src="{{ url('storage/element/LOGO_POLINEMA.png') }}" alt="Logo Polinema" style="width: 70px; height: auto; margin-right: 10px;">
-                    <img src="{{ url('storage/element/LOGO_JTI.png') }}" alt="Logo JTI" style="width: 70px; height: auto;">
+                <div class="logos" style="margin-bottom: 1rem; text-align: center;">
+                    <a href="{{ url('/') }}" id="logo-link">
+                    <img src="{{ url('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="Logo Sertipedia" style="width: 110px; height: auto; margin-right: 60px; rounded: 10px">
                 </div>
                 <b>Selamat Datang</b>
             </div>
