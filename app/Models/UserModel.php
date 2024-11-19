@@ -26,7 +26,7 @@ class UserModel extends Authenticatable implements JWTSubject
     protected $table = 'm_user'; 
     protected $primaryKey = 'id_user'; 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are mass assignable
      * 
      * @var array
      */

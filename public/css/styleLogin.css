@@ -1,74 +1,45 @@
-/* :root{
-    --primary-color:  #c98d83;
-    --secondary : #783b31;
-    --bg: #f2f1ec;
-    --black: #000;
-    --white: #fff;
-    --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
-  }
-
-body {
-    background: linear-gradient(135deg, #f5e0c3, #e3c7a7); 
+/* CSS for login background */
+body.hold-transition.login-page {
+    position: relative;
+    background-image: url('/storage/element/FOTO POLINEMA.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
+/* Overlay gelap dengan transparansi */
+body.hold-transition.login-page::before {
+    content: ''; /* Membuat elemen pseudo */
+    position: absolute; /* Menempatkan overlay di posisi yang sama */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(200, 200, 200, 0.325); /* Warna hitam dengan transparansi */
+    z-index: -1; /* Menempatkan overlay di belakang konten */
+}
+
+/* CSS for card box and logos */
+.card-header .logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.card-header .logos img {
+    width: 70px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Styling for login box */
 .login-box {
-    width: 400px;
-    padding: 40px 30px;
-    margin-top: 60px;
+    width: 400px; /* Adjust width for better layout */
+    margin-top: 10vh; /* Center the box vertically */
 }
 
 .card {
-    border-radius: 20px;
-    border: 1px solid var(--primary-color); 
+    background: rgba(255, 255, 255, 0.9); /* Add transparency to the card */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
-.login-box-msg {
-    color: var(--primary-color);
-}
-
-.icheck-primary  {
-    color: var(--primary-color); 
-}
-
-.card-header a {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #b3846c; 
-}
-
-.form-group {
-    color: var(--primary-color);
-}
-
-.card-header a:hover {
-    color: var(--secondary); 
-}
-
-.fa-bread-slice {
-    color: #b3846c; 
-}
-
-.fa-bread-slice:hover{
-    color: var(--secondary); 
-}
-
-.btn-primary {
-    background-color: #b3846c;
-    border-color: #b3846c;
-}
-
-.btn-primary:hover {
-    background-color: var(--secondary); ; 
-    border-color:  var(--secondary); ;
-}
-
-.input-group-text {
-    background-color: #e3c7a7; 
-    border-color: #b3846c;
-    color: #a06b54;
-}
-
-.input-group .form-control:focus {
-    border-color: #b3846c;
-    box-shadow: none;
-} */
