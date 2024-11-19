@@ -61,9 +61,11 @@ Route::get('vendors/{vendor}', [VendorController::class, 'show']);
 //detail pelatihan
 Route::get('d_pelatihans', [DetailPelatihanController::class, 'index']);
 Route::get('d_pelatihans/{d_pelatihan}', [DetailPelatihanController::class, 'show']);
+Route::put('d_pelatihans/update/{d_pelatihan}', [DetailPelatihanController::class, 'update']);
 //detail sertifikasi
 Route::get('d_sertifikasis', [DetailSertifikasiController::class, 'index']);
 Route::get('d_sertifikasis/{d_sertifikasi}', [DetailSertifikasiController::class, 'show']);
+Route::put('d_sertifikasis/update/{d_sertifikasi}', [DetailSertifikasiController::class, 'update']);
 //periode
 Route::get('periode', [PeriodeController::class, 'index']);
 Route::get('periode/{periode}', [PeriodeController::class, 'show']);

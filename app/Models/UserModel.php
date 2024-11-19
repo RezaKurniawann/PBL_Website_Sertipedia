@@ -34,6 +34,8 @@ class UserModel extends Authenticatable implements JWTSubject
         'id_level', 
         'id_prodi', 
         'nama', 
+        'email',
+        'no_telp',
         'username', 
         'password', 
         'image',
