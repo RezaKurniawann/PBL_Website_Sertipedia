@@ -9,11 +9,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('t_detail_pelatihan', function (Blueprint $table) {
-
+            $table->id('id_detail_pelatihan');
             $table -> unsignedBigInteger('id_user');
             $table -> unsignedBigInteger('id_pelatihan');
-
-            $table->primary(['id_user', 'id_pelatihan']);
 
             $table->string('status', 50);
             $table->string('image')->nullable();

@@ -1,40 +1,55 @@
 <div class="sidebar">
     <style>
-        /* .sidebar {
-            background-image: linear-gradient(135deg, #f5e0c3, #e4b47d);
-            height: 150vh; 
+        .form-control-sidebar {
+            background-color: #0D6EFD !important; /* Warna biru */
+            color: #ffffff !important; /* Teks putih agar kontras */
+            border: none; /* Menghapus border (opsional) */
         }
 
-        .nav-header {
-            color: #783b31 !important;
+        .btn-sidebar i {
+            color: #ffffff !important; /* Ikon pencarian menjadi putih */
+        }
+        
+        .sidebar {
+            background-color: #D9D9D9; /* Background color light gray */
+            height: 150vh; /* Sidebar height */
+        }
+
+        .nav-link {
+            color: #000 !important; /* Set text color to black */
+        }
+
+        .nav-link:hover {
+            background-color: white !important; 
+            color: #000 !important; /* Set text color to black */
         }
 
         .nav-link.active {
-            background-color: white !important; 
-            color: #783b31 !important;
+            background-color: white !important;
+            color: #000 !important; /* Keep text color black */
+            border-left: 4px solid #000; /* Optional: To highlight the active menu */
         }
 
         .form-control-sidebar {
             background-color: white !important; 
-            color: black; 
-        }
-
-        .btn-sidebar {
-            background: white !important; 
-            border: none; 
+            color: #000 !important; /* Set text color to black */
         }
 
         .btn-sidebar i {
-            color: black; 
-        } */
-        
+            color: #000 !important; /* Set button icon color to black */
+        }
+
         .dropdown-menu {
             background-color: rgb(66, 66, 66);
         }
-    
+
+        .dropdown-menu .dropdown-item {
+            color: #fff; /* Set text color to white for dropdown items */
+        }
+
         .dropdown-menu .dropdown-item:hover {
-            background-color: grey; 
-            color: #fff;  
+            background-color: rgb(255, 255, 255); 
+            color: #fff; /* Maintain white text on hover */
         }
         
     </style>

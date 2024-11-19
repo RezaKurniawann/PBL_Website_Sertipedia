@@ -26,9 +26,21 @@
 
     @stack('css') 
     <!-- DIgunakan untuk memanggil custom css dari perintah push('css') pda masing masing view -->
+
+    <style>
+        .brand-link {
+            background-color: #0B2F9F !important; /* Latar belakang biru */
+            color: #fff !important; /* Warna teks putih */
+        }
+
+        .brand-link .brand-text {
+            font-weight: bold; /* Teks tebal untuk "SERTIPEDIA" */
+        }
+    </style>
+
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -39,9 +51,9 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url ('/') }}" class="brand-link">
-                <img src="{{ url ('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                <img src="{{ url ('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="SERTIPEDIA Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">PWL - Starter Code</span>
+                <span class="brand-text font-weight-light">SERTIPEDIA</span>
             </a>
 
             <!-- Sidebar -->

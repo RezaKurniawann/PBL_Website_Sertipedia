@@ -11,8 +11,7 @@ class DetailPelatihanModel extends Pivot
     use HasFactory;
 
     protected $table = 't_detail_pelatihan'; 
-
-    protected $primaryKey = ['id_user', 'id_pelatihan'];
+    protected $primaryKey = 'id_detail_pelatihan';
 
     /**
      * The attributes that are mass assignable.
