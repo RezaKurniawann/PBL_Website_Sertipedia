@@ -17,4 +17,11 @@ class UserController extends Controller
     {
         return response()->json($user);
     }
+
+    public function update(Request $request, UserModel $user)
+    {
+        $user->update($request->all());
+        return response()->json(['message' => 'User updated successfully!', 'user' => $user], 200);
+    }
+
 }
