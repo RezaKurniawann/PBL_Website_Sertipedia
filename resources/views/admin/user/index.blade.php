@@ -39,7 +39,7 @@
                         <th>ID Prodi</th>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Nomor telepon</th>
+                        <th>Nomor Telepon</th>
                         <th>Username</th>
                         <th>Password</th>
                         <th>Image</th>
