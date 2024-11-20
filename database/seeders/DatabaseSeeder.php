@@ -8,8 +8,13 @@ use Database\Seeders\BidangMinatSeeder;
 use Database\Seeders\MataKuliahSeeder;
 use Database\Seeders\VendorSeeder;
 use Database\Seeders\PeriodeSeeder;
+
 use Database\Seeders\LevelSeeder;
 use Database\Seeders\ProdiSeeder;
+use Database\Seeders\PangkatSeeder;
+use Database\Seeders\GolonganSeeder;
+use Database\Seeders\JabatanSeeder;
+
 use Database\Seeders\KompetensiSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\SertifikasiSeeder;
@@ -38,6 +43,9 @@ class DatabaseSeeder extends Seeder
             VendorSeeder::class,
             PeriodeSeeder::class,
             LevelSeeder::class,
+            PangkatSeeder::class,
+            GolonganSeeder::class,
+            JabatanSeeder::class,
             SertifikasiSeeder::class,
             PelatihanSeeder::class,
             ProdiSeeder::class,

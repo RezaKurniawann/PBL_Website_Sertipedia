@@ -10,12 +10,12 @@ return new class extends Migration
     {
         Schema::create('m_vendor', function (Blueprint $table) {
             $table->id('id_vendor');
-            $table->string('nama', 100);
-            $table->string('alamat', 100);
-            $table->string('kota', 100);
-            $table->string('telepon', 15);
-            $table->string('alamatWeb', 255);
-            $table->string('kategori', 50);
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('kota');
+            $table->string('telepon');
+            $table->string('alamatWeb');
+            $table->string('kategori');
             $table->timestamps();
         });
     }

@@ -19,8 +19,6 @@ class UserController extends Controller
     {
         return response()->json($user);
     }
-<<<<<<< HEAD
-=======
 
     public function update(Request $request, $id)
     {
@@ -101,7 +99,7 @@ class UserController extends Controller
     {
         try {
             $user = UserModel::findOrFail($id);
-            $imagePath = public_path("/storage/{$user->image}");
+            $imagePath = public_path("/storage/photos/{$user->image}");
 
             if (!file_exists($imagePath)) {
                 Log::error("Image not found: {$imagePath}");
@@ -114,5 +112,4 @@ class UserController extends Controller
             return response()->json(['error' => 'Image not found or server error', 'message' => $e->getMessage()], 500);
         }
     }
->>>>>>> 713032d02363f6a530075951db1663082f1f43b7
 }
