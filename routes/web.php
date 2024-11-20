@@ -15,6 +15,7 @@ use App\Http\Controllers\DetailSertifikasiController;
 use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\BidangMinatController;
 use App\Http\Controllers\KompetensiController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,8 @@ Route::middleware(['auth:admin'])->group(function () {
 Route::middleware(['auth:user'])->group(function () {
     Route::get('/user/home', [UserHomeController::class, 'index']);
 });
+
+Route::get('/user/profile', [ProfileController::class, 'index'])->name('profile');
 
 // Route::get('/', function () {
 //     return view('welcome');
