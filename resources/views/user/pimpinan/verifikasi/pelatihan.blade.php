@@ -22,7 +22,7 @@
             <td>Cisco</td>
             <td>01-11-2024</td>
             <td>Menunggu Persetujuan</td>
-            <td>Aksi</td>
+            <td><button class="btn btn-primary btn-sm">Detail</button></td>
           </tr>
           <tr>
             <td>Nama Dosen</td>
@@ -30,7 +30,7 @@
             <td>Cisco</td>
             <td>01-11-2024</td>
             <td>Menunggu Persetujuan</td>
-            <td>Aksi</td>
+            <td><button class="btn btn-primary btn-sm">Detail</button></td>
           </tr>
           <tr>
             <td>Nama Dosen</td>
@@ -38,7 +38,7 @@
             <td>Cisco</td>
             <td>01-11-2024</td>
             <td>Menunggu Persetujuan</td>
-            <td>Aksi</td>
+            <td><button class="btn btn-primary btn-sm">Detail</button></td>
           </tr>
         </tbody>
       </table>

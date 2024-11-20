@@ -21,7 +21,7 @@ class VerifikasiSertifikasiController extends Controller
              'title' => 'Daftar Pengajuan Sertifikasi'
          ];
  
-         $activeMenu = 'manage-event';
+         $activeMenu = 'verifikasi';
          $activeSubMenu = 'sertifikasi';
          
          $matakuliah = MataKuliahModel::all();

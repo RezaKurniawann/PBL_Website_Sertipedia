@@ -21,7 +21,7 @@ class VerifikasiPelatihanController extends Controller
              'title' => 'Daftar Pengajuan Pelatihan'
          ];
  
-         $activeMenu = 'manage-event';
+         $activeMenu = 'verifikasi';
          $activeSubMenu = 'pelatihan';
          
          $matakuliah = MataKuliahModel::all();
