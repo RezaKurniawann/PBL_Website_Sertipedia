@@ -15,6 +15,12 @@ class UserController extends Controller
         return UserModel::all();
     }
 
+    public function store(Request $request)
+    {
+        $user = UserModel::create($request->all());
+        return response()->json($user, 201);
+    }
+
     public function show(UserModel $user)
     {
         return response()->json($user);

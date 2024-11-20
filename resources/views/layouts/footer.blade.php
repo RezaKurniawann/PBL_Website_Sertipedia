@@ -2,7 +2,7 @@
     <div class="float-right d-none d-sm-block text-white">
       <b>Kelompok 3</b>
     </div>
-    <strong class="text-white">Copyright &copy; 2014-2021 <a href="http://127.0.0.1:8000">Sertipedia</a>.</strong> All rights reserved.
+    <strong class="text-white">Copyright &copy; 2024 <a href="http://127.0.0.1:8000">Sertipedia</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->

@@ -70,7 +70,7 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" id="sidebarMenu">
             <li class="nav-item">
-                <a href="{{ url('/user/home') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ url('/user/home') }}" class="nav-link {{ $activeMenu == 'home' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-home"></i>
                     <p>Home</p>
                 </a>
@@ -181,10 +181,10 @@
                         <p>Verifikasi Peserta</p>
                     </a>
                     <div class="dropdown-menu">
-                        <a href="{{ url('/verifikasi/sertifikasi') }}" class="dropdown-item ">
+                        <a href="{{ url('pimpinan/verifikasi/sertifikasi') }}" class="dropdown-item ">
                             <i class="fas fa-certificate"></i> Sertifikasi
                         </a>
-                        <a href="{{ url('/verifikasi/pelatihan') }}" class="dropdown-item">
+                        <a href="{{ url('pimpinan/verifikasi/pelatihan') }}" class="dropdown-item">
                             <i class="fas fa-chalkboard-teacher"></i> Pelatihan
                         </a>
                     </div>

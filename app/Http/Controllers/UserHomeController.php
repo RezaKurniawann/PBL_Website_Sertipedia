@@ -8,12 +8,23 @@ class UserHomeController extends Controller
 {
     public function index()
     {
-        $breadcrumb = (object)[
-            'title' => 'Selamat Datang',
-            'list' => ['Home', 'Welcome']
+        // Contoh data dosen
+        $dosen = [
+            [
+                'nama' => 'Nama Dosen, S.ST., MT.',
+                'profesi' => 'lorem ipsum',
+                'keahlian' => 'lorem ipsum',
+                'foto' => 'images/profile-placeholder.png' // Path gambar default
+            ],
+            [
+                'nama' => 'Nama Dosen, S.ST., MT.',
+                'profesi' => 'lorem ipsum',
+                'keahlian' => 'lorem ipsum',
+                'foto' => 'images/profile-placeholder.png'
+            ],
+            // Tambahkan data dosen lainnya
         ];
-        $activeMenu = 'home';
 
-        return view('user.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        return view('user.index', compact('dosen'));
     }
 }
