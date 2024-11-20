@@ -16,6 +16,8 @@ use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\BidangMinatController;
 use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VerifikasiPelatihanController;
+use App\Http\Controllers\VerifikasiSertifikasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +83,12 @@ Route::middleware(['auth:admin'])->group(function () {
 
 Route::middleware(['auth:user'])->group(function () {
     Route::get('/user/home', [UserHomeController::class, 'index'])->name('home');
+    Route::prefix('/pimpinan')->group(function () {
+        Route::prefix('/verifikasi')->group(function () {
+            Route::get('/sertifikasi', [VerifikasiSertifikasiController::class, 'index']);
+            Route::get('/pelatihan', [VerifikasiPelatihanController::class, 'index']);
+        });
+    });
 });
 
 Route::get('/user/profile', [ProfileController::class, 'index'])->name('profile');

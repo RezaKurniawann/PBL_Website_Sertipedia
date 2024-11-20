@@ -181,10 +181,10 @@
                         <p>Verifikasi Peserta</p>
                     </a>
                     <div class="dropdown-menu">
-                        <a href="{{ url('/verifikasi/sertifikasi') }}" class="dropdown-item ">
+                        <a href="{{ url('pimpinan/verifikasi/sertifikasi') }}" class="dropdown-item ">
                             <i class="fas fa-certificate"></i> Sertifikasi
                         </a>
-                        <a href="{{ url('/verifikasi/pelatihan') }}" class="dropdown-item">
+                        <a href="{{ url('pimpinan/verifikasi/pelatihan') }}" class="dropdown-item">
                             <i class="fas fa-chalkboard-teacher"></i> Pelatihan
                         </a>
                     </div>

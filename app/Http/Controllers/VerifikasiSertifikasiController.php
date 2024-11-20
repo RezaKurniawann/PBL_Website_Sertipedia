@@ -8,17 +8,17 @@ use App\Models\VendorModel;
 
 use Illuminate\Http\Request;
 
-class SertifikasiController extends Controller
+class VerifikasiSertifikasiController extends Controller
 {
     public function index()
      {
          $breadcrumb = (object) [
-             'title' => 'Daftar Sertifikasi',
+             'title' => 'Daftar Pengajuan Sertifikasi',
              'list' => ['Home', 'Sertifikasi']
          ];
  
          $page = (object) [
-             'title' => 'Daftar sertifikasi yang terdaftar dalam sistem'
+             'title' => 'Daftar Pengajuan Sertifikasi'
          ];
  
          $activeMenu = 'manage-event';
@@ -29,6 +29,6 @@ class SertifikasiController extends Controller
          $periode = PeriodeModel::all();
          $vendor = VendorModel::all();
          
-         return view('admin.event.sertifikasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'activeMenu' => $activeMenu]);
+         return view('user.pimpinan.verifikasi.sertifikasi', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'activeMenu' => $activeMenu]);
      }
 }
