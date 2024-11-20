@@ -105,7 +105,7 @@ class UserController extends Controller
     {
         try {
             $user = UserModel::findOrFail($id);
-            $imagePath = public_path("/storage/{$user->image}");
+            $imagePath = public_path("/storage/photos/{$user->image}");
 
             if (!file_exists($imagePath)) {
                 Log::error("Image not found: {$imagePath}");

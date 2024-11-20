@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('admin', function (Blueprint $table) {
             $table->id('id_admin');
             $table -> unsignedBigInteger('id_level') -> index;
-            $table->string('nama', 100);
+            $table->string('nama');
             $table->integer('username')->unique();
-            $table->string('password', 255);
+            $table->string('password');
             $table->string('image')->nullable();
             $table->timestamps();
 
