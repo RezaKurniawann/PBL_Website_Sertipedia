@@ -73,7 +73,7 @@ class DetailPelatihanController extends Controller
             $imageName = md5(uniqid(rand(), true)) . '.' . $imageType;  // Using md5 hash for the filename
 
             // Create a new image instance and store it in public/storage/photos directory
-            $imagePath = Storage::disk('public')->put("photos/{$imageName}", $imageData);
+            Storage::disk('public')->put("photos/{$imageName}", $imageData);
 
             // Update the image path in the database (you can save the full path or just the filename)
             $detailPelatihan->image = $imageName;
