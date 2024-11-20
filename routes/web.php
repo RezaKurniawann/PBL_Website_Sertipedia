@@ -80,7 +80,7 @@ Route::middleware(['auth:admin'])->group(function () {
 });
 
 Route::middleware(['auth:user'])->group(function () {
-    Route::get('/user/home', [UserHomeController::class, 'index']);
+    Route::get('/user/home', [UserHomeController::class, 'index'])->name('home');
 });
 
 Route::get('/user/profile', [ProfileController::class, 'index'])->name('profile');

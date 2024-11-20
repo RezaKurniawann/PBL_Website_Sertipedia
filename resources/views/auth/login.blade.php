@@ -27,13 +27,9 @@
             <div class="card-header text-center">
                 <!-- Tambahan Logo -->
                 <div class="logos" style="margin-bottom: 1rem; text-align: center;">
-<<<<<<< HEAD
-                    <img src="{{ url('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="Logo Sertipedia" style="width: 110px; height: auto; margin-right: 60px; rounded: 10px">
-=======
                     <a href="{{ url('/') }}" id="logo-link">
                         <img src="{{ url('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="Logo Sertipedia" class="rounded-logo">
                     </a>
->>>>>>> bf4478cab0ed2abb7aaf14a6d5101dfe2d4a343f
                 </div>
                 <b>Selamat Datang</b>
             </div>

@@ -70,7 +70,7 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" id="sidebarMenu">
             <li class="nav-item">
-                <a href="{{ url('/user/home') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ url('/user/home') }}" class="nav-link {{ $activeMenu == 'home' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-home"></i>
                     <p>Home</p>
                 </a>
