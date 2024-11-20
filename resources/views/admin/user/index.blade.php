@@ -43,6 +43,7 @@
                         <th>Username</th>
                         <th>Password</th>
                         <th>Image</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
             </table>
@@ -120,8 +121,12 @@
                     className: "",
                     orderable: false,
                     searchable: false
-                }
-            ]
+                }{
+                    data: "aksi",
+                    className: "",
+                    orderable: false,
+                    searchable: false
+                }]
             });
             // $('#users_id').on('change',function(){
             //     datausers.ajax.reload();

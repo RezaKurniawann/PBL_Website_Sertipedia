@@ -7,11 +7,15 @@
                 <h5 class="modal-title" id="createModalLabel">Tambah Data User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <form id="form-tambah">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="id_level">Id Level</label>
-                        <input type="text" name="id_level" id="id_level" class="form-control" required>
+                        <label>Level Pengguna</label>
+                        <select name="id_level" id="id_level" class="form-control" required>
+                            <option value="">- Pilih Level -</option>
+                            @foreach ($level as $l)
+                                <option value="{{ $l->id_level }}">{{ $l-nama }}</option>
+                            @endforeach
+                        </select>
                         <small id="error-id_level" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
@@ -25,14 +29,14 @@
                         <small id="error-nama" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email User</label>
+                        <label for="email">Email</label>
                         <input type="text" name="email" id="email" class="form-control" required>
                         <small id="error-email" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label for="no_tlp">Nomor Telepon User</label>
-                        <input type="text" name="no_tlp" id="no_tlp" class="form-control" required>
-                        <small id="error-no_tlp" class="error-text form-text text-danger"></small>
+                        <label for="no_telp">Nomor Telepon</label>
+                        <input type="text" name="no_telp" id="no_telp" class="form-control" required>
+                        <small id="error-no_telp" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -49,35 +53,68 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 <script>
-    $(document).ready(function() {
-        // Handle form submission
-        $("#form-tambah").on("submit", function(e) {
-            e.preventDefault();
-
-            // AJAX request
+    $(document).ready(function () {
+    $("#form-tambah").validate({
+        rules: {
+            id_level: {
+                required: true,
+                number: true
+            },
+            id_prodi: {
+                required: true,
+                number: true
+            },
+            nama: {
+                required: true,
+                minlength: 3,
+                maxlength: 100
+            },
+            email: {
+                required: true,
+                email: true,
+                minlength: 3,
+                maxlength: 255
+            },
+            no_telp: {
+                required: true,
+                minlength: 6,
+                maxlength: 20
+            },
+            username: {
+                required: true,
+                minlength: 3,
+                maxlength: 100
+            },
+            password: {
+                required: true,
+                minlength: 8,
+                maxlength: 255
+            }
+        },
+        submitHandler: function (form) {
             $.ajax({
-                url: "{{ url('/users/ajax') }}", // Endpoint untuk menyimpan data
-                method: "POST",
-                data: $(this).serialize(), // Serialize form data
-                success: function(response) {
+                url: form.action,
+                type: form.method,
+                data: $(form).serialize(),
+                success: function (response) {
                     if (response.status) {
-                        $('#createModal').modal('hide'); // Tutup modal
+                        $('#createModal').modal('hide');
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil',
                             text: response.message
                         });
-                        $('#dataTable').DataTable().ajax.reload(); // Reload data tabel
+                        dataUser.ajax.reload();
                     } else {
-                        $('.error-text').text(''); // Bersihkan error sebelumnya
-                        $.each(response.msgField, function(prefix, val) {
-                            $('#error-' + prefix).text(val[0]); // Tampilkan error pada elemen spesifik
+                        $('.error-text').text('');
+                        $.each(response.msgField, function (prefix, val) {
+                            $('#error-' + prefix).text(val[0]);
                         });
                         Swal.fire({
                             icon: 'error',
@@ -86,14 +123,28 @@
                         });
                     }
                 },
-                error: function(xhr) {
+                error: function (xhr, status, error) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal',
-                        text: 'Terjadi kesalahan pada server. Silakan coba lagi.'
+                        title: 'Terjadi Kesalahan',
+                        text: 'Gagal mengirim data ke server.'
                     });
                 }
             });
-        });
+            return false;
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
     });
+});
+
 </script>

@@ -13,31 +13,8 @@ class UserController extends Controller
         return UserModel::all();
     }
 
-    public function store(Request $request)
-    {
-        $user = UserModel::create($request->all());
-        return response()->json($user, 201);
-    }
-
     public function show(UserModel $user)
     {
         return response()->json($user);
     }
-
-    public function update(Request $request, UserModel $user)
-    {
-        $user->update($request->all());
-        return response()->json(['message' => 'User updated successfully!', 'user' => $user], 200);
-    }
-
-    public function destroy(UserModel $user)
-    {
-        $user->delete();
-
-        return response()->json([
-            'success' => true, 
-            'message' => 'Data Terhapus!', 
-        ], );
-    }
-
 }
