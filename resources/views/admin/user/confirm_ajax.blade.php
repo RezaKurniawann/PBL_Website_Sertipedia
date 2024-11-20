@@ -16,7 +16,7 @@
         </div>
     </div>
 @else
-    <form action="{{ url('/user/' . $user->id_level . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/user/' . $user->id_user . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -33,8 +33,8 @@
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">Id Level :</th>
-                            <td class="col-9">{{ $user->id_level }}</td>
+                            <th class="text-right col-3">Id user :</th>
+                            <td class="col-9">{{ $user->id_user }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Nama User :</th>

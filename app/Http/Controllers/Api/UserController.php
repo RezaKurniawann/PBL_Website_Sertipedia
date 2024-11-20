@@ -15,16 +15,12 @@ class UserController extends Controller
         return UserModel::all();
     }
 
-    public function store(Request $request)
-    {
-        $user = UserModel::create($request->all());
-        return response()->json($user, 201);
-    }
-
     public function show(UserModel $user)
     {
         return response()->json($user);
     }
+<<<<<<< HEAD
+=======
 
     public function update(Request $request, $id)
     {
@@ -118,4 +114,5 @@ class UserController extends Controller
             return response()->json(['error' => 'Image not found or server error', 'message' => $e->getMessage()], 500);
         }
     }
+>>>>>>> 713032d02363f6a530075951db1663082f1f43b7
 }
