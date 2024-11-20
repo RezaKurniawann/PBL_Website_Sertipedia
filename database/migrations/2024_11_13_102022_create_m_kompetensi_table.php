@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('m_kompetensi', function (Blueprint $table) {
             $table->id('id_kompetensi');
             $table -> unsignedBigInteger('id_prodi') -> index ();
-            $table->string('nama', 100);
-            $table->string('deskripsi', 255);
+            $table->string('nama');
+            $table->string('deskripsi');
             $table->timestamps();
 
             $table -> foreign('id_prodi') -> references('id_prodi') -> on ('t_prodi');

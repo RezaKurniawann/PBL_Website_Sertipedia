@@ -8,21 +8,21 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('m_sertifikasi', function (Blueprint $table) {
-            $table->id('id_sertifikasi');
-            
+        Schema::create('m_pelatihan', function (Blueprint $table) {
+            $table->id('id_pelatihan');
             $table -> unsignedBigInteger('id_vendor') -> index ;
             $table -> unsignedBigInteger('id_periode') -> index ;
 
-            $table->string('nama', 100);
+            $table->string('nama');
+            $table->integer('kuota');
+            $table->string('lokasi');
             $table->decimal('biaya', 15, 2);
-            $table->string('jenis_sertifikasi', 50);
+            $table->string('level_pelatihan');
             $table->date('tanggal_awal');
             $table->date('tanggal_akhir');
-            $table->integer('masa_berlaku'); // tanggal akhir dikurangi tanggal awal
+            $table->integer('waktu_pelatihan'); // tanggal akhir - tanggal awal
             $table->timestamps();
 
-      
             $table -> foreign('id_vendor') -> references('id_vendor') -> on ('m_vendor');
             $table -> foreign('id_periode') -> references('id_periode') -> on ('m_periode');
         });
@@ -30,6 +30,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('m_sertifikasi');
+        Schema::dropIfExists('m_pelatihan');
     }
 };

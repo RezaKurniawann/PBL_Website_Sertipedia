@@ -36,7 +36,7 @@
             <div class="home-text">
                 <h1>Sertifikasi dan Pelatihan</h1>
                 <p>Aplikasi ini dirancang khusus untuk mengelola data sertifikasi dan pelatihan dosen 
-                    di Jurusan Teknik Informatika (JTI). Melalui sistem berbasis web ini, 
+                    di Jurusan Teknologi Informasi (JTI). Melalui sistem berbasis web ini, 
                     kami berkomitmen untuk memudahkan proses pendataan dan pemantauan kompetensi dosen, 
                     serta menyediakan informasi yang akurat dan terkini tentang kualifikasi dan pelatihan yang telah diikuti oleh dosen.</p>
             </div>
@@ -52,7 +52,7 @@
                 <p>Sistem Pendataan Sertifikasi dan Pelatihan Dosen JTI 
                     adalah sebuah platform berbasis web yang dikembangkan untuk 
                     memudahkan pengelolaan data sertifikasi dan pelatihan dosen 
-                    di Jurusan Teknik Informatika (JTI). Kami berkomitmen untuk 
+                    di Jurusan Teknologi Informasi (JTI). Kami berkomitmen untuk 
                     menyediakan solusi yang efektif dalam pendataan kompetensi dosen, 
                     dengan fokus pada peningkatan kualitas pengajaran dan profesionalisme 
                     dosen di lingkungan akademik. Platform ini dirancang untuk memenuhi 
@@ -72,9 +72,9 @@
           <!-- Info Kontak -->
           <div class="contact-info">
             <div class="logos">
-                <img src="{{ url('storage/element/LOGO_BLU.png') }}" alt="Logo BLU">
-                <img src="{{ url('storage/element/LOGO_POLINEMA.png') }}" alt="Logo Polinema">
-                <img src="{{ url('storage/element/LOGO_JTI.png') }}" alt="Logo JTI">
+                <img src="{{ url('adminlte/dist/img/LOGO_BLU.png') }}" alt="Logo BLU">
+                <img src="{{ url('adminlte/dist/img/LOGO_POLINEMA.png') }}" alt="Logo Polinema">
+                <img src="{{ url('adminlte/dist/img/LOGO_JTI.png') }}" alt="Logo JTI">
             </div>
             <h3>BLU POLITEKNIK NEGERI MALANG<br>JTI POLINEMA</h3>
             <p>Jurusan Teknologi Informatika Politeknik Negeri Malang</p>
