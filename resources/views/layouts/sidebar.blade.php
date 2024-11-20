@@ -70,13 +70,13 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" id="sidebarMenu">
             <li class="nav-item">
-                <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ url('/user/home') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-home"></i>
                     <p>Home</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                <a href="{{ url('/user/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>

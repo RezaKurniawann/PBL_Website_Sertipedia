@@ -13,7 +13,7 @@ class PelatihanController extends Controller
     public function index()
      {
          $breadcrumb = (object) [
-             'title' => 'Daftar Pelatihan',
+             'title' => 'Daftar Pengajuan Sertifikasi dan Pelatihan',
              'list' => ['Home', 'Pelatihan']
          ];
  

@@ -13,7 +13,7 @@ class SertifikasiController extends Controller
     public function index()
      {
          $breadcrumb = (object) [
-             'title' => 'Daftar Sertifikasi',
+             'title' => 'Daftar Pengajuan Sertifikasi dan Pelatihan',
              'list' => ['Home', 'Sertifikasi']
          ];
  
