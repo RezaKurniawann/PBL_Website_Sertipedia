@@ -40,7 +40,7 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
