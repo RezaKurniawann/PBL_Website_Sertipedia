@@ -1,4 +1,26 @@
 /* CSS for login background */
+.rounded-logo {
+    width: 170px !important; /* Ukuran lebar logo diperbesar */
+    height: 170px !important; /* Ukuran tinggi logo diperbesar */
+    border-radius: 50%; /* Membuat bentuk lingkaran */
+    object-fit: cover; /* Memastikan gambar memenuhi lingkaran */
+    border: 2px solid #0D6EFD; /* Opsional: menambahkan border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Opsional: menambahkan bayangan */
+    display: block; /* Menjamin elemen di-render dengan benar */
+    margin: 0 auto; /* Memusatkan logo secara horizontal */
+}
+
+.logos {
+    text-align: center; /* Memposisikan logo di tengah */
+    margin-bottom: 1.5rem; /* Menambahkan jarak bawah opsional */
+}
+
+#logo-link:hover {
+    text-decoration: none; /* Menghapus efek underline pada hover */
+    transform: scale(1.1); /* Animasi zoom lebih besar saat hover */
+    transition: transform 0.3s ease-in-out;
+}
+/* Background */
 body.hold-transition.login-page {
     position: relative;
     background-image: url('/storage/element/FOTO POLINEMA.jpg');
@@ -18,20 +40,6 @@ body.hold-transition.login-page::before {
     z-index: -1; /* Menempatkan overlay di belakang konten */
 }
 
-/* CSS for card box and logos */
-.card-header .logos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-}
-
-.card-header .logos img {
-    width: 70px;
-    height: auto;
-    object-fit: contain;
-}
-
 /* Styling for login box */
 .login-box {
     width: 400px; /* Adjust width for better layout */
@@ -42,4 +50,34 @@ body.hold-transition.login-page::before {
     background: rgba(255, 255, 255, 0.9); /* Add transparency to the card */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for buttons */
+.btn-primary {
+    width: 50%; /* Atur lebar tombol */
+    margin: 0 auto; /* Memusatkan tombol */
+    display: block;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+}
+
+.btn-secondary:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+    border-color: #cfd2d4;
+}
+
+.divider {
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6c757d;
 }

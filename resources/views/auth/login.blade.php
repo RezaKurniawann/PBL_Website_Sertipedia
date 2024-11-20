@@ -17,6 +17,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('adminlte/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ url('css/styleLogin.css') }}">
+
 </head>
 
 <body class="hold-transition login-page" style="background: url('{{ url('storage/element/FOTO POLINEMA.jpg') }}') no-repeat center center; background-size: cover;">
@@ -26,7 +27,13 @@
             <div class="card-header text-center">
                 <!-- Tambahan Logo -->
                 <div class="logos" style="margin-bottom: 1rem; text-align: center;">
+<<<<<<< HEAD
                     <img src="{{ url('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="Logo Sertipedia" style="width: 110px; height: auto; margin-right: 60px; rounded: 10px">
+=======
+                    <a href="{{ url('/') }}" id="logo-link">
+                        <img src="{{ url('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="Logo Sertipedia" class="rounded-logo">
+                    </a>
+>>>>>>> bf4478cab0ed2abb7aaf14a6d5101dfe2d4a343f
                 </div>
                 <b>Selamat Datang</b>
             </div>
@@ -55,14 +62,20 @@
                         <small id="error-password" class="error-text text-danger"></small>
                     </div>
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-12 text-center">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember"><label for="remember">Remember Me</label>
                             </div>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+                         <!-- /.col -->
+                        <div class="col-12 text-center mt-3">
+                            <button type="submit" class="btn btn-primary btn-block w-50 mx-auto">Masuk</button>
+                        </div>
+                        <div class="col-12 text-center mt-3">
+                            <span class="divider">atau</span>
+                        </div>
+                        <div class="col-12 text-center mt-3">
+                            <a href="{{ url('login/mahasiswa') }}" class="btn-secondary w-50 mx-auto d-block">Masuk sebagai Mahasiswa</a>
                         </div>
                         <!-- /.col -->
                     </div>
