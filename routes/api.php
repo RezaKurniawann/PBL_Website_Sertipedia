@@ -55,11 +55,8 @@ Route::get('sertifikasis/{sertifikasi}', [SertifikasiController::class, 'show'])
 //user
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{user}', [UserController::class, 'show']);
-<<<<<<< HEAD
-=======
 Route::put('users/update/{user}', [UserController::class, 'update']);
 Route::get('users/imageProfile/{user}', [UserController::class, 'getImageProfile']);
->>>>>>> 713032d02363f6a530075951db1663082f1f43b7
 //vendor
 Route::get('vendors', [VendorController::class, 'index']);
 Route::get('vendors/{vendor}', [VendorController::class, 'show']);
