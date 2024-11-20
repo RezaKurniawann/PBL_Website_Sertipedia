@@ -12,7 +12,7 @@ class DetailSertifikasiModel extends Pivot
 
     protected $table = 't_detail_sertifikasi'; 
 
-    protected $primaryKey = ['id_user', 'id_sertifikasi'];
+    protected $primaryKey = 'id_detail_sertifikasi';
 
     /**
      * The attributes that are mass assignable.

@@ -1,178 +1,93 @@
-@extends ('layouts.template' )
+@extends('layouts.template')
 
 @section('content')
 
 <style>
-    .col-lg-custom {
-      flex: 0 0 20%; 
-      max-width: 20%;
+    .search-bar {
+        margin-bottom: 20px;
+        position: relative;
     }
-    .parallax-image {
-        display: block;
-        width: 60%;
-        margin: 0 auto; /* Menambahkan margin otomatis untuk kiri dan kanan */
+
+    .search-bar input {
+        width: 100%;
+        padding: 10px 40px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .search-bar i {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        color: #aaa;
+    }
+
+    .dosen-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .dosen-card {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        background-color: #fff;
+    }
+
+    .dosen-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+    .dosen-card h5 {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .dosen-card p {
+        font-size: 14px;
+        margin: 5px 0;
+    }
+
+    .dosen-card .btn {
+        background-color: #0d6efd;
+        color: #fff;
+        padding: 8px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .dosen-card .btn:hover {
+        background-color: #0056b3;
     }
 </style>
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Halo, Selamat Datang!</h3>
-        <div class="card-tools"></div>
+<div class="container mt-4">
+    <h3 class="mb-4 text-center">Dosen Jurusan Teknologi Informasi</h3>
+    <div class="search-bar">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="Search..">
     </div>
-    <div class="card-body">
-        <div class="row">
-            @if (Auth::user()->level->level_nama == 'Administrator')
-            <!-- Card Jumlah Level -->
-            <div class="col-lg-custom col-6">
-                <div class="small-box bg-primary">
-                    <div class="inner">
-                        <h3>{{ $levelCount }}</h3>
-                        <p>Jumlah Level</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <a href="level" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- Card Jumlah User -->
-            <div class="col-lg-custom col-6">
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{ $userCount }}</h3>
-                        <p>Jumlah User</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <a href="/user" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        
-            <!-- Card Jumlah Supplier -->
-            <div class="col-lg-custom col-6">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ $supplierCount }}</h3>
-                        <p>Jumlah Supplier</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <a href="/supplier" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        
-            <!-- Card Jumlah Kategori -->
-            <div class="col-lg-custom col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ $kategoriCount }}</h3>
-                        <p>Jumlah Kategori</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    <a href="/kategori" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        
-            <!-- Card Jumlah Barang -->
-            <div class="col-lg-custom col-6">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>{{ $barangCount }}</h3>
-                        <p>Jumlah Barang</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-cubes"></i>
-                    </div>
-                    <a href="/barang" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
 
-            @endif
-
-            @if (Auth::user()->level->level_nama == 'Manager')
-            <!-- Card Jumlah Supplier -->
-            <div class="col-lg-4 col-6">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ $supplierCount }}</h3>
-                        <p>Jumlah Supplier</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <a href="/supplier" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
+    <div class="dosen-container">
+        @foreach ($dosen as $d)
+            <div class="dosen-card">
+                <img src="{{ asset($d['foto']) }}" alt="Foto Dosen">
+                <h5>{{ $d['nama'] }}</h5>
+                <p>Profesi: {{ $d['profesi'] }}</p>
+                <p>Keahlian: {{ $d['keahlian'] }}</p>
+                <a href="#" class="btn">View Profile</a>
             </div>
-        
-            <!-- Card Jumlah Kategori -->
-            <div class="col-lg-4 col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ $kategoriCount }}</h3>
-                        <p>Jumlah Kategori</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    <a href="/kategori" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        
-            <!-- Card Jumlah Barang -->
-            <div class="col-lg-4 col-6">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>{{ $barangCount }}</h3>
-                        <p>Jumlah Barang</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-cubes"></i>
-                    </div>
-                    <a href="/barang" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-
-            @endif
-
-            @if (Auth::user()->level->level_nama == 'Staff')
-            
-            <!-- Card Jumlah Kategori -->
-            <div class="col-lg-6 col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ $kategoriCount }}</h3>
-                        <p>Jumlah Kategori</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    <a href="/kategori" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        
-            <!-- Card Jumlah Barang -->
-            <div class="col-lg-6 col-6">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>{{ $barangCount }}</h3>
-                        <p>Jumlah Barang</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-cubes"></i>
-                    </div>
-                    <a href="/barang" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-
-            @endif
-             
-        </div>
+        @endforeach
     </div>
-    
 </div>
 
 @endsection
