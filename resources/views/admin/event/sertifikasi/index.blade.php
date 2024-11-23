@@ -43,7 +43,7 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table_sertifikasi">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>No</th>
                         <th>Nama</th>
                         <th>Vendor</th>
                         <th>Biaya</th>

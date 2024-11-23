@@ -32,7 +32,7 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table_level">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>No</th>
                         <th>Kode</th>
                         <th>Nama Level</th>
                         <th>Aksi</th>

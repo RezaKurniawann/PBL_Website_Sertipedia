@@ -35,7 +35,7 @@ class PangkatController extends Controller
         return DataTables::of($pangkat)
             ->addIndexColumn()
             ->addColumn('aksi', function ($pangkat) {
-                $btn = '<button onclick="modalAction(\''.url('manage/pangkat/' . $pangkat->id_pangkat .'/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn = '<button onclick="modalAction(\'' . url('manage/pangkat/' . $pangkat->id_pangkat . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('manage/pangkat/' . $pangkat->id_pangkat . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('manage/pangkat/' . $pangkat->id_pangkat . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
@@ -48,12 +48,105 @@ class PangkatController extends Controller
     {
         $pangkat = PangkatModel::find($id);
         if ($pangkat) {
-            return view('admin.pangkat.show_ajax', ['pangkat' => $pangkat]);
+            return view('admin.pangkat.show', ['pangkat' => $pangkat]);
         } else {
             return response()->json([
                 'status' => false,
                 'message' => 'Data tidak ditemukan'
             ]);
         }
+    }
+
+    public function create_ajax()
+    {
+        return view('admin.pangkat.create');
+    }
+
+    public function store_ajax(Request $request)
+    {
+        // cek apakah request berupa ajax
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'nama'    => 'required|string|max:100',
+            ];
+            // use Illuminate\Support\Facades\Validator;
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'    => false, // response status, false: error/gagal, true: berhasil
+                    'message'   => 'Validasi Gagal',
+                    'msgField'  => $validator->errors(), // pesan error validasi
+                ]);
+            }
+            PangkatModel::create($request->all());
+            return response()->json([
+                'status'    => true,
+                'message'   => 'Data pangkat berhasil disimpan'
+            ]);
+        }
+        redirect('/');
+    }
+
+    public function edit_ajax(string $id)
+    {
+        $pangkat = PangkatModel::find($id);
+        return view('admin.pangkat.edit', ['pangkat' => $pangkat]);
+    }
+
+    public function update_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'nama' => 'required|max:100'
+            ];
+            // use Illuminate\Support\Facades\Validator;
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false, // respon json, true: berhasil, false: gagal
+                    'message' => 'Validasi gagal.',
+                    'msgField' => $validator->errors() // menunjukkan field mana yang error
+                ]);
+            }
+            $check = PangkatModel::find($id);
+            if ($check) {
+                $check->update($request->all());
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil diupdate'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+    public function confirm_ajax(string $id)
+    {
+        $pangkat = PangkatModel::find($id);
+        return view('admin.pangkat.confirm', ['pangkat' => $pangkat]);
+    }
+    public function delete_ajax(Request $request, $id)
+    {
+        // cek apakah request dari ajax
+        if ($request->ajax() || $request->wantsJson()) {
+            $pangkat = PangkatModel::find($id);
+            if ($pangkat) {
+                $pangkat->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
     }
 }
