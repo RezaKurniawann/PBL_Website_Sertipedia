@@ -40,16 +40,16 @@
         }
 
         .dropdown-menu {
-            background-color: rgb(66, 66, 66);
+        background-color: rgb(66, 66, 66); /* Warna latar dropdown (abu-abu gelap) */
         }
 
         .dropdown-menu .dropdown-item {
-            color: #fff; /* Set text color to white for dropdown items */
+            color: #fff; /* Warna teks tetap putih */
         }
 
         .dropdown-menu .dropdown-item:hover {
-            background-color: rgb(255, 255, 255); 
-            color: #fff; /* Maintain white text on hover */
+            background-color: #0D6EFD; /* Warna biru kontras untuk hover */
+            color: #fff; /* Warna teks tetap putih agar terlihat jelas */
         }
         
     </style>

@@ -66,6 +66,9 @@ body.hold-transition.login-page::before {
     width: 50%;
     margin: 0 auto;
     display: block;
+    color: #6c757d; /* Warna teks default */
+    background-color: #fff; /* Latar belakang putih */
+    transition: all 0.3s ease; /* Transisi halus untuk efek hover dan klik */
 }
 
 .btn-secondary:hover {

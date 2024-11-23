@@ -31,7 +31,6 @@
   </ul>
 </nav>
 
-<!-- Optional CSS (you can add this to your stylesheet) -->
 <style>
     .custom-header {
         background-color: #0B2F9F !important; /* Header background color */
@@ -43,7 +42,9 @@
     }
 
     .custom-header .nav-link:hover {
-        color: #d1e3ff !important; /* Light blue hover color */
+        color: #fff !important; /* Keep the text white */
+        background-color: #08297F !important; /* Darker blue for hover background */
+        border-radius: 5px; /* Optional: rounded hover effect */
     }
 
     .custom-header .user-name,
