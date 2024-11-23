@@ -115,7 +115,7 @@
                     </a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
+            {{-- <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle {{ $activeMenu == 'manage-detailevent' ? 'active' : '' }}" data-toggle="dropdown">
                     <i class="nav-icon fas fa-calendar-alt"></i> <!-- Changed to 'fa-calendar-alt' for a slightly different event-related icon -->
                     <p>Data Detail Event</p>
@@ -128,7 +128,7 @@
                         <i class="fas fa-chalkboard-teacher"></i> Pelatihan
                     </a>
                 </div>
-            </li> 
+            </li>  --}}
             <li class="nav-item">
                 <a href="{{ url('/manage/vendor') }}" class="nav-link {{ $activeMenu == 'manage-vendor' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-truck"></i> <!-- Changed to 'fa-truck' for vendor-related icon -->
@@ -152,6 +152,12 @@
                     </a>
                 </div>
             </li>  
+            <li class="nav-item">
+                <a href="{{ url('/manage/periode') }}" class="nav-link {{ $activeMenu == 'manage-periode' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-clock"></i>
+                    <p>Data Periode</p>
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle {{ $activeMenu == 'rekomendasi' ? 'active' : '' }}" data-toggle="dropdown">
                     <i class="nav-icon fas fa-thumbs-up"></i>
@@ -166,6 +172,13 @@
                     </a>
                 </div>
             </li> 
+           
+            <li class="nav-item">
+                <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-chart-bar"></i>
+                    <p>Statistik</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ url('/manage/surat') }}" class="nav-link {{ $activeMenu == 'manage-surat' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-envelope"></i>

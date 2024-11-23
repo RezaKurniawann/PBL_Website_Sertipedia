@@ -66,12 +66,12 @@ class UserModel extends Authenticatable implements JWTSubject
 
     public function golongan(): BelongsTo
     {
-        return $this->belongsTo(ProdiModel::class, 'id_golongan', 'id_golongan');
+        return $this->belongsTo(GolonganModel::class, 'id_golongan', 'id_golongan');
     }
 
     public function jabatan(): BelongsTo
     {
-        return $this->belongsTo(ProdiModel::class, 'id_jabatan', 'id_jabatan');
+        return $this->belongsTo(JabatanModel::class, 'id_jabatan', 'id_jabatan');
     }
 
     public function matakuliah(): BelongsToMany
