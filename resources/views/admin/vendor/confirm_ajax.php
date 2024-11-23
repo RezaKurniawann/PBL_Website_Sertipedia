@@ -12,12 +12,12 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang Anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('/vendor') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('manage/vendor') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/vendor/' . $vendor->id_vendor . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('manage/vendor/' . $vendor->id_vendor . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -51,11 +51,10 @@
             </div>
         </div>
     </form>
-
     <script>
         $(document).ready(function() {
-            // Validasi form delete
             $("#form-delete").validate({
+                rules: {},
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -63,30 +62,27 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
-                                $('#modal-master').modal('hide'); // Menutup modal
+                                $('#myModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataLevel.ajax.reload(); // Reload data pada tabel
+                                dataVendor.ajax.reload();
                             } else {
+                                $('.error-text').text('');
+                                $.each(response.msgField, function(prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Terjadi Kesalahan',
                                     text: response.message
                                 });
                             }
-                        },
-                        error: function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: 'Gagal menghapus data. Silakan coba lagi.'
-                            });
                         }
                     });
-                    return false; // Prevent form submission
+                    return false;
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {
