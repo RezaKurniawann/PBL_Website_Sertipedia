@@ -33,6 +33,9 @@ class UserModel extends Authenticatable implements JWTSubject
     protected $fillable = [
         'id_level', 
         'id_prodi', 
+        'id_pangkat', 
+        'id_golongan', 
+        'id_jabatan', 
         'nama', 
         'email',
         'no_telp',
@@ -54,6 +57,21 @@ class UserModel extends Authenticatable implements JWTSubject
     public function prodi(): BelongsTo
     {
         return $this->belongsTo(ProdiModel::class, 'id_prodi', 'id_prodi');
+    }
+
+    public function pangkat(): BelongsTo
+    {
+        return $this->belongsTo(PangkatModel::class, 'id_pangkat', 'id_pangkat');
+    }
+
+    public function golongan(): BelongsTo
+    {
+        return $this->belongsTo(GolonganModel::class, 'id_golongan', 'id_golongan');
+    }
+
+    public function jabatan(): BelongsTo
+    {
+        return $this->belongsTo(JabatanModel::class, 'id_jabatan', 'id_jabatan');
     }
 
     public function matakuliah(): BelongsToMany

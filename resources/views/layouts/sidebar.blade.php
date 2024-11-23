@@ -75,26 +75,32 @@
                     <p>Home</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ url('/user/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>Profile</p>
-                </a>
-            </li>
+
 
             @if (Auth::user()->level->nama == 'Admin')
-            <li class="nav-item">
-                <a href="{{ url('/manage/user') }}" class="nav-link {{ $activeMenu == 'manage-user' ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-users"></i> <!-- Changed to 'fa-users' for better user representation -->
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle {{ $activeMenu == 'manage-user' ? 'active' : '' }}" data-toggle="dropdown">
+                    <i class="nav-icon fas fa-users"></i>
                     <p>Data User</p>
                 </a>
-            </li> 
-            <li class="nav-item">
-                <a href="{{ url('/manage/level') }}" class="nav-link {{ $activeMenu == 'manage-level' ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-layer-group"></i> <!-- Changed to 'fa-group' for settings or levels -->
-                    <p>Level User</p>
-                </a>
-            </li>
+                <div class="dropdown-menu">
+                    <a href="{{ url('/manage/user') }}" class="dropdown-item">
+                        <i class="nav-icon fas fa-user"></i> User
+                    </a>
+                    <a href="{{ url('/manage/level') }}" class="dropdown-item">
+                        <i class="nav-icon fas fa-layer-group"></i> Level User
+                    </a>
+                    <a href="{{ url('/manage/pangkat') }}" class="dropdown-item">
+                        <i class="nav-icon fas fa-medal"></i> Pangkat User
+                    </a>
+                    <a href="{{ url('/manage/golongan') }}" class="dropdown-item">
+                        <i class="nav-icon fas fa-sitemap"></i> Golongan User
+                    </a>
+                    <a href="{{ url('/manage/jabatan') }}" class="dropdown-item">
+                        <i class="nav-icon fas fa-briefcase"></i> Jabatan User
+                    </a>
+                </div>
+            </li>            
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle {{ $activeMenu == 'manage-event' ? 'active' : '' }}" data-toggle="dropdown">
                     <i class="nav-icon fas fa-calendar-day"></i>
@@ -109,7 +115,6 @@
                     </a>
                 </div>
             </li>
-            
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle {{ $activeMenu == 'manage-detailevent' ? 'active' : '' }}" data-toggle="dropdown">
                     <i class="nav-icon fas fa-calendar-alt"></i> <!-- Changed to 'fa-calendar-alt' for a slightly different event-related icon -->
@@ -170,6 +175,12 @@
             @elseif (Auth::user()->level->nama == 'Pimpinan')
                 {{-- <li class="nav-header">Header</li> --}}
                 <li class="nav-item">
+                    <a href="{{ url('/user/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-bar"></i>
                         <p>Statistik</p>
@@ -215,7 +226,13 @@
                         <p>Notifikasi</p>
                     </a>
                 </li>
-            @elseif (Auth::user()->level->nama == 'Dosen')        
+            @elseif (Auth::user()->level->nama == 'Dosen') 
+            <li class="nav-item">
+                <a href="{{ url('/user/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>Profile</p>
+                </a>
+            </li>       
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle {{ $activeMenu == 'inputdata' ? 'active' : '' }}" data-toggle="dropdown">
                     <i class="nav-icon fas fa-award"></i>

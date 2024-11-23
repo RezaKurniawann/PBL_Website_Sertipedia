@@ -19,6 +19,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiPelatihanController;
 use App\Http\Controllers\VerifikasiSertifikasiController;
 use App\Models\KompetensiModel;
+use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\GolonganController;
+use App\Http\Controllers\JabatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +59,15 @@ Route::middleware(['auth:admin'])->group(function () {
             });
             Route::prefix('level')->group(function () {
                 Route::get('/', [LevelController::class, 'index']);
+            });
+            Route::prefix('pangkat')->group(function () {
+                Route::get('/', [PangkatController::class, 'index']);
+            });
+            Route::prefix('golongan')->group(function () {
+                Route::get('/', [GolonganController::class, 'index']);
+            });
+            Route::prefix('jabatan')->group(function () {
+                Route::get('/', [JabatanController::class, 'index']);
             });
             Route::prefix('vendor')->group(function () {
                 Route::get('/', [VendorController::class, 'index']);

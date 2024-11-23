@@ -35,8 +35,12 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="user">
                 <thead>
                     <tr>
+                        <th>ID User</th>
                         <th>ID Level</th>
                         <th>ID Prodi</th>
+                        <th>ID Pangkat</th>
+                        <th>ID Golongan</th>
+                        <th>ID Jabatan</th>
                         <th>Nama</th>
                         <th>Email</th>
                         <th>Nomor Telepon</th>
@@ -61,17 +65,13 @@
         }
 
         $(document).ready(function() {
-            var datausers = $('user').DataTable({
+            var datausers = $('#user').DataTable({
                 // serverSide: true, jika ingin menggunakan server side processing
                 serverSide: true,
                 ajax: {
                     "url": "{{ url('user/list') }}",
                     "dataType": "json",
                     "type": "POST"
-                    // tidak perlu data dibawah karena tidak ada filter
-                    // "data": function (d) {
-                    //     d.users_id = $('#users_id').val();
-                    // }
                 },
                 columns: [{
                     // nomor urut dari laravel datatable addIndexColumn()
@@ -80,57 +80,84 @@
                     orderable: false,
                     searchable: false
                 }, {
-                    data: "id_level",
-                    className: "",
-                    // orderable: true, jika ingin kolom ini bisa diurutkan
-                    orderable: true,
-                    // searchable: true, jika ingin kolom ini bisa dicari
-                    searchable: true
-                }, {
-                    data: "id_prodi",
-                    className: "",
-                    orderable: true,
-                    searchable: true
-                }, {
-                    data: "nama",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "email",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "no_telp",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "username",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "password",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "image",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }{
-                    data: "aksi",
-                    className: "",
-                    orderable: false,
-                    searchable: false
-                }]
+                data: "id_user",
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "level", // Menggunakan kolom 'level' yang telah ditambahkan di controller
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "prodi", // Menggunakan kolom 'prodi' yang telah ditambahkan di controller
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "pangkat", // Menggunakan kolom 'pangkat' yang telah ditambahkan di controller
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "golongan", // Menggunakan kolom 'golongan' yang telah ditambahkan di controller
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "jabatan", // Menggunakan kolom 'jabatan' yang telah ditambahkan di controller
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "nama",
+                className: "",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "email",
+                className: "",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "no_telp",
+                className: "",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "username",
+                className: "",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "password",
+                className: "",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "image",
+                className: "",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "aksi",
+                className: "",
+                orderable: false,
+                searchable: false
+            }]
             });
-            // $('#users_id').on('change',function(){
-            //     datausers.ajax.reload();
-            // });
         });
     </script>
 @endpush
