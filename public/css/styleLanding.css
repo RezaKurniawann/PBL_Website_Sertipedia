@@ -66,7 +66,7 @@ body {
   align-items: center;
   justify-content: center;
   /* update css */
-  background-image: url('/storage/element/FOTO POLINEMA.jpg');
+  background-image: url('adminlte/dist/img/FOTO POLINEMA.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
