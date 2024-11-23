@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\VendorController;
 use App\Http\Controllers\Api\DetailPelatihanController;
 use App\Http\Controllers\Api\DetailSertifikasiController;
 use App\Http\Controllers\Api\PeriodeController;  
+use App\Http\Controllers\Api\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +57,11 @@ Route::get('sertifikasis/{sertifikasi}', [SertifikasiController::class, 'show'])
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{user}', [UserController::class, 'show']);
 Route::put('users/update/{user}', [UserController::class, 'update']);
-Route::get('users/imageProfile/{user}', [UserController::class, 'getImageProfile']);
+
+Route::get('users/imageProfile/{user}', [ProfileController::class, 'getImageProfile']);
+Route::get('users/profile/{user}', [ProfileController::class, 'getDataProfile']);
+Route::get('users/bidangminat/{user}', [ProfileController::class, 'getUserBidangMinat']);
+Route::get('users/matakuliah/{user}', [ProfileController::class, 'getUserMataKuliah']);
 //vendor
 Route::get('vendors', [VendorController::class, 'index']);
 Route::get('vendors/{vendor}', [VendorController::class, 'show']);
@@ -64,6 +69,7 @@ Route::get('vendors/{vendor}', [VendorController::class, 'show']);
 Route::get('d_pelatihans', [DetailPelatihanController::class, 'index']);
 Route::get('d_pelatihans/{d_pelatihan}', [DetailPelatihanController::class, 'show']);
 Route::put('d_pelatihans/update/{d_pelatihan}', [DetailPelatihanController::class, 'update']);
+
 //detail sertifikasi
 Route::get('d_sertifikasis', [DetailSertifikasiController::class, 'index']);
 Route::get('d_sertifikasis/{d_sertifikasi}', [DetailSertifikasiController::class, 'show']);
@@ -71,6 +77,9 @@ Route::put('d_sertifikasis/update/{d_sertifikasi}', [DetailSertifikasiController
 //periode
 Route::get('periode', [PeriodeController::class, 'index']);
 Route::get('periode/{periode}', [PeriodeController::class, 'show']);
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
