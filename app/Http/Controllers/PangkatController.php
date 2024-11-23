@@ -17,7 +17,7 @@ class PangkatController extends Controller
             'title' => 'Daftar Pangkat yang terdaftar dalam sistem'
         ];
 
-        $activeMenu = 'manage-pangkat';
+        $activeMenu = 'manage-user';
 
         return view('admin.pangkat.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }

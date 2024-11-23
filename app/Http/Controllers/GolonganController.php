@@ -17,7 +17,7 @@ class GolonganController extends Controller
             'title' => 'Daftar Golongan yang terdaftar dalam sistem'
         ];
 
-        $activeMenu = 'manage-golongan';
+        $activeMenu = 'manage-user';
 
         return view('admin.golongan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }

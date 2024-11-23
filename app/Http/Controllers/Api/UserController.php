@@ -95,21 +95,5 @@ class UserController extends Controller
         return null; // Invalid image type
     }
 
-    public function getImageProfile($id)
-    {
-        try {
-            $user = UserModel::findOrFail($id);
-            $imagePath = public_path("/storage/photos/{$user->image}");
-
-            if (!file_exists($imagePath)) {
-                Log::error("Image not found: {$imagePath}");
-                return response()->json(['error' => 'Image not found'], 404);
-            }
-
-            return response()->file($imagePath);
-        } catch (\Exception $e) {
-            Log::error('Error fetching image: ' . $e->getMessage());
-            return response()->json(['error' => 'Image not found or server error', 'message' => $e->getMessage()], 500);
-        }
-    }
+    
 }
