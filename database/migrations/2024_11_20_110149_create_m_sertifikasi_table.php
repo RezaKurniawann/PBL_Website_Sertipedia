@@ -19,12 +19,11 @@ return new class extends Migration
             $table->string('jenis_sertifikasi');
             $table->date('tanggal_awal');
             $table->date('tanggal_akhir');
-            $table->integer('masa_berlaku'); // tanggal akhir dikurangi tanggal awal
             $table->timestamps();
 
       
-            $table -> foreign('id_vendor') -> references('id_vendor') -> on ('m_vendor');
-            $table -> foreign('id_periode') -> references('id_periode') -> on ('m_periode');
+            $table -> foreign('id_vendor') -> references('id_vendor') -> on ('m_vendor') -> onDelete ('cascade');;
+            $table -> foreign('id_periode') -> references('id_periode') -> on ('m_periode') -> onDelete ('cascade');;
         });
     }
 

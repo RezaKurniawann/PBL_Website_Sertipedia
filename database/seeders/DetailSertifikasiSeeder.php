@@ -15,7 +15,7 @@ class DetailSertifikasiSeeder extends Seeder
             [
                 'id_user' => 2, // Adjust as needed to match your user IDs
                 'id_sertifikasi' => 1, // Adjust as needed to match your sertifikasi IDs
-                'status' => 'Pending',
+                'status' => 'On Going',
                 'no_sertifikasi' => null,
                 'image' => null, // Example file name, adjust as needed
                 'surat_tugas' => null,
@@ -25,7 +25,7 @@ class DetailSertifikasiSeeder extends Seeder
             [
                 'id_user' => 3,
                 'id_sertifikasi' => 2,
-                'status' => 'Approved',
+                'status' => 'On Going',
                 'no_sertifikasi' => null,
                 'image' => null,
                 'surat_tugas' => null,
@@ -35,7 +35,7 @@ class DetailSertifikasiSeeder extends Seeder
             [
                 'id_user' => 4,
                 'id_sertifikasi' => 3,
-                'status' => 'Rejected',
+                'status' => 'On Going',
                 'no_sertifikasi' => null,
                 'image' => null,
                 'surat_tugas' => null,
@@ -45,7 +45,7 @@ class DetailSertifikasiSeeder extends Seeder
             [
                 'id_user' => 5,
                 'id_sertifikasi' => 4,
-                'status' => 'Approved',
+                'status' => 'On Going',
                 'no_sertifikasi' => null,
                 'image' => null,
                 'surat_tugas' => null,

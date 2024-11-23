@@ -29,7 +29,6 @@ class SertifikasiModel extends Model
         'jenis_sertifikasi',
         'tanggal_awal',
         'tanggal_akhir',
-        'masa_berlaku', 
         'created_at', 
         'updated_at'
     ];

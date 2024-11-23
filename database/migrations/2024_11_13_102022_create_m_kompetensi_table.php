@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->timestamps();
 
-            $table -> foreign('id_prodi') -> references('id_prodi') -> on ('t_prodi');
+            $table -> foreign('id_prodi') -> references('id_prodi') -> on ('t_prodi') -> onDelete ('cascade');;
         });
     }
 
