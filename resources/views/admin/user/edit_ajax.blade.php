@@ -30,11 +30,6 @@
                                 aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="form-group">
-                        <label for="id_user">Id User</label>
-                        <input type="text" name="id_user" id="id_user" class="form-control" required>
-                        <small id="error-id_level" class="error-text form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
                         <label for="id_level">Id Level</label>
                         <input type="text" name="id_level" id="id_level" class="form-control" required>
                         <small id="error-id_level" class="error-text form-text text-danger"></small>

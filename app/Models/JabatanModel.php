@@ -10,9 +10,9 @@ class JabatanModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'm_golongan';
+    protected $table = 'm_jabatan';
 
-    protected $primaryKey = 'id_golongan';
+    protected $primaryKey = 'id_jabatan';
 
      /**
      * The attributes that are mass assignable.
