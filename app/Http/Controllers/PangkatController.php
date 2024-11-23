@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PangkatModel;
+
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use App\Models\PangkatModel;
 
 class PangkatController extends Controller
 {
