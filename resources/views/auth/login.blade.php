@@ -20,7 +20,7 @@
 
 </head>
 
-<body class="hold-transition login-page" style="background: url('{{ url('storage/element/FOTO POLINEMA.jpg') }}') no-repeat center center; background-size: cover;">
+<body class="hold-transition login-page" style="background: url('{{ url('adminlte/dist/img/FOTO POLINEMA.jpg') }}') no-repeat center center; background-size: cover;">
     <div class="login-box">
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">

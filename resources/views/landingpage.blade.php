@@ -26,7 +26,7 @@
 <!-- Header end -->
 
     <!-- Home Section -->
-    <section class="home hero" id="home">
+    <section class="home hero" id="home" style="background-image: url('{{ asset('adminlte/dist/img/FOTO POLINEMA.jpg') }}');">
         <div class="swiper-container home-slider">
             {{-- <div class="swiper-wrapper">
                 @foreach ($slides as $slide)
