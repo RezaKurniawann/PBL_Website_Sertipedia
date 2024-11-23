@@ -18,6 +18,7 @@ use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiPelatihanController;
 use App\Http\Controllers\VerifikasiSertifikasiController;
+use App\Models\KompetensiModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,12 +79,39 @@ Route::middleware(['auth:admin'])->group(function () {
             Route::prefix('jurusan')->group(function () {
                 Route::prefix('matakuliah')->group(function () {
                     Route::get('/', [MataKuliahController::class, 'index']);
+                    Route::get('/', [MataKuliahController::class, 'index']);
+                    Route::post('/list', [MataKuliahController::class, 'list']);
+                    Route::get('/create', [MataKuliahController::class, 'create']);
+                    Route::post('/', [MataKuliahController::class, 'store']);
+                    Route::get('/create_ajax', [MataKuliahController::class, 'create_ajax']);
+                    Route::post('/ajax', [MataKuliahController::class, 'store_list']);
+                    Route::get('/{id}', [MataKuliahController::class, 'show']);
+                    Route::get('/{id}/edit', [MataKuliahController::class, 'edit']);
+                    Route::put('/{id}', [MataKuliahController::class, 'update']);
+                    Route::get('/{id}/edit_ajax', [MataKuliahController::class, 'edit_ajax']);
+                    Route::put('/{id}/update_ajax', [MataKuliahController::class, 'update_ajax']);
+                    Route::get('/{id}/delete_ajax', [MataKuliahController::class, 'confirm_ajax']);
+                    Route::delete('/{id}/delete_ajax', [MataKuliahController::class, 'delete']);
+                    Route::delete('/{id}', [MataKuliahController::class, 'destroy']);
                 });
                 Route::prefix('bidangminat')->group(function () {
                     Route::get('/', [BidangMinatController::class, 'index']);
                 });
                 Route::prefix('kompetensi')->group(function () {
                     Route::get('/', [KompetensiController::class, 'index']);
+                    Route::post('/list', [KompetensiController::class, 'list']);
+                    Route::get('/create', [KompetensiController::class, 'create']);
+                    Route::post('/', [KompetensiController::class, 'store']);
+                    Route::get('/create_ajax', [KompetensiController::class, 'create_ajax']);
+                    Route::post('/ajax', [KompetensiController::class, 'store_list']);
+                    Route::get('/{id}', [KompetensiController::class, 'show']);
+                    Route::get('/{id}/edit', [KompetensiController::class, 'edit']);
+                    Route::put('/{id}', [KompetensiController::class, 'update']);
+                    Route::get('/{id}/edit_ajax', [KompetensiController::class, 'edit_ajax']);
+                    Route::put('/{id}/update_ajax', [KompetensiController::class, 'update_ajax']);
+                    Route::get('/{id}/delete_ajax', [KompetensiController::class, 'confirm_ajax']);
+                    Route::delete('/{id}/delete_ajax', [KompetensiController::class, 'delete']);
+                    Route::delete('/{id}', [KompetensiController::class, 'destroy']);
                 });
             });
         });
@@ -100,6 +128,17 @@ Route::middleware(['auth:user'])->group(function () {
 });
 
 Route::get('/user/profile', [ProfileController::class, 'index'])->name('profile');
+Route::get('profile', [ProfileController::class, 'index'])->name('profile.show');
+Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+Route::get('/kompetensi', [KompetensiController::class, 'index']);
+Route::post('/kompetensi/list', [KompetensiController::class, 'list'])->name('kompetensi.list');
+Route::get('/kompetensi/{id}/detail_ajax', [KompetensiController::class, 'detail_ajax']);
+
+
+Route::post('matakuliah/list', [MatakuliahController::class, 'list']);
+
 
 // Route::get('/', function () {
 //     return view('welcome');
