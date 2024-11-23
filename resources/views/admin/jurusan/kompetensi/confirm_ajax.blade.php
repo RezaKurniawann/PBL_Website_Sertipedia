@@ -1,61 +1,62 @@
-@empty($user)
+@empty($kompetensi)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
-                    Data yang Anda cari tidak ditemukan
+                    Data yang Anda cari tidak ditemukan.
                 </div>
-                <a href="{{ url('/user') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('/kompetensi') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/user/' . $user->id_user . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/kompetensi/' . $kompetensi->kompetensi_id . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Kompetensi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
-                        <h5><i class="icon fas fa-exclamation-triangle"></i> Konfirmasi !!!</h5>
-                        Apakah Anda yakin ingin menghapus data berikut?
+                        <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
+                        Apakah Anda yakin ingin menghapus data berikut ini?
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">ID User:</th>
-                            <td class="col-9">{{ $user->id_user }}</td>
+                            <th class="text-right col-3">Prodi :</th>
+                            <td class="col-9">{{ $kompetensi->prodi->nama ?? '-' }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Nama User:</th>
-                            <td class="col-9">{{ $user->nama }}</td>
+                            <th class="text-right col-3">Nama Kompetensi :</th>
+                            <td class="col-9">{{ $kompetensi->nama }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Deskripsi :</th>
+                            <td class="col-9">{{ $kompetensi->deskripsi }}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                    <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+                    <button type="submit" class="btn btn-primary">Ya, Hapus</button>
                 </div>
             </div>
         </div>
     </form>
-
     <script>
         $(document).ready(function() {
-            // Validasi form delete
             $("#form-delete").validate({
+                rules: {},
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -63,14 +64,18 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
-                                $('#modal-master').modal('hide'); // Menutup modal
+                                $('#myModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataLevel.ajax.reload(); // Reload data pada tabel
+                                tableKompetensi.ajax.reload(); // Reload datatable
                             } else {
+                                $('.error-text').text('');
+                                $.each(response.msgField, function(prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Terjadi Kesalahan',
@@ -82,11 +87,11 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Terjadi Kesalahan',
-                                text: 'Gagal menghapus data. Silakan coba lagi.'
+                                text: 'Tidak dapat memproses permintaan.'
                             });
                         }
                     });
-                    return false; // Prevent form submission
+                    return false;
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {

@@ -18,6 +18,7 @@ use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiPelatihanController;
 use App\Http\Controllers\VerifikasiSertifikasiController;
+use App\Models\KompetensiModel;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\JabatanController;
@@ -186,6 +187,17 @@ Route::middleware(['auth:user'])->group(function () {
 });
 
 Route::get('/user/profile', [ProfileController::class, 'index'])->name('profile');
+Route::get('profile', [ProfileController::class, 'index'])->name('profile.show');
+Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+Route::get('/kompetensi', [KompetensiController::class, 'index']);
+Route::post('/kompetensi/list', [KompetensiController::class, 'list'])->name('kompetensi.list');
+Route::get('/kompetensi/{id}/detail_ajax', [KompetensiController::class, 'detail_ajax']);
+
+
+Route::post('matakuliah/list', [MatakuliahController::class, 'list']);
+
 
 // Route::get('/', function () {
 //     return view('welcome');
