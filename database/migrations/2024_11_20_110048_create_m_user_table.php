@@ -24,11 +24,11 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->timestamps();
 
-            $table -> foreign('id_level') -> references('id_level') -> on ('m_level');
-            $table -> foreign('id_pangkat') -> references('id_pangkat') -> on ('m_pangkat');
-            $table -> foreign('id_jabatan') -> references('id_jabatan') -> on ('m_jabatan');
-            $table -> foreign('id_golongan') -> references('id_golongan') -> on ('m_golongan');
-            $table -> foreign('id_prodi') -> references('id_prodi') -> on ('t_prodi');
+            $table -> foreign('id_level') -> references('id_level') -> on ('m_level') -> onDelete ('cascade');;
+            $table -> foreign('id_pangkat') -> references('id_pangkat') -> on ('m_pangkat') -> onDelete ('cascade');;
+            $table -> foreign('id_jabatan') -> references('id_jabatan') -> on ('m_jabatan') -> onDelete ('cascade');;
+            $table -> foreign('id_golongan') -> references('id_golongan') -> on ('m_golongan') -> onDelete ('cascade');;
+            $table -> foreign('id_prodi') -> references('id_prodi') -> on ('t_prodi') -> onDelete ('cascade');;
         });
     }
 

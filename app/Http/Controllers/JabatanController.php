@@ -17,7 +17,7 @@ class JabatanController extends Controller
             'title' => 'Daftar Jabatan yang terdaftar dalam sistem'
         ];
 
-        $activeMenu = 'manage-jabatan';
+        $activeMenu = 'manage-user';
 
         return view('admin.jabatan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }

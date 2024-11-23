@@ -19,36 +19,6 @@ class DetailPelatihanController extends Controller
         return response()->json($detailPelatihan);
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     // Validate the incoming request
-    //     $request->validate([
-    //         'image' => 'required|string', // Validate base64 string
-    //     ]);
-
-    //     try {
-    //         // Find the DetailPelatihan record by ID
-    //         $detailPelatihan = DetailPelatihanModel::findOrFail($id);
-
-    //         // Decode the base64 image
-    //         $imageData = base64_decode($request->input('image'));
-            
-    //         // Create a unique filename for the image
-    //         $imageName = 'image_' . time() . '.jpg';  // You can change the extension if needed
-
-    //         // Store the image in the 'public' disk
-    //         $imagePath = Storage::disk('public')->put($imageName, $imageData);
-
-    //         // Update the image path in the database
-    //         $detailPelatihan->image = $imageName; // Save the filename, or you can save the full path
-    //         $detailPelatihan->save();
-
-    //         return response()->json(['message' => 'Image updated successfully'], 200);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => 'Failed to update image', 'details' => $e->getMessage()], 500);
-    //     }
-    // }
-
     public function update(Request $request, $id)
     {
         // Validate the incoming request
@@ -77,6 +47,8 @@ class DetailPelatihanController extends Controller
 
             // Update the image path in the database (you can save the full path or just the filename)
             $detailPelatihan->image = $imageName;
+
+            $detailPelatihan->status = 'Completed';
             $detailPelatihan->save();
 
             return response()->json(['message' => 'Image updated successfully'], 200);

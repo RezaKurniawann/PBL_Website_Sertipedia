@@ -20,11 +20,10 @@ return new class extends Migration
             $table->string('level_pelatihan');
             $table->date('tanggal_awal');
             $table->date('tanggal_akhir');
-            $table->integer('waktu_pelatihan'); // tanggal akhir - tanggal awal
             $table->timestamps();
 
-            $table -> foreign('id_vendor') -> references('id_vendor') -> on ('m_vendor');
-            $table -> foreign('id_periode') -> references('id_periode') -> on ('m_periode');
+            $table -> foreign('id_vendor') -> references('id_vendor') -> on ('m_vendor') -> onDelete ('cascade');;
+            $table -> foreign('id_periode') -> references('id_periode') -> on ('m_periode') -> onDelete ('cascade');;
         });
     }
 

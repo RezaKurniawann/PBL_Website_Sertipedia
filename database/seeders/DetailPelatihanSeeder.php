@@ -15,7 +15,7 @@ class DetailPelatihanSeeder extends Seeder
             [
                 'id_user' => 6, // Adjust user IDs based on existing data
                 'id_pelatihan' => 1, // Adjust training ID
-                'status' => 'Completed',
+                'status' => 'On Going',
                 'image' => null, // Example image filename
                 'surat_tugas' => null,
                 'created_at' => Carbon::now(),
@@ -24,7 +24,7 @@ class DetailPelatihanSeeder extends Seeder
             [
                 'id_user' => 7,
                 'id_pelatihan' => 2,
-                'status' => 'In Progress',
+                'status' => 'On Going',
                 'image' => null,
                 'surat_tugas' => null,
                 'created_at' => Carbon::now(),
@@ -33,7 +33,7 @@ class DetailPelatihanSeeder extends Seeder
             [
                 'id_user' => 8,
                 'id_pelatihan' => 3,
-                'status' => 'Completed',
+                'status' => 'On Going',
                 'image' => null,
                 'surat_tugas' => null,
                 'created_at' => Carbon::now(),
@@ -42,7 +42,7 @@ class DetailPelatihanSeeder extends Seeder
             [
                 'id_user' => 9,
                 'id_pelatihan' => 4,
-                'status' => 'Completed',
+                'status' => 'On Going',
                 'image' => null,
                 'surat_tugas' => null,
                 'created_at' => Carbon::now(),

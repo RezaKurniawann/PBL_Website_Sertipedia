@@ -24,7 +24,7 @@ class LevelController extends Controller
             'title' => 'Daftar Level yang terdaftar dalam sistem'
         ];
 
-        $activeMenu = 'manage-level';
+        $activeMenu = 'manage-user';
 
         return view('admin.level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }

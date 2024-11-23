@@ -31,7 +31,6 @@ class PelatihanModel extends Model
         'level_pelatihan',
         'tanggal_awal',
         'tanggal_akhir',
-        'waktu_pelatihan',
         'created_at',
         'updated_at'
     ];
