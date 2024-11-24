@@ -71,29 +71,35 @@
         </tr> 
     </table> 
  
-    <h3 class="text-center">LAPORAN DATA VENDOR</h4> 
+    <h3 class="text-center">LAPORAN DATA USER</h4> 
     <table class="border-all"> 
         <thead> 
             <tr> 
                 <th class="text-center">No</th> 
-                <th class="text-center">Nama Vendor</th> 
-                <th class="text-center">Alamat Vendor</th> 
-                <th class="text-center">Kota</th>
+                <th class="text-center">Nama</th> 
+                <th class="text-center">Level</th> 
+                <th class="text-center">Prodi</th>
+                <th class="text-center">Pangkat</th>
+                <th class="text-center">Golongan</th>
+                <th class="text-center">Jabatan</th>
+                <th class="text-center">Email</th>
                 <th class="text-center">Nomor Telepon</th>
-                <th class="text-center">Alamat Website</th>
-                <th class="text-center">Kategori</th>
+                <th class="text-center">Username</th>
             </tr> 
         </thead> 
         <tbody> 
-            @foreach($vendor as $l) 
+            @foreach($user as $l) 
             <tr> 
                 <td class="text-center">{{ $loop->iteration }}</td> 
                 <td>{{ $l->nama }}</td> 
-                <td>{{ $l->alamat }}</td> 
-                <td>{{ $l->kota }}</td>
-                <td>{{ $l->telepon }}</td>
-                <td>{{ $l->alamatWeb }}</td>
-                <td>{{ $l->kategori }}</td>
+                <td>{{ $l->level->nama }}</td>
+                <td>{{ $l->id_prodi->nama }}</td>
+                <td>{{ $l->id_pangkat->nama }}</td>
+                <td>{{ $l->id_golongan->nama }}</td>
+                <td>{{ $l->id_jabatan->nama }}</td>
+                <td>{{ $l->email }}</td>
+                <td>{{ $l->no_telp }}</td>
+                <td>{{ $l->username }}</td>
             </tr>
             @endforeach 
 </tbody> 

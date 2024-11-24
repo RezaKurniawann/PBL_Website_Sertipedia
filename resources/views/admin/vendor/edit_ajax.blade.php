@@ -26,40 +26,40 @@
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                        <div class="form-group">
-                        <label for="nama">Nama Vendor</label>
-                        <input type="text" name="nama" id="nama" class="form-control" required
-                            aria-describedby="error-nama" placeholder="Masukkan Nama Vendor">
+                    <div class="form-group">
+                        <label>Nama Vendor</label>
+                        <input value="{{ $vendor->nama }}" type="text" name="nama" id="nama"
+                            class="form-control" required>
                         <small id="error-nama" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label for="alamat">Alamat Vendor</label>
-                        <input type="text" name="alamat" id="alamat" class="form-control" required
-                            aria-describedby="error-alamat" placeholder="Masukkan Alamat">
-                        <small id="error-alamat" class="error-text form-text text-danger"></small>
+                        <label>Alamat Vendor</label>
+                        <input value="{{ $vendor->alamat }}" type="text" name="alamat" id="alamat"
+                            class="form-control" required>
+                        <small id="error-nama" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label for="kota">Kota Vendor</label>
-                        <input type="text" name="kota" id="kota" class="form-control" required
-                            aria-describedby="error-kota" placeholder="Masukkan Nomor Telepon">
+                        <label>Kota Vendor</label>
+                        <input value="{{ $vendor->kota }}" type="text" name="kota" id="kota"
+                            class="form-control" required>
                         <small id="error-kota" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label for="telepon">Nomor Telepon</label>
-                        <input type="text" name="telepon" id="telepon" class="form-control" required
-                            aria-describedby="error-telepon" placeholder="Masukkan Nomor Telepon">
+                        <label>Nomor Telepon</label>
+                        <input value="{{ $vendor->telepon }}" type="text" name="telepon" id="telepon"
+                            class="form-control" required>
                         <small id="error-telepon" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label for="alamatWeb">Alamat Website</label>
-                        <input type="alamatWeb" name="alamatWeb" id="alamatWeb" class="form-control" required
-                            aria-describedby="error-alamatWeb" placeholder="Masukkan Alamat Website">
+                        <label>Alamat Website</label>
+                        <input value="{{ $vendor->alamatWeb }}" type="text" name="alamatWeb" id="alamatWeb"
+                            class="form-control" required>
                         <small id="error-alamatWeb" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label for="kategori">Kategori</label>
-                        <input type="kategori" name="kategori" id="kategori" class="form-control" required
-                            aria-describedby="error-kategori" placeholder="Masukkan Kategori">
+                        <label>Kategori</label>
+                        <input value="{{ $vendor->kategori }}" type="text" name="kategori" id="kategori"
+                            class="form-control" required>
                         <small id="error-kategori" class="error-text form-text text-danger"></small>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                     alamatWeb: {
                         required: true,
                         minlength: 3,
-                        maxlength: 20
+                        maxlength: 100
                     },
                     kategori: {
                         required: true,

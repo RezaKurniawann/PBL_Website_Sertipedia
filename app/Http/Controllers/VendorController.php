@@ -71,7 +71,7 @@ class VendorController extends Controller
                 'alamat'    => 'required|string|min:3|max:50', 
                 'kota'      => 'required|string|min:3|max:50', 
                 'telepon'   => 'required|string|min:9|max:20', 
-                'alamatWeb' => 'required|string|min:3|max:50', 
+                'alamatWeb' => 'required|string|min:3|max:100', 
                 'kategori'  => 'required|string|min:3|max:50',
             ];
             // use Illuminate\Support\Facades\Validator;
@@ -95,7 +95,7 @@ class VendorController extends Controller
     public function edit_ajax(string $id)
     {
         $vendor = VendorModel::find($id);
-        return view('admin.vendor.edit', ['vendor' => $vendor]);
+        return view('admin.vendor.edit_ajax', ['vendor' => $vendor]);
     }
 
     public function update_ajax(Request $request, $id)
@@ -106,7 +106,7 @@ class VendorController extends Controller
                 'alamat'    => 'required|string|min:3|max:50', 
                 'kota'      => 'required|string|min:3|max:50', 
                 'telepon'   => 'required|string|min:9|max:20', 
-                'alamatWeb' => 'required|string|min:3|max:50', 
+                'alamatWeb' => 'required|string|min:3|max:100', 
                 'kategori'  => 'required|string|min:3|max:50',
             ];
             // use Illuminate\Support\Facades\Validator;

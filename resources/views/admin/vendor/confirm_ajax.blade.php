@@ -1,4 +1,4 @@
-@empty($user)
+@empty($vendor)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,18 +12,18 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang Anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('manage/user') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('manage/vendor') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('manage/user/' . $user->id . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('manage/vendor/' . $vendor->id_vendor . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data User</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Vendor</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -35,12 +35,12 @@
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">ID User:</th>
-                            <td class="col-9">{{ $user->id_user }}</td>
+                            <th class="text-right col-3">ID Vendor:</th>
+                            <td class="col-9">{{ $vendor->id_vendor }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Nama User:</th>
-                            <td class="col-9">{{ $user->nama }}</td>
+                            <th class="text-right col-3">Nama Vendor:</th>
+                            <td class="col-9">{{ $vendor->nama }}</td>
                         </tr>
                     </table>
                 </div>
@@ -51,11 +51,10 @@
             </div>
         </div>
     </form>
-
     <script>
         $(document).ready(function() {
-            // Validasi form delete
             $("#form-delete").validate({
+                rules: {},
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -63,30 +62,27 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
-                                $('#modal-master').modal('hide'); // Menutup modal
+                                $('#myModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataLevel.ajax.reload(); // Reload data pada tabel
+                                dataVendor.ajax.reload();
                             } else {
+                                $('.error-text').text('');
+                                $.each(response.msgField, function(prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Terjadi Kesalahan',
                                     text: response.message
                                 });
                             }
-                        },
-                        error: function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: 'Gagal menghapus data. Silakan coba lagi.'
-                            });
                         }
                     });
-                    return false; // Prevent form submission
+                    return false;
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {

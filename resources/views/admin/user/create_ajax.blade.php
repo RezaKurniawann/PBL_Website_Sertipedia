@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required
+                        <input type="text" name="username" id="username" class="form-control" required pattern="^[0-9]+$">
                             aria-describedby="error-username" placeholder="Masukkan username">
                         <small id="error-username" class="error-text form-text text-danger"></small>
                     </div>
@@ -102,9 +102,9 @@
         $("#form-tambah").validate({
             rules: {
                 nama: {
-                required: true,
-                minlength: 3,
-                maxlength: 100
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
                 },
                 id_level: {
                     required: true
@@ -135,7 +135,8 @@
                     required: true,
                     minlength: 3,
                     maxlength: 50,
-                }
+                    pattern: /^[0-9]+$/ // hanya angka
+                },
                 password: {
                     required: true,
                     minlength: 5,

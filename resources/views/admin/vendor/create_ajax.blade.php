@@ -80,7 +80,7 @@
                 alamatWeb: {
                     required: true,
                     minlength: 3,
-                    maxlength: 20
+                    maxlength: 100
                 },
                 kategori: {
                     required: true,
