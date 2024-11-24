@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required pattern="^[0-9]+$">
+                        <input type="text" name="username" id="username" class="form-control" required pattern="^[0-9]+$"
                             aria-describedby="error-username" placeholder="Masukkan username">
                         <small id="error-username" class="error-text form-text text-danger"></small>
                     </div>

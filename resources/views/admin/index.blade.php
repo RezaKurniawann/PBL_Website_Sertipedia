@@ -1,9 +1,20 @@
 @extends('layouts.template')
-@section('content')
-<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"data-keyboard="false" data-width="75%" aria-hidden="true"></div>
-    <div class="card card-outline card-primary">
-        <div class="card-header">
-            <h3 class="card-title">{{ $page->title }}</h3>
 
+@section('content')
+    <div class="container">
+        <div class="row">
+            @foreach ($users as $user)
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $user->name }}</h5>
+                            <p class="card-text">{{ $user->prodi }}</p>
+                            <p class="card-text">{{ $user->bidangminat }}</p>
+                            <a href="{{ route('users.show', $user) }}" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
+@endsection
