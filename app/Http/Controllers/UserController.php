@@ -193,7 +193,7 @@ class UserController extends Controller
     {
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
-            $user = userModel::find($id);
+            $user = UserModel::find($id);
             if ($user) {
                 $user->delete();
                 return response()->json([

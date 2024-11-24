@@ -25,7 +25,7 @@ class VendorController extends Controller
         $activeMenu = 'manage-vendor';
         $vendor = VendorModel::all();
 
-        return view('admin.vendor.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('admin.vendor.index', ['breadcrumb' => $breadcrumb,'vendor' => $vendor, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)
