@@ -32,6 +32,10 @@ class VendorController extends Controller
     {
         $vendor = VendorModel::select('id_vendor', 'nama', 'alamat', 'kota', 'telepon', 'alamatWeb', 'kategori');
 
+        if ($request->has('kategori') && $request->kategori != '') {
+            $vendor->where('kategori', $request->kategori);
+        }
+
         return DataTables::of($vendor)
             ->addIndexColumn()
             ->addColumn('aksi', function ($vendor) {

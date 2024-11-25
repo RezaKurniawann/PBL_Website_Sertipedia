@@ -98,38 +98,39 @@
                     {
                         data: "level.nama",
                         className: "",
+                        orderable: false,
                         searchable: true
                     },
                     {
                         data: "prodi.nama",
                         className: "",
-                        orderable: true,
+                        orderable: false,
                         searchable: true
                     },
                     {
                         data: "pangkat.nama",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },
                     {
                         data: "golongan.nama",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },
                     {
                         data: "jabatan.nama",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },
                     
                     {
                         data: "email",
                         className: "",
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "no_telp",
@@ -141,7 +142,7 @@
                         data: "username",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },
                     {
                         data: "aksi",

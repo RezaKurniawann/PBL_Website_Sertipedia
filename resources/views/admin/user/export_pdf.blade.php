@@ -9,6 +9,7 @@
         } 
         table { 
             width:100%;  
+            margin: 0 auto;
             border-collapse: collapse; 
         } 
         td, th { 
@@ -71,7 +72,7 @@
         </tr> 
     </table> 
  
-    <h3 class="text-center">LAPORAN DATA USER</h4> 
+    <h3 class="text-center">LAPORAN DATA USER</h3>
     <table class="border-all"> 
         <thead> 
             <tr> 
@@ -93,10 +94,10 @@
                 <td class="text-center">{{ $loop->iteration }}</td> 
                 <td>{{ $l->nama }}</td> 
                 <td>{{ $l->level->nama }}</td>
-                <td>{{ $l->id_prodi->nama }}</td>
-                <td>{{ $l->id_pangkat->nama }}</td>
-                <td>{{ $l->id_golongan->nama }}</td>
-                <td>{{ $l->id_jabatan->nama }}</td>
+                <td>{{ $l->prodi->nama }}</td>
+                <td>{{ $l->pangkat->nama }}</td>
+                <td>{{ $l->golongan->nama }}</td>
+                <td>{{ $l->jabatan->nama }}</td>
                 <td>{{ $l->email }}</td>
                 <td>{{ $l->no_telp }}</td>
                 <td>{{ $l->username }}</td>

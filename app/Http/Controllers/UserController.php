@@ -212,28 +212,38 @@ class UserController extends Controller
 
     public function export_pdf()
     {
+        // Mengambil data user dengan relasi yang relevan
         $user = UserModel::with(['level', 'prodi', 'pangkat', 'golongan', 'jabatan'])
-            ->orderBy('id_user')
-            ->get();
-
-        $pdf = Pdf::loadView('admin.user.export_pdf', ['user' => $user]);
-        $pdf->setPaper('a4', 'portrait');
-        $pdf->setOption("isRemoteEnabled", true);
-        return $pdf->stream('Data user ' . date('Y-m-d H:i:s') . '.pdf');
-    }
-
-
-    public function export_excel()
-    {
-        $user = UserModel::with('level', 'prodi', 'pangkat', 'golongan', 'jabatan','id_pangkat', 'nama', 'email', 'no_telp', 'username')
             ->orderBy('id_level')
             ->orderBy('id_prodi')
             ->orderBy('id_pangkat')
             ->orderBy('id_golongan')
             ->orderBy('id_jabatan')
+            ->orderBy('nama')
             ->get();
 
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        // Generate PDF
+        $pdf = Pdf::loadView('admin.user.export_pdf', ['user' => $user]);
+        $pdf->setPaper('a4', 'landscape');
+        $pdf->setOption("isRemoteEnabled", true);
+
+        // Stream hasil PDF
+        return $pdf->stream('Laporan_Data_User_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
+
+
+    public function export_excel()
+    {
+        $user = UserModel::with('level', 'prodi', 'pangkat', 'golongan', 'jabatan')
+            ->orderBy('id_level')
+            ->orderBy('id_prodi')
+            ->orderBy('id_pangkat')
+            ->orderBy('id_golongan')
+            ->orderBy('id_jabatan')
+            ->orderBy('nama')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
         $sheet->setCellValue('A1', 'No');
@@ -257,15 +267,18 @@ class UserController extends Controller
         foreach ($user as $key => $value) {
             $sheet->setCellValue('A' . $baris, $no);
             $sheet->setCellValue('B' . $baris, $value->nama);
-            $sheet->setCellValue('C' . $baris, $value->level);
-            $sheet->setCellValue('D' . $baris, $value->kota);
-            $sheet->setCellValue('E' . $baris, $value->telepon);
-            $sheet->setCellValue('F' . $baris, $value->alamatWeb);
-            $sheet->setCellValue('G' . $baris, $value->kategori);
+            $sheet->setCellValue('C' . $baris, $value->level->nama);
+            $sheet->setCellValue('D' . $baris, $value->prodi->nama);
+            $sheet->setCellValue('E' . $baris, $value->pangkat->nama);
+            $sheet->setCellValue('F' . $baris, $value->golongan->nama);
+            $sheet->setCellValue('G' . $baris, $value->jabatan->nama);
+            $sheet->setCellValue('H' . $baris, $value->email);
+            $sheet->setCellValue('I' . $baris, $value->no_telp);
+            $sheet->setCellValue('J' . $baris, $value->username);
             $baris++;
             $no++;
         }
-        foreach (range('A', 'G') as $columnID) {
+        foreach (range('A', 'J') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
         $sheet->setTitle('Data user');
