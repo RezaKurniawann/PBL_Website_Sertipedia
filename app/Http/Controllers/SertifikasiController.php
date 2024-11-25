@@ -10,6 +10,7 @@ use App\Models\VendorModel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SertifikasiController extends Controller
 {
@@ -52,9 +53,15 @@ class SertifikasiController extends Controller
 
     public function show_ajax(string $id)
     {
-        $sertifikasi = SertifikasiModel::find($id);
+
+        $sertifikasi = SertifikasiModel::with(['matakuliah', 'bidangminat'])->find($id);
+
         if ($sertifikasi) {
-            return view('admin.event.sertifikasi.show', ['sertifikasi' => $sertifikasi]);
+            return view('admin.event.sertifikasi.show', [
+                'sertifikasi' => $sertifikasi,
+                'matakuliah' => $sertifikasi->matakuliah,
+                'bidangminat' => $sertifikasi->bidangminat,
+            ]);
         } else {
             return response()->json([
                 'status' => false,
@@ -65,9 +72,22 @@ class SertifikasiController extends Controller
 
     public function confirm_ajax(string $id)
     {
-        $sertifikasi = SertifikasiModel::find($id);
-        return view('admin.event.sertifikasi.confirm', ['sertifikasi' => $sertifikasi]);
+        $sertifikasi = SertifikasiModel::with(['matakuliah', 'bidangminat'])->find($id);
+
+        if ($sertifikasi) {
+            return view('admin.event.sertifikasi.confirm', [
+                'sertifikasi' => $sertifikasi,
+                'matakuliah' => $sertifikasi->matakuliah,
+                'bidangminat' => $sertifikasi->bidangminat,
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
     }
+
     public function delete_ajax(Request $request, $id)
     {
         if ($request->ajax() || $request->wantsJson()) {
@@ -138,41 +158,70 @@ class SertifikasiController extends Controller
     }
 
     public function create_ajax()
-{
-    $vendor = VendorModel::select('id_vendor', 'nama', 'kategori')->get();
-    $periode = PeriodeModel::select('id_periode', 'tahun')->get();
+    {
+        $vendor = VendorModel::select('id_vendor', 'nama', 'kategori')->get();
+        $periode = PeriodeModel::select('id_periode', 'tahun')->get();
+        $matakuliah = MataKuliahModel::select('id_matakuliah', 'nama')->get();
+        $bidangminat = BidangMinatModel::select('id_bidangminat', 'nama')->get();
 
-    return view('admin.event.sertifikasi.create', ['vendor' => $vendor, 'periode' => $periode]);
-}
-
-public function store_ajax(Request $request){
-    if($request->ajax() || $request->wantsJson()){
-        $rules = [
-            'nama' => 'required|string|min:3|max:100',
-            'id_vendor' => 'required|integer',
-            'biaya' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
-            'jenis_sertifikasi' => 'required|string',
-            'tanggal_awal' => 'required|date|before_or_equal:tanggal_akhir',
-            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
-            'id_periode' => 'required|integer'
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()){
-            return response()->json([
-                'status'    =>false,    //response status, false: eror/gagal, true:berhasil
-                'message'   => 'Validasi Gagal',
-                'msgField'  => $validator->errors(),    //pesan eror validasi
-            ]);
-        }
-
-        SertifikasiModel::create($request->all());
-        return response()->json([
-            'status'    => true,
-            'message'   => 'Data barang berhasil disimpan'
-        ]);
+        return view('admin.event.sertifikasi.create', ['vendor' => $vendor, 'periode' => $periode, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat]);
     }
-    redirect('/');
-}
+
+    public function store_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'nama' => 'required|string|min:3|max:100',
+                'id_vendor' => 'required|integer',
+                'biaya' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+                'jenis_sertifikasi' => 'required|string',
+                'tanggal_awal' => 'required|date|before_or_equal:tanggal_akhir',
+                'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
+                'id_periode' => 'required|integer',
+                'mata_kuliah' => 'required|array|min:1',
+                'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
+                'bidang_minat' => 'required|array|min:1',
+                'bidang_minat.*' => 'required|integer|exists:m_bidangminat,id_bidangminat',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            try {
+                // Gunakan transaction untuk menjamin konsistensi data
+                DB::beginTransaction();
+
+                // Simpan data sertifikasi dan dapatkan ID-nya
+                $sertifikasi = SertifikasiModel::create($request->all());
+                $idsertifikasi = $sertifikasi->id_sertifikasi;
+                foreach ($request->mata_kuliah as $idMatakuliah) {
+                    DB::table('t_sertifikasi_matakuliah')->insert([
+                        'id_sertifikasi' => $idsertifikasi,
+                        'id_matakuliah' => $idMatakuliah,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                foreach ($request->bidang_minat as $idBidangMinat) {
+                    DB::table('t_sertifikasi_bidangminat')->insert([
+                        'id_sertifikasi' => $idsertifikasi,
+                        'id_bidangminat' => $idBidangMinat,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data sertifikasi berhasil disimpan',
+                ]);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+                ]);
+            }
+        }
+        redirect('/');
+    }
 }

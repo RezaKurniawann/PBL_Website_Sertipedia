@@ -3,8 +3,9 @@
         <div class="modal-content"> 
             <div class="modal-header"> 
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5> 
-                <button type="button" class="close" data-dismiss="modal" 
-                aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
             </div> 
             <div class="modal-body"> 
                 <div class="alert alert-danger"> 
@@ -20,8 +21,9 @@
         <div class="modal-content"> 
             <div class="modal-header"> 
                 <h5 class="modal-title" id="exampleModalLabel">Detail Data Pelatihan</h5> 
-                <button type="button" class="close" data-dismiss="modal" 
-                aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
             </div> 
             <div class="modal-body"> 
                 <div class="alert alert-info"> 
@@ -38,7 +40,38 @@
                     <tr><th class="text-right col-3">Tanggal Awal : </th><td class="col-9">{{ \Carbon\Carbon::parse($pelatihan->tanggal_awal)->format('d/m/Y') }}</td></tr>
                     <tr><th class="text-right col-3">Tanggal Akhir : </th><td class="col-9">{{ \Carbon\Carbon::parse($pelatihan->tanggal_akhir)->format('d/m/Y') }}</td></tr>
                     <tr><th class="text-right col-3">Periode : </th><td class="col-9">{{ $pelatihan->periode->tahun }}</td></tr>
-                </table> 
+                </table>
+
+                <div class="mt-4">
+                    <h4 class="font-weight-bold">Mata Kuliah</h4>
+                    <div class="row">
+                        @foreach ($matakuliah as $mk)
+                            <div class="col-md-4 mb-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $mk->nama }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="font-weight-bold">Bidang Minat</h4>
+                    <div class="row">
+                        @foreach ($bidangminat as $bm)
+                            <div class="col-md-4 mb-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $bm->nama }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
             </div> 
             <div class="modal-footer"> 
                 <button type="button" data-dismiss="modal" class="btn btn-primary">Tutup</button> 
