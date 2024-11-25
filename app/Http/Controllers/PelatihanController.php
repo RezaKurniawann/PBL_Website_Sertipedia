@@ -13,6 +13,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
+
 
 use Illuminate\Http\Request;
 
@@ -57,9 +59,15 @@ class PelatihanController extends Controller
 
     public function show_ajax(string $id)
     {
-        $pelatihan = PelatihanModel::find($id);
+
+        $pelatihan = PelatihanModel::with(['matakuliah', 'bidangminat'])->find($id);
+
         if ($pelatihan) {
-            return view('admin.event.pelatihan.show', ['pelatihan' => $pelatihan]);
+            return view('admin.event.pelatihan.show', [
+                'pelatihan' => $pelatihan,
+                'matakuliah' => $pelatihan->matakuliah,
+                'bidangminat' => $pelatihan->bidangminat,
+            ]);
         } else {
             return response()->json([
                 'status' => false,
@@ -70,8 +78,20 @@ class PelatihanController extends Controller
 
     public function confirm_ajax(string $id)
     {
-        $pelatihan = PelatihanModel::find($id);
-        return view('admin.event.pelatihan.confirm', ['pelatihan' => $pelatihan]);
+        $pelatihan = PelatihanModel::with(['matakuliah', 'bidangminat'])->find($id);
+
+        if ($pelatihan) {
+            return view('admin.event.pelatihan.confirm', [
+                'pelatihan' => $pelatihan,
+                'matakuliah' => $pelatihan->matakuliah,
+                'bidangminat' => $pelatihan->bidangminat,
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
     }
     public function delete_ajax(Request $request, $id)
     {
@@ -99,8 +119,10 @@ class PelatihanController extends Controller
         $pelatihan = PelatihanModel::find($id);
         $vendor = VendorModel::select('id_vendor', 'nama', 'kategori')->get();
         $periode = PeriodeModel::select('id_periode', 'tahun')->get();
+        $matakuliah = MataKuliahModel::select('id_matakuliah', 'nama')->get();
+        $bidangminat = BidangMinatModel::select('id_bidangminat', 'nama')->get();
 
-        return view('admin.event.pelatihan.edit', ['pelatihan' => $pelatihan, 'vendor' => $vendor, 'periode' => $periode]);
+        return view('admin.event.pelatihan.edit', ['pelatihan' => $pelatihan, 'vendor' => $vendor, 'periode' => $periode, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat]);
     }
 
     public function update_ajax(Request $request, $id)
@@ -149,8 +171,10 @@ class PelatihanController extends Controller
     {
         $vendor = VendorModel::select('id_vendor', 'nama', 'kategori')->get();
         $periode = PeriodeModel::select('id_periode', 'tahun')->get();
+        $matakuliah = MataKuliahModel::select('id_matakuliah', 'nama')->get();
+        $bidangminat = BidangMinatModel::select('id_bidangminat', 'nama')->get();
 
-        return view('admin.event.pelatihan.create', ['vendor' => $vendor, 'periode' => $periode]);
+        return view('admin.event.pelatihan.create', ['vendor' => $vendor, 'periode' => $periode, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat]);
     }
 
     public function store_ajax(Request $request)
@@ -159,31 +183,57 @@ class PelatihanController extends Controller
             $rules = [
                 'nama' => 'required|string|min:3|max:100',
                 'id_vendor' => 'required|integer',
-                'kuota' => 'required|integer',
-                'lokasi' => 'required|string',
+                'kuota' => 'required|integer|min:1',
+                'lokasi' => 'required|string|max:255',
                 'biaya' => 'required|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
-                'level_pelatihan' => 'required|string',
+                'level_pelatihan' => 'required|string|in:Nasional,Internasional',
                 'tanggal_awal' => 'required|date|before_or_equal:tanggal_akhir',
                 'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
-                'id_periode' => 'required|integer'
+                'id_periode' => 'required|integer|exists:periode,id_periode',
+                'mata_kuliah' => 'required|array|min:1',
+                'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
+                'bidang_minat' => 'required|array|min:1',
+                'bidang_minat.*' => 'required|integer|exists:m_bidangminat,id_bidangminat',
             ];
 
             $validator = Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) {
+            try {
+                // Gunakan transaction untuk menjamin konsistensi data
+                DB::beginTransaction();
+
+                // Simpan data pelatihan dan dapatkan ID-nya
+                $pelatihan = PelatihanModel::create($request->all());
+                $idPelatihan = $pelatihan->id_pelatihan;
+                foreach ($request->mata_kuliah as $idMatakuliah) {
+                    DB::table('t_pelatihan_matakuliah')->insert([
+                        'id_pelatihan' => $idPelatihan,
+                        'id_matakuliah' => $idMatakuliah,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                foreach ($request->bidang_minat as $idBidangMinat) {
+                    DB::table('t_pelatihan_bidangminat')->insert([
+                        'id_pelatihan' => $idPelatihan,
+                        'id_bidangminat' => $idBidangMinat,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                DB::commit();
                 return response()->json([
-                    'status'    => false,    //response status, false: eror/gagal, true:berhasil
-                    'message'   => 'Validasi Gagal',
-                    'msgField'  => $validator->errors(),    //pesan eror validasi
+                    'status' => true,
+                    'message' => 'Data pelatihan berhasil disimpan',
+                ]);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
                 ]);
             }
-
-            pelatihanModel::create($request->all());
-            return response()->json([
-                'status'    => true,
-                'message'   => 'Data barang berhasil disimpan'
-            ]);
         }
-        redirect('/');
+        return redirect('/');
     }
 }
