@@ -1,106 +1,101 @@
 @extends('layouts.template')
-
 @section('content')
-<div class="card card-outline card-primary">
-    <div class="card-header">
-        <h3 class="card-title">Daftar Bidang Minat</h3>
-        <div class="card-tools">
-            <button onclick="modalAction('{{ url('/bidangminat/import') }}')" class="btn btn-info"><i class="fa fa-file-import"></i> Import Kompetensi</button>
-            <a href="{{ url('/bidangminat/export_excel') }}" class="btn btn-primary"><i class="fa fa-file excel"></i> Export User</a> 
-            <a href="{{ url('/bidangminat/create') }}" class="btn btn-primary">Tambah Data</a>
-            <button onclick="modalAction('{{ url('/bidangminat/create_ajax') }}')" class="btn btn-success">Tambah (Ajax)</button>
-        </div>
-    </div>
-    <div class="card-body">
-        <!-- Filter data -->
-        <div id="filter" class="form-horizontal filter-date p-2 border-bottom mb-2">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group form-group-sm row text-sm mb-0">
-                        <label for="filter_nama" class="col-md-1 col-form-label">Filter</label>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control form-control-sm filter_nama" placeholder="Filter berdasarkan Nama">
-                            <small class="form-text text-muted">Nama Bidang Minat</small>
-                        </div>
-                    </div>
-                </div>
+    <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+        data-keyboard="false" data-width="75%" aria-hidden="true"></div>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">{{ $page->title }}</h3>
+            <div class="card-tools">
+                <button onclick="modalAction('{{ url('manage/jurusan/bidangminat/import') }}')"
+                    class="btn btn-sm btn-info mt-1 ">
+                    <i class="fa fa-upload"></i> Import bidangminat
+                </button>
+                <a href="{{ url('manage/jurusan/bidangminat/export_excel') }}" class="btn btn-sm btn-success mt-1 ">
+                    <i class="fa fa-file-excel"></i> Export Excel
+                </a>
+                <a href="{{ url('manage/jurusan/bidangminat/export_pdf') }}" class="btn btn-sm btn-danger mt-1 ">
+                    <i class="fa fa-file-pdf"></i> Export PDF
+                </a>
+                <button onclick="modalAction('{{ url('manage/jurusan/bidangminat/create_ajax') }}')"
+                    class="btn btn-sm btn-primary mt-1 ">
+                    <i class="fa fa-plus"></i> Tambah Data
+                </button>
             </div>
         </div>
-
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-
-        <table class="table table-bordered table-sm table-striped table-hover" id="table_bidangminat">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Bidang Minat</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_bidangminat">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
-</div>
-
-<div id="myModal" class="modal fade animate shake" tabindex="-1" data-backdrop="static" data-keyboard="false" data-width="75%"></div>
-
 @endsection
-
-@push('js')
-<script>
-    function modalAction(url = '') {
-        $('#myModal').load(url, function(){
-            $('#myModal').modal('show');
-        });
+@push('css')
+<style>
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
     }
 
-    var tableBidangMinat;
-    $(document).ready(function(){
-        tableBidangMinat = $('#table_bidangminat').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                "url": "{{ url('/bidangminat/list') }}",
-                "dataType": "json",
-                "type": "POST", 
-                data: function (d) {
-                    d.filter_nama = $('.filter_nama').val();
-                }
-            },
-            columns: [
-                {
-                    // Nomor urut dari Laravel DataTable addIndexColumn()
-                    data: "DT_RowIndex",
-                    // className: "text-center",
-                    orderable: false,
-                    searchable: false
-                },
-                { 
-                    data: "nama", // Kolom Nama Bidang Minat
-                    width: "60%",
-                    orderable: false,
-                    searchable: false
-                },
-                { 
-                    data: "aksi", // Kolom Aksi untuk tombol
-                    className: "text-center",
-                    width: "15%",
-                    orderable: false,
-                    searchable: false
-                }
-            ],
-            order: [[1, 'asc']], // Urutkan data berdasarkan ID Bidang Minat
-            pageLength: 10 // Batas data per halaman
-        });
+    .btn {
+        transition: all 0.3s ease;
+    }
 
-        $('.filter_nama').keyup(function(){
-            tableBidangMinat.draw();
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+</style>
+@endpush
+@push('js')
+    <script>
+        function modalAction(url = '') {
+            $('#myModal').load(url, function() {
+                $('#myModal').modal('show');
+            });
+        }
+
+        $(document).ready(function() {
+            var databidangminat = $('#table_bidangminat').DataTable({
+                serverSide: true,
+                ajax: {
+                    "url": "{{ url('manage/jurusan/bidangminat/list') }}",
+                    "dataType": "json",
+                    "type": "POST"
+                },
+                columns: [{
+                    data: "DT_RowIndex",
+                    className: "text-center",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "nama",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                }, {
+                    data: "aksi",
+                    className: "",
+                    orderable: false,
+                    searchable: false
+                }]
+            });
         });
-    });
-</script>
+    </script>
 @endpush
