@@ -18,11 +18,11 @@ use App\Http\Controllers\KompetensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiPelatihanController;
 use App\Http\Controllers\VerifikasiSertifikasiController;
-use App\Models\KompetensiModel;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\StatistikController;
 
 /*
 |--------------------------------------------------------------------------
@@ -242,14 +242,20 @@ Route::middleware(['auth:admin'])->group(function () {
 
 Route::middleware(['auth:user'])->group(function () {
     Route::get('/user/home', [UserHomeController::class, 'index'])->name('home');
-    // Route::prefix('/profile')
+    Route::prefix('inputdata')->group(function () {
+        Route::get('/pelatihan', [DetailPelatihanController::class, 'formDataPelatihan']);
+        Route::post('/pelatihan/{id}/upload', [DetailPelatihanController::class, 'uploadDataPelatihan']);
+        Route::get('/sertifikasi', [DetailSertifikasiController::class, 'formDataSertifikasi']);
+        Route::post('/sertifikasi/{id}/upload', [DetailSertifikasiController::class, 'uploadDataSertifikasi']);
+    });
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index']);
         Route::get('/{id}/edit', [ProfileController::class, 'edit']);
         Route::post('/{id}/update', [ProfileController::class, 'update']);
     });
-    Route::prefix('/pimpinan')->group(function () {
-        Route::prefix('/verifikasi')->group(function () {
+    Route::prefix('pimpinan')->group(function () {
+        Route::get('/statistik', [StatistikController::class, 'index']);
+        Route::prefix('verifikasi')->group(function () {
             Route::get('/sertifikasi', [VerifikasiSertifikasiController::class, 'index']);
             Route::get('/pelatihan', [VerifikasiPelatihanController::class, 'index']);
         });

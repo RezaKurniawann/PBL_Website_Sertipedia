@@ -194,7 +194,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
+                    <a href="{{ url('pimpinan/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-bar"></i>
                         <p>Statistik</p>
                     </a>
@@ -224,14 +224,14 @@
                         <i class="nav-icon fas fa-award"></i>
                         <p>Input Data</p>
                     </a>
-                    {{-- <div class="dropdown-menu">
-                        <a href="{{ url('/inputdata/sertifikasi') }}" class="dropdown-item ">
+                    <div class="dropdown-menu">
+                        <a href="{{ url('inputdata/sertifikasi') }}" class="dropdown-item ">
                             <i class="fas fa-certificate"></i> Sertifikasi
                         </a>
-                        <a href="{{ url('/inputdata/pelatihan') }}" class="dropdown-item">
+                        <a href="{{ url('inputdata/pelatihan') }}" class="dropdown-item">
                             <i class="fas fa-chalkboard-teacher"></i> Pelatihan
                         </a>
-                    </div> --}}
+                    </div>
                 </li>  
                 <li class="nav-item">
                     <a href="{{ url('/notifikasi') }}" class="nav-link {{ $activeMenu == 'notifikasi' ? 'active' : '' }}">
@@ -251,14 +251,14 @@
                     <i class="nav-icon fas fa-award"></i>
                     <p>Input Data</p>
                 </a>
-                {{-- <div class="dropdown-menu">
-                    <a href="{{ url('/inputdata/sertifikasi') }}" class="dropdown-item ">
+                <div class="dropdown-menu">
+                    <a href="{{ url('inputdata/sertifikasi') }}" class="dropdown-item ">
                         <i class="fas fa-certificate"></i> Sertifikasi
                     </a>
-                    <a href="{{ url('/inputdata/pelatihan') }}" class="dropdown-item">
+                    <a href="{{ url('inputdata/pelatihan') }}" class="dropdown-item">
                         <i class="fas fa-chalkboard-teacher"></i> Pelatihan
                     </a>
-                </div> --}}
+                </div>
             </li>  
             <li class="nav-item">
                 <a href="{{ url('/notifikasi') }}" class="nav-link {{ $activeMenu == 'notifikasi' ? 'active' : '' }}">

@@ -12,12 +12,12 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang Anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('/user') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('manage/user') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/user/' . $user->id . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('manage/user/' . $user->id_user . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">

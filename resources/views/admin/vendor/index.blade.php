@@ -5,8 +5,10 @@
     <div class="card-header">
         <h3 class="card-title">{{ $page->title }}</h3>
         <div class="card-tools">
-            <a href="{{ url('manage/vendor/export_pdf') }}" class="btn btn-primary"><i class="fa fa-file-pdf"></i>Export vendor</a>
-            <button onclick="modalAction('{{ url('manage/vendor/create_ajax') }}')" class="btn btn-sm btn-success mt-1"><i class="fa fa-plus"></i>Tambah Ajax</button>
+            <button onclick="modalAction('{{ url('manage/vendor/import') }}')" class="btn btn-sm btn-info mt-1 "><i class="fa fa-upload"></i> Import vendor</button>
+            <a href="{{ url('manage/vendor/export_excel') }}" class="btn btn-sm btn-success mt-1 "><i class="fa fa-file-excel"></i> Export Excel</a>
+            <a href="{{ url('manage/vendor/export_pdf') }}" class="btn btn-sm btn-danger mt-1 "><i class="fa fa-file-pdf"></i> Export PDF</a>
+            <button onclick="modalAction('{{ url('manage/vendor/create_ajax') }}')" class="btn btn-sm btn-primary mt-1 "><i class="fa fa-plus"></i> Tambah Data</button>
         </div>
     </div>
     <div class="card-body">
@@ -16,6 +18,21 @@
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
+        <div class="row">
+            <div class="col-md-12">
+                <div class="from-group row">
+                    <label class="col-1 control-label col-form-label">Filter:</label>
+                    <div class="col-3">
+                        <select class="form-control" id="kategori" name="kategori" required>
+                            <option value="">- Semua -</option>
+                            <option value="Pelatihan">Pelatihan</option>
+                            <option value="Sertifikasi">Sertifikasi</option>
+                        </select>
+                        <small class="form-text text-muted">Kategori Vendor</small>
+                    </div>
+                </div>
+            </div>
+        </div> 
             <table class="table table-bordered table-striped table-hover table-sm" id="table_vendor">
                 <thead>
                     <tr>
@@ -49,7 +66,10 @@
                 ajax: {
                     "url": "{{ url('manage/vendor/list') }}",
                     "dataType": "json",
-                    "type": "POST"
+                    "type": "POST",
+                    data: function (d) {
+                        d.kategori = $('#kategori').val();
+                    }
                 },
                 columns: [
                     {
@@ -72,7 +92,7 @@
                     {
                         data: "kota",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },
                     {
                         data: "telepon",
@@ -87,7 +107,7 @@
                     {
                         data: "kategori",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },
                     {
                         data: "aksi",
@@ -98,5 +118,8 @@
                 ]
             });
         });
+        $('#kategori').change(function() {
+        datavendor.ajax.reload();
+    });
     </script>
 @endpush

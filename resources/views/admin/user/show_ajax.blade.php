@@ -30,11 +30,11 @@
                 </div> 
                 <table class="table table-sm table-bordered table-striped"> 
                     <tr><th class="text-right col-3">Nama :</th><td class="col-9">{{ $user->nama }}</td></tr>
-                    <tr><th class="text-right col-3">Nama Level :</th><td class="col-9">{{ $user->level->nama }}</td></tr>
-                    <tr><th class="text-right col-3">Nama Prodi :</th><td class="col-9">{{ $user->prodi->nama }}</td></tr>
-                    <tr><th class="text-right col-3">Nama Pangkat :</th><td class="col-9">{{ $user->pangkat->nama }}</td></tr>
-                    <tr><th class="text-right col-3">Nama Golongan :</th><td class="col-9">{{ $user->golongan->nama }}</td></tr>
-                    <tr><th class="text-right col-3">Nama Jabatan :</th><td class="col-9">{{ $user->jabatan->nama }}</td></tr>
+                    <tr><th class="text-right col-3">Level :</th><td class="col-9">{{ $user->level->nama }}</td></tr>
+                    <tr><th class="text-right col-3">Prodi :</th><td class="col-9">{{ $user->prodi->nama }}</td></tr>
+                    <tr><th class="text-right col-3">Pangkat :</th><td class="col-9">{{ $user->pangkat->nama }}</td></tr>
+                    <tr><th class="text-right col-3">Golongan :</th><td class="col-9">{{ $user->golongan->nama }}</td></tr>
+                    <tr><th class="text-right col-3">Jabatan :</th><td class="col-9">{{ $user->jabatan->nama }}</td></tr>
                     <tr><th class="text-right col-3">Email :</th><td class="col-9">{{ $user->email}}</td></tr>
                     <tr><th class="text-right col-3">Nomor Telepon :</th><td class="col-9">{{ $user->no_telp}}</td></tr>
                     <tr><th class="text-right col-3">Username :</th><td class="col-9">{{ $user->username }}</td></tr>
