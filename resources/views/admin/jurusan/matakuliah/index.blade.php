@@ -1,94 +1,101 @@
 @extends('layouts.template')
-
 @section('content')
-<div class="card card-outline card-primary">
-    <div class="card-header">
-        <h3 class="card-title">Daftar Mata Kuliah</h3>
-        <div class="card-tools">
-            <button onclick="modalAction('{{ url('/matakuliah/import') }}')" class="btn btn-info"><i class="fa fa-file-import"></i> Import Mata Kuliah</button>
-            <a href="{{ url('/matakuliah/create') }}" class="btn btn-primary">Tambah Data</a>
-            <button onclick="modalAction('{{ url('/matakuliah/create_ajax') }}')" class="btn btn-success">Tambah (Ajax)</button>
+    <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+        data-keyboard="false" data-width="75%" aria-hidden="true"></div>
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">{{ $page->title }}</h3>
+            <div class="card-tools">
+                <button onclick="modalAction('{{ url('manage/jurusan/matakuliah/import') }}')"
+                    class="btn btn-sm btn-info mt-1 ">
+                    <i class="fa fa-upload"></i> Import matakuliah
+                </button>
+                <a href="{{ url('manage/jurusan/matakuliah/export_excel') }}" class="btn btn-sm btn-success mt-1 ">
+                    <i class="fa fa-file-excel"></i> Export Excel
+                </a>
+                <a href="{{ url('manage/jurusan/matakuliah/export_pdf') }}" class="btn btn-sm btn-danger mt-1 ">
+                    <i class="fa fa-file-pdf"></i> Export PDF
+                </a>
+                <button onclick="modalAction('{{ url('manage/jurusan/matakuliah/create_ajax') }}')"
+                    class="btn btn-sm btn-primary mt-1 ">
+                    <i class="fa fa-plus"></i> Tambah Data
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_matakuliah">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
-    <div class="card-body">
-
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-
-        <table class="table table-bordered table-sm table-striped table-hover" id="table-matakuliah">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Mata Kuliah</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-</div>
-
-<div id="myModal" class="modal fade animate shake" tabindex="-1" data-backdrop="static" data-keyboard="false" data-width="75%"></div>
-
 @endsection
-
-@push('js')
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    function modalAction(url = '') {
-        $('#myModal').load(url, function(){
-            $('#myModal').modal('show');
-        });
+@push('css')
+<style>
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
     }
 
-    var tableMatakuliah;
-    $(document).ready(function(){
-        tableMatakuliah = $('#table-matakuliah').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ url('matakuliah/list') }}",
-                dataType: "json",
-                type: "POST", // Pastikan metode POST digunakan karena CSRF
-                data: function (d) {
-                    d.filter_nama = $('.filter_nama').val(); // Mengirimkan filter nama
-                }
-            },
-            columns: [
-                {
-                    // Nomor urut dari Laravel DataTable addIndexColumn()
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+</style>
+@endpush
+@push('js')
+    <script>
+        function modalAction(url = '') {
+            $('#myModal').load(url, function() {
+                $('#myModal').modal('show');
+            });
+        }
+
+        $(document).ready(function() {
+            var datamatakuliah = $('#table_matakuliah').DataTable({
+                serverSide: true,
+                ajax: {
+                    "url": "{{ url('manage/jurusan/matakuliah/list') }}",
+                    "dataType": "json",
+                    "type": "POST"
+                },
+                columns: [{
                     data: "DT_RowIndex",
-                    // className: "text-center",
+                    className: "text-center",
                     orderable: false,
                     searchable: false
-                },
-                { 
-                    data: "nama", // Kolom Nama Mata Kuliah
-                    width: "35%"
-                },
-                { 
-                    data: "aksi", // Kolom Aksi untuk tombol
-                    // className: "text-center",
-                    width: "50%"
-                }
-            ],
-            order: [[1, 'asc']], // Urutkan data berdasarkan ID Mata Kuliah
-            pageLength: 10 // Batas data per halaman
+                }, {
+                    data: "nama",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                }, {
+                    data: "aksi",
+                    className: "",
+                    orderable: false,
+                    searchable: false
+                }]
+            });
         });
-
-        // Ketika filter nama berubah, muat ulang data tabel
-        $('.filter_nama').on('input', function(){
-            tableMatakuliah.draw();
-        });
-    });
-</script>
+    </script>
 @endpush

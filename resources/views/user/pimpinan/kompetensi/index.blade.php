@@ -5,7 +5,7 @@
     <div class="card card-outline card-primary shadow-sm">
         <div class="card-header ">
             <h3 class="card-title font-weight-bold">{{ $page->title }}</h3>
-            <div class="card-tools">
+            {{-- <div class="card-tools">
                 <button onclick="modalAction('{{ url('manage/jurusan/kompetensi/import') }}')"
                     class="btn btn-sm btn-info mt-1 ">
                     <i class="fa fa-upload"></i> Import Kompetensi
@@ -20,7 +20,7 @@
                     class="btn btn-sm btn-primary mt-1 ">
                     <i class="fa fa-plus"></i> Tambah Data
                 </button>
-            </div>
+            </div> --}}
         </div>
     <div class="card-body bg-light">
         <!-- Filter data -->
@@ -67,7 +67,7 @@
                     <th>Prodi</th>
                     <th>Nama Kompetensi</th>
                     <th>Deskripsi</th>
-                    <th>Aksi</th>
+                    {{-- <th>Aksi</th> --}}
                 </tr>
             </thead>
         </table>
@@ -118,7 +118,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                "url": "{{ url('manage/jurusan/kompetensi/list') }}",
+                "url": "{{ url('pimpinan/kompetensi/list') }}",
                 "dataType": "json",
                 "type": "POST", 
                 "data": function (d) {
@@ -135,26 +135,19 @@
                 },
                 { 
                     data: "prodi",
-                    width: "15%",
+                    width: "20%",
                     orderable: true,
                     searchable: true
                 },
                 { 
                     data: "nama",
-                    width: "20%",
+                    width: "30%",
                     orderable: true,
                     searchable: true
                 },
                 { 
                     data: "deskripsi",
-                    width: "35%",
-                    orderable: false,
-                    searchable: false
-                },
-                { 
-                    data: "aksi",
-                    className: "text-center",
-                    width: "20%",
+                    width: "45%",
                     orderable: false,
                     searchable: false
                 }

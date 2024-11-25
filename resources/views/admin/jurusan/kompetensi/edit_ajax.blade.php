@@ -12,12 +12,12 @@
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
                     Data yang Anda cari tidak ditemukan.
                 </div>
-                <a href="{{ url('/kompetensi') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('manage/jurusan/kompetensi') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/kompetensi/' . $kompetensi->kompetensi_id . '/update_ajax') }}" method="POST" id="form-edit">
+    <form action="{{ url('manage/jurusan/kompetensi/' . $kompetensi->id_kompetensi . '/update_ajax') }}" method="POST" id="form-edit">
         @csrf
         @method('PUT')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -31,13 +31,13 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Prodi</label>
-                        <select name="prodi_id" id="prodi_id" class="form-control" required>
+                        <select name="id_prodi" id="id_prodi" class="form-control" required>
                             <option value="">- Pilih Prodi -</option>
                             @foreach ($prodi as $p)
                                 <option {{ $p->id_prodi == $kompetensi->id_prodi ? 'selected' : '' }} value="{{ $p->id_prodi }}">{{ $p->nama }}</option>
                             @endforeach
                         </select>
-                        <small id="error-prodi_id" class="error-text form-text text-danger"></small>
+                        <small id="error-id_prodi" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Nama Kompetensi</label>
@@ -61,7 +61,7 @@
         $(document).ready(function () {
             $("#form-edit").validate({
                 rules: {
-                    prodi_id: {
+                    id_prodi: {
                         required: true,
                         number: true
                     },

@@ -1,4 +1,5 @@
-@empty($kompetensi)
+
+@empty($bidangminat)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,40 +10,32 @@
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
-                    Data yang Anda cari tidak ditemukan.
+                    Data yang anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('manage/jurusan/kompetensi') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('manage/jurusan/bidangminat') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('manage/jurusan/kompetensi/' . $kompetensi->id_kompetensi . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('manage/jurusan/bidangminat/' . $bidangminat->id_bidangminat . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Kompetensi</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data bidangminat</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
                         <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
-                        Apakah Anda yakin ingin menghapus data berikut ini?
+                        Apakah Anda ingin menghapus data seperti di bawah ini?
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">Prodi :</th>
-                            <td class="col-9">{{ $kompetensi->prodi->nama ?? '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Nama Kompetensi :</th>
-                            <td class="col-9">{{ $kompetensi->nama }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Deskripsi :</th>
-                            <td class="col-9">{{ $kompetensi->deskripsi }}</td>
+                            <th class="text-right col-3">Nama bidangminat :</th>
+                            <td class="col-9">{{ $bidangminat->nama }}</td>
                         </tr>
                     </table>
                 </div>
@@ -70,7 +63,7 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                tableKompetensi.ajax.reload(); // Reload datatable
+                                databidangminat.ajax.reload();
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {
@@ -82,13 +75,6 @@
                                     text: response.message
                                 });
                             }
-                        },
-                        error: function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: 'Tidak dapat memproses permintaan.'
-                            });
                         }
                     });
                     return false;

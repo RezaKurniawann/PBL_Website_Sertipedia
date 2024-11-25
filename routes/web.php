@@ -242,23 +242,30 @@ Route::middleware(['auth:admin'])->group(function () {
 
 Route::middleware(['auth:user'])->group(function () {
     Route::get('/user/home', [UserHomeController::class, 'index'])->name('home');
+    // Route::prefix('/profile')
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'index']);
+        Route::get('/{id}/edit', [ProfileController::class, 'edit']);
+        Route::post('/{id}/update', [ProfileController::class, 'update']);
+    });
     Route::prefix('/pimpinan')->group(function () {
         Route::prefix('/verifikasi')->group(function () {
             Route::get('/sertifikasi', [VerifikasiSertifikasiController::class, 'index']);
             Route::get('/pelatihan', [VerifikasiPelatihanController::class, 'index']);
         });
+        Route::prefix('kompetensi')->group(function () {
+            Route::get('/', [KompetensiController::class, 'index_pimpinan']);
+            Route::post('/list', [KompetensiController::class, 'list_pimpinan']);
+            Route::post('/ajax', [KompetensiController::class, 'store_ajax']);
+            Route::get('/{id}/show_ajax', [KompetensiController::class, 'show_ajax']);
+        });
     });
 });
 
-Route::get('/user/profile', [ProfileController::class, 'index'])->name('profile');
-Route::get('profile', [ProfileController::class, 'index'])->name('profile.show');
-Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
-Route::get('/kompetensi', [KompetensiController::class, 'index']);
-Route::post('/kompetensi/list', [KompetensiController::class, 'list'])->name('kompetensi.list');
-Route::get('/kompetensi/{id}/detail_ajax', [KompetensiController::class, 'detail_ajax']);
-
+// Route::get('/', [ProfileController::class, 'index'])->name('profile');
+// Route::get('profile', [ProfileController::class, 'index'])->name('profile.show');
+// Route::get('/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+// Route::put('/{id}update', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::post('matakuliah/list', [MatakuliahController::class, 'list']);
 

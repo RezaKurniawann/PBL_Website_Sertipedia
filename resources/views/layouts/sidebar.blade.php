@@ -188,7 +188,7 @@
             @elseif (Auth::user()->level->nama == 'Pimpinan')
                 {{-- <li class="nav-header">Header</li> --}}
                 <li class="nav-item">
-                    <a href="{{ url('/user/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                    <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Profile</p>
                     </a>
@@ -214,7 +214,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/kompetensi') }}" class="nav-link {{ $activeMenu == 'kompetensi' ? 'active' : '' }}">
+                    <a href="{{ url('pimpinan/kompetensi') }}" class="nav-link {{ $activeMenu == 'kompetensi' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-school"></i>
                         <p>Kompetensi Prodi</p>
                     </a>
@@ -241,7 +241,7 @@
                 </li>
             @elseif (Auth::user()->level->nama == 'Dosen') 
             <li class="nav-item">
-                <a href="{{ url('/user/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>
