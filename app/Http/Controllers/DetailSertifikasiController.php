@@ -95,12 +95,12 @@ class DetailSertifikasiController extends Controller
     
                 $detailSertifikasi->save();
         
-                return redirect()->back()->with('success', 'Data Berhasil Diupload!');
+                return redirect()->back()->with('status', 'Profil berhasil diperbarui');
             } else {
-                return redirect()->back()->with('error', 'Detail Sertifikasi Tidak Ditemukan!.');
+                return response()->json(['message' => 'Detail sertifikasi tidak ditemukan'], 404);
             }
         } else {
-            return redirect()->back()->with('error', 'Sertifikasi Tidak Ditemukan.');
+            return response()->json(['message' => 'sertifikasi tidak ditemukan'], 404);
         }
     }
 }

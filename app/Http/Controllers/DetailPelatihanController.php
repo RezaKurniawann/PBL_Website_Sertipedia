@@ -94,13 +94,12 @@ class DetailPelatihanController extends Controller
     
                 $detailPelatihan->save();
         
-                return redirect()->back()->with('success', 'Data Berhasil Diupload!');
+                return redirect()->back()->with('status', 'Profil berhasil diperbarui');
             } else {
-                return redirect()->back()->with('error', 'Detail Pelatihan tidak ditemukan.');
-
+                return response()->json(['message' => 'Detail Pelatihan tidak ditemukan'], 404);
             }
         } else {
-            return redirect()->back()->with('error', 'Pelatihan tidak ditemukan.');
+            return response()->json(['message' => 'Pelatihan tidak ditemukan'], 404);
         }
     }
 }
