@@ -116,7 +116,7 @@ class PelatihanController extends Controller
 
     public function edit_ajax(string $id)
     {
-        $pelatihan = PelatihanModel::find($id);
+        $pelatihan = PelatihanModel::with(['matakuliah', 'bidangminat'])->find($id);
         $vendor = VendorModel::select('id_vendor', 'nama', 'kategori')->get();
         $periode = PeriodeModel::select('id_periode', 'tahun')->get();
         $matakuliah = MataKuliahModel::select('id_matakuliah', 'nama')->get();
@@ -137,7 +137,11 @@ class PelatihanController extends Controller
                 'level_pelatihan' => 'required|string',
                 'tanggal_awal' => 'required|date|before_or_equal:tanggal_akhir',
                 'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
-                'id_periode' => 'required|integer'
+                'id_periode' => 'required|integer',
+                'mata_kuliah' => 'required|array|min:1',
+                'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
+                'bidang_minat' => 'required|array|min:1',
+                'bidang_minat.*' => 'required|integer|exists:m_bidangminat,id_bidangminat',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -150,9 +154,42 @@ class PelatihanController extends Controller
                 ]);
             }
 
-            $check = PelatihanModel::find($id);
-            if ($check) {
-                $check->update($request->all());
+            $pelatihan = PelatihanModel::find($id);
+            if ($pelatihan) {
+                // Hapus data lama di tabel `t_pelatihan_matakuliah` dan `t_pelatihan_bidangminat`
+                DB::table('t_pelatihan_matakuliah')->where('id_pelatihan', $id)->delete();
+                DB::table('t_pelatihan_bidangminat')->where('id_pelatihan', $id)->delete();
+
+                // Update data utama di tabel `pelatihan`
+                $pelatihan->update([
+                    'nama' => $request->input('nama'),
+                    'id_vendor' => $request->input('id_vendor'),
+                    'kuota' => $request->input('kuota'),
+                    'lokasi' => $request->input('lokasi'),
+                    'biaya' => $request->input('biaya'),
+                    'level_pelatihan' => $request->input('level_pelatihan'),
+                    'tanggal_awal' => $request->input('tanggal_awal'),
+                    'tanggal_akhir' => $request->input('tanggal_akhir'),
+                    'id_periode' => $request->input('id_periode'),
+                ]);
+
+                // Insert ulang data baru ke tabel `t_pelatihan_matakuliah`
+                $timestamps = ['created_at' => now(), 'updated_at' => now()]; // Tambahkan timestamp
+                foreach ($request->input('mata_kuliah') as $id_matakuliah) {
+                    DB::table('t_pelatihan_matakuliah')->insert(array_merge([
+                        'id_pelatihan' => $id,
+                        'id_matakuliah' => $id_matakuliah,
+                    ], $timestamps));
+                }
+
+                // Insert ulang data baru ke tabel `t_pelatihan_bidangminat`
+                foreach ($request->input('bidang_minat') as $id_bidangminat) {
+                    DB::table('t_pelatihan_bidangminat')->insert(array_merge([
+                        'id_pelatihan' => $id,
+                        'id_bidangminat' => $id_bidangminat,
+                    ], $timestamps));
+                }
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil diupdate'
@@ -197,7 +234,13 @@ class PelatihanController extends Controller
             ];
 
             $validator = Validator::make($request->all(), $rules);
-
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'    => false, // response status, false: error/gagal, true: berhasil
+                    'message'   => 'Validasi Gagal',
+                    'msgField'  => $validator->errors(), // pesan error validasi
+                ]);
+            }
             try {
                 // Gunakan transaction untuk menjamin konsistensi data
                 DB::beginTransaction();
