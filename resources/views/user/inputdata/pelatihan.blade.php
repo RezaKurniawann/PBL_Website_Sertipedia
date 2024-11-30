@@ -4,11 +4,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg border-0 rounded-lg">
-                    <div class="card-header text-center"
-                        style="background-image: linear-gradient(135deg, #6a82fb, #fc5c7d); color: #fff; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <div class="card-header bg-primary text-white">
                     <h4>{{ __('Form Input Data Pelatihan') }}</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body bg-light">
                         @if (session('success'))
                             <div class="alert alert-success">{{ session('success') }} </div>
                         @endif
