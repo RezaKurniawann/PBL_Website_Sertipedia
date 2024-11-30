@@ -87,6 +87,60 @@
                         </select>
                         <small id="error-id_periode" class="error-text form-text text-danger"></small>
                     </div>
+
+                    <div id="mata-kuliah-fields">
+                        <h5>Mata Kuliah</h5>
+                        @foreach ($sertifikasi->matakuliah as $m)
+                            <div class="mata-kuliah-row form-row">
+                                <div class="form-group col-md-9">
+                                    <select name="mata_kuliah[]" class="form-control" required>
+                                        <option value="">Pilih Mata Kuliah</option>
+                                        @foreach ($matakuliah as $mk)
+                                            <option value="{{ $mk->id_matakuliah }}"
+                                                {{ isset($m) && $m->id_matakuliah == $mk->id_matakuliah ? 'selected' : '' }}>
+                                                {{ $mk->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3 d-flex align-items-center">
+                                    <button type="button" class="btn btn-success btn-add-mata-kuliah mr-2">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-remove-mata-kuliah">
+                                        <i class="fas fa-trash"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div id="bidang-minat-fields">
+                        <h5>Bidang Minat</h5>
+                        @foreach ($sertifikasi->bidangminat as $b)
+                            <div class="bidang-minat-row form-row">
+                                <div class="form-group col-md-9">
+                                    <select name="bidang_minat[]" class="form-control" required>
+                                        <option value="">Pilih Bidang Minat</option>
+                                        @foreach ($bidangminat as $bm)
+                                            <option value="{{ $bm->id_bidangminat }}"
+                                                {{ isset($b) && $b->id_bidangminat == $bm->id_bidangminat ? 'selected' : '' }}>
+                                                {{ $bm->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3 d-flex align-items-center">
+                                    <button type="button" class="btn btn-success btn-add-bidang-minat mr-2">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-remove-bidang-minat">
+                                        <i class="fas fa-trash"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
@@ -96,6 +150,112 @@
         </div>
     </form>
     <script>
+        // Tambahkan event handler saat modal pertama kali dibuka
+        $('#myModal').on('shown.bs.modal', function() {
+            // Hapus event handler lama jika ada
+            $(document).off('click', '.btn-add-mata-kuliah');
+            $(document).off('click', '.btn-add-bidang-minat');
+
+            // Tambahkan event handler baru
+            $(document).on('click', '.btn-add-mata-kuliah', function() {
+                const newField = $('.mata-kuliah-row:first').clone();
+                newField.find('select').val(''); // Reset the select field value
+                $('#mata-kuliah-fields').append(newField);
+            });
+
+            $(document).on('click', '.btn-add-bidang-minat', function() {
+                const newField = $('.bidang-minat-row:first').clone();
+                newField.find('select').val(''); // Reset the select field value
+                $('#bidang-minat-fields').append(newField);
+            });
+        });
+
+        function showToast(message) {
+            const toastHTML = `
+        <div class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050; min-width: 250px; border-radius: 10px; background: linear-gradient(45deg, #ff6b6b, #f0a500); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+            <div class="d-flex">
+                <div class="toast-body" style="padding: 10px 15px; font-size: 16px;">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    `;
+            $('body').append(toastHTML);
+            const toastElement = $('.toast').last();
+            const toast = new bootstrap.Toast(toastElement[0]);
+            toast.show();
+
+            toastElement.on('hidden.bs.toast', function() {
+                $(this).remove();
+            });
+        }
+
+        function checkDuplicates() {
+            const mataKuliahValues = [];
+            const bidangMinatValues = [];
+            let duplicateFound = false;
+
+            // Mata Kuliah validation
+            $("select[name='mata_kuliah[]']").each(function() {
+                const value = $(this).val();
+                if (mataKuliahValues.includes(value) && value !== "") {
+                    duplicateFound = true;
+                    showToast('Mata Kuliah tidak boleh sama.');
+                }
+                mataKuliahValues.push(value);
+            });
+
+            // Bidang Minat validation
+            $("select[name='bidang_minat[]']").each(function() {
+                const value = $(this).val();
+                if (bidangMinatValues.includes(value) && value !== "") {
+                    duplicateFound = true;
+                    showToast('Bidang Minat tidak boleh sama.');
+                }
+                bidangMinatValues.push(value);
+            });
+
+            return !duplicateFound; // Prevent form submission if duplicate found
+        }
+
+        $(document).on('click', '.btn-add-mata-kuliah', function() {
+            const newField = $('.mata-kuliah-row:first').clone();
+            newField.find('select').val(''); // Reset the select field value
+
+            // Re-add the "Add" button to the cloned row
+            newField.find('.btn-add-mata-kuliah').show();
+
+            // Append the cloned field to the mata-kuliah-fields container
+            $('#mata-kuliah-fields').append(newField);
+        });
+
+        $(document).on('click', '.btn-remove-mata-kuliah', function() {
+            if ($('.mata-kuliah-row').length > 1) {
+                $(this).closest('.mata-kuliah-row').remove();
+            } else {
+                showToast('Minimal Satu Mata Kuliah Harus Ada.');
+            }
+        });
+
+        $(document).on('click', '.btn-add-bidang-minat', function() {
+            const newField = $('.bidang-minat-row:first').clone();
+            newField.find('select').val(''); // Reset the select field value
+
+            // Re-add the "Add" button to the cloned row
+            newField.find('.btn-add-bidang-minat').show();
+
+            // Append the cloned field to the bidang-minat-fields container
+            $('#bidang-minat-fields').append(newField);
+        });
+
+        $(document).on('click', '.btn-remove-bidang-minat', function() {
+            if ($('.bidang-minat-row').length > 1) {
+                $(this).closest('.bidang-minat-row').remove();
+            } else {
+                showToast('Minimal Satu Bidang Minat Harus Ada.');
+            }
+        });
         $(document).ready(function() {
             $("#form-edit").validate({
                 rules: {
@@ -121,9 +281,20 @@
                     },
                     id_periode: {
                         required: true
+                    },
+                    "mata_kuliah[]": {
+                        required: true
+                    },
+                    "bidang_minat[]": {
+                        required: true
                     }
                 },
                 submitHandler: function(form) {
+                    // var formData = $(form).serialize();
+                    // console.log("Data yang dikirim: ", formData);
+                    if (!checkDuplicates()) {
+                        return false;
+                    }
                     $.ajax({
                         url: form.action,
                         type: form.method,

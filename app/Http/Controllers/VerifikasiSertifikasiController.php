@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Http\Controllers;
+
 use App\Models\MataKuliahModel;
 use App\Models\BidangMinatModel;
 use App\Models\PeriodeModel;
@@ -26,11 +26,25 @@ class VerifikasiSertifikasiController extends Controller
          $activeMenu = 'verifikasi';
          $activeSubMenu = 'sertifikasi';
          
+        // Data untuk dropdown
          $matakuliah = MataKuliahModel::all();
          $bidangminat = BidangMinatModel::all();
          $periode = PeriodeModel::all();
          $vendor = VendorModel::all();
          
-         return view('user.pimpinan.verifikasi.sertifikasi', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'activeMenu' => $activeMenu]);
+        // Query untuk data pelatihan
+        $sertifikasi = DetailSertifikasiModel::with(['sertifikasi', 'user'])
+            ->get();
+
+        return view('user.pimpinan.verifikasi.sertifikasi', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'matakuliah' => $matakuliah,
+            'bidangminat' => $bidangminat,
+            'periode' => $periode,
+            'vendor' => $vendor,
+            'sertifikasi' => $sertifikasi, // Data pelatihan dikirim ke view
+            'activeMenu' => $activeMenu
+        ]);
      }
 }

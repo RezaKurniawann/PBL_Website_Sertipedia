@@ -7,6 +7,8 @@ use App\Models\ProdiModel;
 use App\Models\PangkatModel;
 use App\Models\GolonganModel;
 use App\Models\JabatanModel;
+use App\Models\MataKuliahModel;
+use App\Models\BidangMinatModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -14,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -32,9 +35,9 @@ class UserController extends Controller
         $level = LevelModel::all();
 
         return view('admin.user.index', [
-            'breadcrumb' => $breadcrumb, 
-            'page' => $page, 
-            'level' => $level, 
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'level' => $level,
             'activeMenu' => $activeMenu
         ]);
     }
@@ -60,14 +63,17 @@ class UserController extends Controller
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html 
             ->make(true);
-    } 
+    }
 
     public function show_ajax(string $id)
     {
-        $users = UserModel::find($id);
+        $users = UserModel::with(['matakuliah', 'bidangminat'])->find($id);
         if ($users) {
-            return view('admin.user.show_ajax', ['user' => $users]);
-
+            return view('admin.user.show_ajax', [
+                'user' => $users,
+                'matakuliah' => $users->matakuliah,
+                'bidangminat' => $users->bidangminat
+            ]);
         } else {
             return response()->json([
                 'status' => false,
@@ -83,13 +89,17 @@ class UserController extends Controller
         $pangkat = PangkatModel::select('id_pangkat', 'nama')->get();
         $golongan = GolonganModel::select('id_golongan', 'nama')->get();
         $jabatan = JabatanModel::select('id_jabatan', 'nama')->get();
-
+        $matakuliah = MataKuliahModel::select('id_matakuliah', 'nama')->get();
+        $bidangminat = BidangMinatModel::select('id_bidangminat', 'nama')->get();
         return view('admin.user.create_ajax')
             ->with('level', $level)
             ->with('prodi', $prodi)
             ->with('pangkat', $pangkat)
             ->with('golongan', $golongan)
-            ->with('jabatan', $jabatan);
+            ->with('jabatan', $jabatan)
+            ->with('matakuliah', $matakuliah)
+            ->with('bidangminat', $bidangminat)
+        ;
     }
 
     public function store_ajax(Request $request)
@@ -100,12 +110,16 @@ class UserController extends Controller
                 'id_level'   => 'required|integer',
                 'id_prodi'   => 'required|integer',
                 'id_pangkat' => 'required|integer',
-                'id_golongan'=> 'required|integer',
+                'id_golongan' => 'required|integer',
                 'id_jabatan' => 'required|integer',
                 'email'      => 'required|email|max:50',
                 'no_telp'    => 'required|string|max:15',
                 'username' => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
-                'password'   => 'required|string|min:5|max:20'
+                'password'   => 'required|string|min:5|max:20',
+                'mata_kuliah' => 'required|array|min:1',
+                'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
+                'bidang_minat' => 'required|array|min:1',
+                'bidang_minat.*' => 'required|integer|exists:m_bidangminat,id_bidangminat',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -116,24 +130,56 @@ class UserController extends Controller
                     'msgField'  => $validator->errors(), // pesan error validasi
                 ]);
             }
-            UserModel::create($request->all());
-            return response()->json([
-                'status'    => true,
-                'message'   => 'Data level berhasil disimpan'
-            ]);
-        }
+            try {
+                // Gunakan transaction untuk menjamin konsistensi data
+                DB::beginTransaction();
 
+                // Simpan data user dan dapatkan ID-nya
+                $user = UserModel::create($request->all());
+                $idUser = $user->id_user;
+                foreach ($request->mata_kuliah as $idMatakuliah) {
+                    DB::table('t_user_matakuliah')->insert([
+                        'id_user' => $idUser,
+                        'id_matakuliah' => $idMatakuliah,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                foreach ($request->bidang_minat as $idBidangMinat) {
+                    DB::table('t_user_bidangminat')->insert([
+                        'id_user' => $idUser,
+                        'id_bidangminat' => $idBidangMinat,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data user berhasil disimpan',
+                ]);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+                ]);
+            }
+        }
         return redirect('/');
     }
 
     public function edit_ajax(string $id)
     {
-        $user = UserModel::find($id);
+        $user = UserModel::with(['matakuliah', 'bidangminat'])->find($id);
         $level = LevelModel::select('id_level', 'nama')->get();
         $prodi = ProdiModel::select('id_prodi', 'nama')->get();
         $pangkat = PangkatModel::select('id_pangkat', 'nama')->get();
         $golongan = GolonganModel::select('id_golongan', 'nama')->get();
         $jabatan = JabatanModel::select('id_jabatan', 'nama')->get();
+        $matakuliah = MataKuliahModel::select('id_matakuliah', 'nama')->get();
+        $bidangminat = BidangMinatModel::select('id_bidangminat', 'nama')->get();
+
 
         return view('admin.user.edit_ajax', [
             'user' => $user,
@@ -142,6 +188,9 @@ class UserController extends Controller
             'pangkat' => $pangkat,
             'golongan' => $golongan,
             'jabatan' => $jabatan,
+            'matakuliah' => $matakuliah,
+            'bidangminat' => $bidangminat,
+
         ]);
     }
 
@@ -153,11 +202,15 @@ class UserController extends Controller
                 'id_level'   => 'required|integer',
                 'id_prodi'   => 'required|integer',
                 'id_pangkat' => 'required|integer',
-                'id_golongan'=> 'required|integer',
+                'id_golongan' => 'required|integer',
                 'id_jabatan' => 'required|integer',
                 'email'      => 'required|email|max:50',
                 'no_telp'    => 'required|string|max:15',
                 'username'   => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
+                'mata_kuliah' => 'required|array|min:1',
+                'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
+                'bidang_minat' => 'required|array|min:1',
+                'bidang_minat.*' => 'required|integer|exists:m_bidangminat,id_bidangminat',
             ];
             // use Illuminate\Support\Facades\Validator;
             $validator = Validator::make($request->all(), $rules);
@@ -168,9 +221,42 @@ class UserController extends Controller
                     'msgField' => $validator->errors() // menunjukkan field mana yang error
                 ]);
             }
-            $check = userModel::find($id);
-            if ($check) {
-                $check->update($request->all());
+            $user = UserModel::find($id);
+            if ($user) {
+                // Hapus data lama di tabel `t_user_matakuliah` dan `t_user_bidangminat`
+                DB::table('t_user_matakuliah')->where('id_user', $id)->delete();
+                DB::table('t_user_bidangminat')->where('id_user', $id)->delete();
+
+                // Update data utama di tabel `user`
+                $user->update([
+                    'nama' => $request->input('nama'),
+                    'id_level' => $request->input('id_level'),
+                    'id_prodi' => $request->input('id_prodi'),
+                    'id_pangkat' => $request->input('id_pangkat'),
+                    'id_golongan' => $request->input('id_golongan'),
+                    'id_jabatan' => $request->input('id_jabatan'),
+                    'email' => $request->input('email'),
+                    'no_telp' => $request->input('no_telp'),
+                    'username' => $request->input('username'),
+                ]);
+
+                // Insert ulang data baru ke tabel `t_user_matakuliah`
+                $timestamps = ['created_at' => now(), 'updated_at' => now()]; // Tambahkan timestamp
+                foreach ($request->input('mata_kuliah') as $id_matakuliah) {
+                    DB::table('t_user_matakuliah')->insert(array_merge([
+                        'id_user' => $id,
+                        'id_matakuliah' => $id_matakuliah,
+                    ], $timestamps));
+                }
+
+                // Insert ulang data baru ke tabel `t_user_bidangminat`
+                foreach ($request->input('bidang_minat') as $id_bidangminat) {
+                    DB::table('t_user_bidangminat')->insert(array_merge([
+                        'id_user' => $id,
+                        'id_bidangminat' => $id_bidangminat,
+                    ], $timestamps));
+                }
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Data berhasil diupdate'
@@ -186,8 +272,12 @@ class UserController extends Controller
     }
     public function confirm_ajax(string $id)
     {
-        $user = userModel::find($id);
-        return view('admin.user.confirm_ajax', ['user' => $user]);
+        $user = userModel::with(['matakuliah', 'bidangminat'])->find($id);
+        return view('admin.user.confirm_ajax', [
+            'user' => $user,
+            'matakuliah' => $user->matakuliah,
+            'bidangminat' => $user->bidangminat
+        ]);
     }
     public function delete_ajax(Request $request, $id)
     {
