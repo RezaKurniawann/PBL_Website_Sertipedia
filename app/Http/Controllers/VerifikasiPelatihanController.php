@@ -5,6 +5,8 @@ use App\Models\MataKuliahModel;
 use App\Models\BidangMinatModel;
 use App\Models\PeriodeModel;
 use App\Models\VendorModel;
+use App\Models\PelatihanModel; // Tambahkan Model untuk m_pelatihan
+use App\Models\DetailPelatihanModel;
 
 use Illuminate\Http\Request;
 

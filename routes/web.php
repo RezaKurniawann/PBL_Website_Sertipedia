@@ -23,6 +23,8 @@ use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\RekomPelatihanController;
+use App\Http\Controllers\RekomSertifikasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -235,6 +237,16 @@ Route::middleware(['auth:admin'])->group(function () {
                 Route::post('/import_ajax', [KompetensiController::class, 'import_ajax']);
                 Route::get('/export_excel', [KompetensiController::class, 'export_excel']);
                 Route::get('/export_pdf', [KompetensiController::class, 'export_pdf']);
+            });
+        });
+        Route::prefix('rekomendasi')->group(function () {
+            Route::prefix('pelatihan')->group(function () {
+                Route::get('/', [RekomPelatihanController::class, 'index']);
+                Route::post('/ajax', [RekomPelatihanController::class, 'store_ajax']);
+            });
+            Route::prefix('sertifikasi')->group(function () {
+                Route::get('/', [RekomSertifikasiController::class, 'index']);
+                Route::post('/ajax', [RekomSertifikasiController::class, 'store_ajax']);
             });
         });
     });

@@ -5,6 +5,8 @@ use App\Models\MataKuliahModel;
 use App\Models\BidangMinatModel;
 use App\Models\PeriodeModel;
 use App\Models\VendorModel;
+use App\Models\SertifikasinModel; // Tambahkan Model untuk m_Sertifikasin
+use App\Models\DetailSertifikasinModel;
 
 use Illuminate\Http\Request;
 
