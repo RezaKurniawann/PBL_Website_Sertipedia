@@ -5,13 +5,13 @@
 <div class="card">
     <table class="table table-hover">
         <thead>
-            <tr>
-                <th scope="col">Nama Dosen</th>
-                <th scope="col">Jenis Sertifikasi</th>
-                <th scope="col">Tanggal Pengajuan</th>
-                <th scope="col">Status</th>
-                <th scope="col">Aksi</th>
-            </tr>
+          <tr>
+            <th scope="col">Nama Dosen</th>
+            <th scope="col">Jenis Sertifikasi</th>
+            <th scope="col">Tanggal Pengajuan</th>
+            <th scope="col">Status</th>
+            <th scope="col">Aksi</th>
+          </tr>
         </thead>
         <tbody>
             @foreach ($sertifikasi as $item)
@@ -23,10 +23,10 @@
                     <td>
                         <button class="btn btn-primary btn-sm">Detail</button>
                     </td>
-                </tr>
+          </tr>
             @endforeach
         </tbody>
-    </table>
+      </table>
 </div>
 
 @endsection

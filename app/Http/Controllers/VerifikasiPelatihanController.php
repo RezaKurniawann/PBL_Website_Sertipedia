@@ -13,25 +13,25 @@ use Illuminate\Http\Request;
 class VerifikasiPelatihanController extends Controller
 {
     public function index()
-    {
-        $breadcrumb = (object) [
-            'title' => 'Daftar Pengajuan Pelatihan',
-            'list' => ['Home', 'Pelatihan']
-        ];
-
-        $page = (object) [
-            'title' => 'Daftar Pengajuan Pelatihan'
-        ];
-
-        $activeMenu = 'verifikasi';
-        $activeSubMenu = 'pelatihan';
-
+     {
+         $breadcrumb = (object) [
+             'title' => 'Daftar Pengajuan Pelatihan',
+             'list' => ['Home', 'Pelatihan']
+         ];
+ 
+         $page = (object) [
+             'title' => 'Daftar Pengajuan Pelatihan'
+         ];
+ 
+         $activeMenu = 'verifikasi';
+         $activeSubMenu = 'pelatihan';
+         
         // Data untuk dropdown
-        $matakuliah = MataKuliahModel::all();
-        $bidangminat = BidangMinatModel::all();
-        $periode = PeriodeModel::all();
-        $vendor = VendorModel::all();
-
+         $matakuliah = MataKuliahModel::all();
+         $bidangminat = BidangMinatModel::all();
+         $periode = PeriodeModel::all();
+         $vendor = VendorModel::all();
+         
         // Query untuk data pelatihan
         $pelatihan = DetailPelatihanModel::with(['pelatihan', 'user'])
             ->get();
@@ -46,5 +46,5 @@ class VerifikasiPelatihanController extends Controller
             'pelatihan' => $pelatihan, 
             'activeMenu' => $activeMenu
         ]);
-    }
+     }
 }

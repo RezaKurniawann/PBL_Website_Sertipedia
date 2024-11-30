@@ -13,25 +13,25 @@ use Illuminate\Http\Request;
 class VerifikasiSertifikasiController extends Controller
 {
     public function index()
-    {
-        $breadcrumb = (object) [
-            'title' => 'Daftar Pengajuan Sertifikasi',
-            'list' => ['Home', 'Sertifikasi']
-        ];
-
-        $page = (object) [
-            'title' => 'Daftar Pengajuan Sertifikasi'
-        ];
-
-        $activeMenu = 'verifikasi';
-        $activeSubMenu = 'sertifikasi';
-
+     {
+         $breadcrumb = (object) [
+             'title' => 'Daftar Pengajuan Sertifikasi',
+             'list' => ['Home', 'Sertifikasi']
+         ];
+ 
+         $page = (object) [
+             'title' => 'Daftar Pengajuan Sertifikasi'
+         ];
+ 
+         $activeMenu = 'verifikasi';
+         $activeSubMenu = 'sertifikasi';
+         
         // Data untuk dropdown
-        $matakuliah = MataKuliahModel::all();
-        $bidangminat = BidangMinatModel::all();
-        $periode = PeriodeModel::all();
-        $vendor = VendorModel::all();
-
+         $matakuliah = MataKuliahModel::all();
+         $bidangminat = BidangMinatModel::all();
+         $periode = PeriodeModel::all();
+         $vendor = VendorModel::all();
+         
         // Query untuk data pelatihan
         $sertifikasi = DetailSertifikasiModel::with(['sertifikasi', 'user'])
             ->get();
@@ -46,5 +46,5 @@ class VerifikasiSertifikasiController extends Controller
             'sertifikasi' => $sertifikasi, // Data pelatihan dikirim ke view
             'activeMenu' => $activeMenu
         ]);
-    }
+     }
 }
