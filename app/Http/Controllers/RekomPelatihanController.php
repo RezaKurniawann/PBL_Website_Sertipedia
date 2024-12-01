@@ -7,6 +7,7 @@ use App\Models\BidangMinatModel;
 use App\Models\PelatihanModel;
 use App\Models\PeriodeModel;
 use App\Models\VendorModel;
+use App\Models\UserModel;
 
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -36,8 +37,9 @@ class RekomPelatihanController extends Controller
         $periode = PeriodeModel::all();
         $vendor = VendorModel::all();
         $pelatihan = PelatihanModel::all();
+        $dosen = UserModel::all();
 
-        return view('admin.rekomendasi.pelatihan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'pelatihan' => $pelatihan, 'activeMenu' => $activeMenu]);
+        return view('admin.rekomendasi.pelatihan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'pelatihan' => $pelatihan, 'activeMenu' => $activeMenu, 'dosen' => $dosen]);
     }
     public function store_ajax(Request $request)
     {
