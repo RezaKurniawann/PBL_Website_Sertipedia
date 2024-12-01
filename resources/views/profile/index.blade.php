@@ -76,7 +76,7 @@
     <div class="card profile-card card-outline card-primary">
         <div class="card-body">
             <div class="text-center">
-                <img src="{{ $user->avatar ? asset('storage/photos/' . $user->avatar) : asset('images/profile-default.jpg') }}" 
+                <img src="{{ $user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}" 
                      alt="Profile Picture" 
                      class="profile-picture">
             </div>

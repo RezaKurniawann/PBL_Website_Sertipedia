@@ -14,10 +14,10 @@
       <!-- Display user name -->    
       <li class="nav-item d-flex align-items-center">
         <a class="nav-link d-flex align-items-center text-white" href="profile" role="button">
-            @if(Auth::user()->image && file_exists(public_path('storage/photos/' . Auth::user()->avatar)))
-                <img src="{{ asset('storage/photos/' . Auth::user()->avatar) }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;" alt="User Avatar">
+            @if(Auth::user()->image && file_exists(public_path('storage/photos/' . Auth::user()->image)))
+                <img src="{{ asset('storage/photos/' . Auth::user()->image) }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;" alt="User image">
             @else
-                <img src="{{ asset('storage/element/default-profile.jpg') }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 10px;" alt="Default User Avatar">
+                <img src="{{ asset('storage/element/default-profile.jpg') }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 10px;" alt="Default User image">
             @endif
             <span class="user-name">{{ Auth::user()->nama }}</span> | <span class="user-level">{{ Auth::user()->level->nama }}</span>
         </a>

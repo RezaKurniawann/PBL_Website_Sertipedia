@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <div class="row text-center mb-4">
                             <div class="col-md-12">
-                                <img id="profile-picture-preview" src="{{ $user->image ? asset('storage/photos/'.$user->image) : asset('images/profile-default.jpg') }}" 
+                                <img id="profile-picture-preview" src="{{ $user->image ? asset('storage/photos/'.$user->image) : asset('storage/element/default-profile.jpg') }}" 
                                     class="img-thumbnail rounded-circle shadow-sm" 
                                     style="width: 150px; height: 150px; object-fit: cover;">
                                 <h5 class="mt-3" style="color: #0d6efd;">{{ $user->nama }}</h5>
