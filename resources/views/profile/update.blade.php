@@ -9,6 +9,15 @@
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -19,7 +28,7 @@
                         @method('PUT')
 
                         <!-- Nama -->
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama">Nama</label>
                             <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama', $user->nama) }}" required>
                         </div>
@@ -34,7 +43,7 @@
                         <div class="form-group">
                             <label for="nomor_telepon">Nomor Telepon</label>
                             <input type="text" class="form-control" id="nomor_telepon" name="nomor_telepon" value="{{ old('nomor_telepon', $user->nomor_telepon) }}">
-                        </div>
+                        </div> --}}
 
                         <!-- Foto Profil -->
                         <div class="form-group">

@@ -24,13 +24,18 @@
                             {{-- @method('PUT') --}}
 
                             {{-- <div class="form-group mb-3">
+                                <label for="nama" class="col-form-label" style="color: #B3846C;">{{ __('Nama') }}</label>
+                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $user->nama }}" required>
+                            </div> --}}
+
+                            {{-- <div class="form-group mb-3">
                                 <label for="username" class="col-form-label" style="color: #B3846C;">{{ __('Username') }}</label>
                                 <input id="username" type="text" class="form-control" name="username" value="{{ $user->username }}" required readonly>
                             </div> --}}
 
                             {{-- <div class="form-group mb-3">
-                                <label for="nama" class="col-form-label" style="color: #B3846C;">{{ __('Nama') }}</label>
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $user->nama }}" required>
+                                <label for="email" class="col-form-label" style="color: #B3846C;">{{ __('Email') }}</label>
+                                <input id="email" type="text" class="form-control" email="email" value="{{ $user->email }}" required>
                             </div> --}}
 
                             <div class="form-group mb-3">
@@ -69,12 +74,26 @@
                             </div>
 
                             <div class="text-center">
-                                <button type="button" class="btn btn-hover btn-custom" id="save-profile-btn" 
-                                    style="background-image: linear-gradient(135deg, #0d6efd, #0056b3); color: #dee2e6;">
-                                    {{ __('Simpan Perubahan') }}
-                                </button>
-                                
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <!-- Tombol Kembali -->
+                                    <a href="{{ url('profile/') }}" class="btn btn-secondary mx-2" style="min-width: 150px;">
+                                        <i class="fas fa-arrow-left"></i> Kembali
+                                    </a>
+                                    <!-- Tombol Simpan Perubahan -->
+                                    <button type="button" class="btn btn-primary mx-2" id="save-profile-btn" style="min-width: 150px;">
+                                        {{ __('Simpan Perubahan') }}
+                                    </button>
+                                </div>
                             </div>
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                         </form>
                     </div>
                 </div>

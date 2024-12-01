@@ -115,17 +115,85 @@
                     <th>Program Studi</th>
                     <td>{{ $user->prodi->nama }}</td>
                 </tr>
-                <tr class="table-border">
+                {{-- <tr class="table-border">
                     <th>Password</th>
                     <td>{{ $user->password}}</td> <!-- Disarankan untuk tidak menampilkan password secara langsung -->
-                </tr>
+                </tr> --}}
             </table>
             <div class="btn-container">
-                <button type="button" class="btn btn-primary" id="edit-profile-btn">Edit</button>
+                <button type="button" class="btn btn-primary" id="edit-profile-btn">Edit Profile</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Sertifikasi Card -->
+<div class="card card-outline card-primary">
+    <div class="card-header">
+        <h5 class="card-title">Sertifikasi</h5>
+    </div>
+    <div class="card-body">
+        @if($user->sertifikasi && $user->sertifikasi->count() > 0)
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Sertifikasi</th>
+                        <th>Tahun</th>
+                        <th>Penerbit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($user->sertifikasi as $index => $sertifikasi)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $sertifikasi->nama }}</td>
+                            <td>{{ $sertifikasi->tahun }}</td>
+                            <td>{{ $sertifikasi->penerbit }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <p>Belum ada data sertifikasi.</p>
+        @endif
+    </div>
+</div>
+
+<!-- Pelatihan Card -->
+<div class="card card-outline card-primary">
+    <div class="card-header">
+        <h5 class="card-title">Pelatihan</h5>
+    </div>
+    <div class="card-body">
+        @if($user->pelatihan && $user->pelatihan->count() > 0)
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Pelatihan</th>
+                        <th>Tahun</th>
+                        <th>Penyelenggara</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($user->pelatihan as $index => $pelatihan)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $pelatihan->nama }}</td>
+                            <td>{{ $pelatihan->tahun }}</td>
+                            <td>{{ $pelatihan->penyelenggara }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <p>Belum ada data pelatihan.</p>
+        @endif
+        </div>
+    </div>
+</div>
+
 
 <script>
     document.getElementById('edit-profile-btn').addEventListener('click', function() {
@@ -133,7 +201,3 @@
     });
 </script>
 @endsection
-
-
-
-{{-- cara akses untuk kolom $user->namakolom --}}

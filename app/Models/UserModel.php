@@ -91,7 +91,7 @@ class UserModel extends Authenticatable implements JWTSubject
 
     public function sertifikasi(): BelongsToMany
     {
-        return $this->belongsToMany(SertifikasiModel::class, 't_detail_pelatihan', 'id_user', 'id_sertifikasi');
+        return $this->belongsToMany(SertifikasiModel::class, 't_detail_sertifikasi', 'id_user', 'id_sertifikasi');
     }
 
     public function getRoleName(): string

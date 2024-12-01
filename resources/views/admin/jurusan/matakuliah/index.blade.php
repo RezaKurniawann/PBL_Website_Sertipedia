@@ -8,7 +8,7 @@
             <div class="card-tools">
                 <button onclick="modalAction('{{ url('manage/jurusan/matakuliah/import') }}')"
                     class="btn btn-sm btn-info mt-1 ">
-                    <i class="fa fa-upload"></i> Import matakuliah
+                    <i class="fa fa-upload"></i> Import Mata Kuliah
                 </button>
                 <a href="{{ url('manage/jurusan/matakuliah/export_excel') }}" class="btn btn-sm btn-success mt-1 ">
                     <i class="fa fa-file-excel"></i> Export Excel

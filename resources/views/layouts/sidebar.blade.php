@@ -182,7 +182,7 @@
             <li class="nav-item">
                 <a href="{{ url('/manage/surat') }}" class="nav-link {{ $activeMenu == 'manage-surat' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-envelope"></i>
-                    <p>Surat Tugas</p>
+                    <p>Notifikasi</p>
                 </a>
             </li>           
             @elseif (Auth::user()->level->nama == 'Pimpinan')
@@ -268,12 +268,22 @@
             </li>
             @endif
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ url('/logout') }}" class="nav-link {{ $activeMenu == 'logout' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>Logout</p>
                 </a>
-            </li>
+            </li> --}}
+            {{-- logout --}}
+            <form id="logout-form" action="{{ url('/logout') }}" method="GET" style="display: none;">
+                @csrf
+            </form>  
+            <li class="nav-item">
+                <a href="javascript:void(0);" onclick="confirmLogout()" class="nav-link {{ $activeMenu == 'logout' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>Logout</p>
+                </a>
+            </li>         
         </ul>
     </nav>
 </div>
@@ -295,6 +305,24 @@
                 li[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
             }
         }
+    }
+
+    //fungsi popup logout
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Konfirmasi Logout',
+            text: "Apakah Anda yakin ingin keluar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Logout',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout-form').submit();
+            }
+        });
     }
 </script>
 

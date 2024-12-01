@@ -15,7 +15,7 @@ class ProfileController extends Controller
     public function index()
     {
         // Ambil data user berdasarkan ID yang sedang login
-        $user = UserModel::with(['prodi', 'pangkat', 'golongan', 'jabatan'])->findOrFail(Auth::id()); // Tambahkan relasi 'jabatan'
+        $user = UserModel::with(['prodi', 'pangkat', 'golongan', 'jabatan', 'sertifikasi', 'pelatihan'])->findOrFail(Auth::id());
 
 
         // Breadcrumb dan active menu
