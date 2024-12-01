@@ -164,10 +164,10 @@
                     <p>Rekomendasi</p>
                 </a>
                 <div class="dropdown-menu">
-                    <a href="{{ url('/rekomendasi/sertifikasi') }}" class="dropdown-item">
+                    <a href="{{ url('/manage/rekomendasi/sertifikasi') }}" class="dropdown-item">
                         <i class="fas fa-certificate"></i> Sertifikasi
                     </a>
-                    <a href="{{ url('/rekomendasi/pelatihan') }}" class="dropdown-item">
+                    <a href="{{ url('/manage/rekomendasi/pelatihan') }}" class="dropdown-item">
                         <i class="fas fa-chalkboard-teacher"></i> Pelatihan
                     </a>
                 </div>
