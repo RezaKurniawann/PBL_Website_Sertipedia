@@ -40,7 +40,7 @@ class AdminHomeController extends Controller
         ];
 
         $activeMenu = 'home';
-        $user = UserModel::with(['prodi', 'mataKuliah', 'bidangMinat'])->find($id_user);
+        $user = UserModel::with(['prodi', 'mataKuliah', 'bidangMinat', 'jabatan', 'pangkat', 'Golongan'])->find($id_user);
         if (!$user) {
             return redirect()->route('users.index')->with('error', 'User not found');
         }

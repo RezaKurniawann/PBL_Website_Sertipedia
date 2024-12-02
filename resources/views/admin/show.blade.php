@@ -1,6 +1,75 @@
 @extends('layouts.template')
 
 @section('content')
+<style>
+    .breadcrumb-container {
+        margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+        background-color: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
+
+    .profile-content {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: calc(100vh - 150px);
+        padding: 5px;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 1300px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        background-color: #ffffff;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 3px solid #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .profile-card h5 {
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    .table th,
+    .table td {
+        text-align: left;
+        border-top: none;
+    }
+
+    .table-border {
+        border-top: 1px solid #dee2e6;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-container {
+        margin-top: 20px;
+        text-align: left;
+    }
+</style>
 <div class="container-fluid">
     <!-- Header -->
     <div class="row mb-4">
@@ -10,19 +79,15 @@
     </div>
 
     <!-- Profile Card -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-body d-flex">
-                    <!-- Foto Profil -->
-                    <div>
-                        <img src="{{$user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}" 
-                             alt="Foto Profil" 
-                             class="rounded-circle" 
-                             width="120" 
-                             height="120">
-                    </div>
-
+    <div class="profile-content">
+        <div class="card profile-card card-outline card-primary">
+            <div class="card-body">
+                <div class="text-center">
+                    <img src="{{$user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}" 
+                         alt="Profile Picture" 
+                         class="profile-picture">
+                </div>
+                
                     <!-- Detail User -->
                     <div class="ml-4 w-100">
                         <table class="table table-borderless">
@@ -35,8 +100,24 @@
                                 <td>{{ $user->username ?? '-' }}</td>
                             </tr>
                             <tr>
+                                <td><strong>Email</strong></td>
+                                <td>{{ $user->email ?? 'Email Tidak Tersedia' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jabatan</strong></td>
+                                <td>{{ $user->jabatan->nama ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pangkat</strong></td>
+                                <td>{{ $user->pangkat->nama ?? '-' }}</td>
+                            </tr>
+                            <tr>
                                 <td><strong>Prodi</strong></td>
                                 <td>{{ $user->prodi->nama ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Golongan</strong></td>
+                                <td>{{ $user->golongan->nama ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Bidang Minat</strong></td>
@@ -88,12 +169,7 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Nama Pelatihan</th>
-                                            <th>Mata Kuliah</th>
-                                            <th>Bidang Minat</th>
-                                            <th>Vendor</th>
-                                            <th>Periode</th>
-                                            <th>Waktu Pelaksanaan</th>
-                                            <th>Level Pelatihan</th>
+                                            <th>image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -101,12 +177,9 @@
                                         <tr>
                                             <td>{{ $item->id_detail_pelatihan }}</td>
                                             <td>{{ $item->pelatihan->nama_pelatihan ?? '-' }}</td>
-                                            <td>{{ $item->pelatihan->mataKuliah->nama ?? '-' }}</td>
-                                            <td>{{ $item->pelatihan->bidangMinat->nama ?? '-' }}</td>
-                                            <td>{{ $item->pelatihan->vendor->nama ?? '-' }}</td>
-                                            <td>{{ $item->pelatihan->periode }}</td>
-                                            <td>{{ $item->pelatihan->waktu_pelaksanaan }}</td>
-                                            <td>{{ $item->pelatihan->level_pelatihan }}</td>
+                                            <td>
+                                                <img src="{{ asset('images/' . ($item->pelatihan->image ?? 'default.png')) }}" alt="Image" class="img-thumbnail" style="width: 100px;">
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>
@@ -127,9 +200,7 @@
                                             <th>ID</th>
                                             <th>Nama Sertifikasi</th>
                                             <th>No Sertifikasi</th>
-                                            <th>Status</th>
-                                            <th>Vendor</th>
-                                            <th>Tanggal Diterbitkan</th>
+                                            <th>image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,9 +209,9 @@
                                             <td>{{ $item->id_detail_sertifikasi }}</td>
                                             <td>{{ $item->sertifikasi->nama_sertifikasi ?? '-' }}</td>
                                             <td>{{ $item->no_sertifikasi }}</td>
-                                            <td>{{ $item->status ?? '-' }}</td>
-                                            <td>{{ $item->sertifikasi->vendor->nama ?? '-' }}</td>
-                                            <td>{{ $item->sertifikasi->tanggal_diterbitkan ?? '-' }}</td>
+                                            <td>
+                                                <img src="{{ asset('images/' . ($item->pelatihan->image ?? 'default.png')) }}" alt="Image" class="img-thumbnail" style="width: 100px;">
+                                            </td>
                                         </tr>
                                         @empty
                                         <tr>
