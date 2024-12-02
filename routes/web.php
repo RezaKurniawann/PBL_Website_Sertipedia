@@ -48,6 +48,7 @@ Route::get('/', [LandingPageController::class, 'index']);
 
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/home', [AdminHomeController::class, 'index']);
+    Route::get('/admin/{id}/show', [AdminHomeController::class, 'show'])->name('admin.users.show');
     Route::prefix('manage')->group(function () {
         Route::prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'index']);
@@ -63,6 +64,7 @@ Route::middleware(['auth:admin'])->group(function () {
             Route::post('/import_ajax', [UserController::class, 'import_ajax']);
             Route::get('/export_excel', [UserController::class, 'export_excel']);
             Route::get('/export_pdf', [UserController::class, 'export_pdf']);
+            Route::get('/{id}/show', [UserController::class, 'show']);
         });
         Route::prefix('level')->group(function () {
             Route::get('/', [LevelController::class, 'index']);
@@ -272,7 +274,7 @@ Route::middleware(['auth:user'])->group(function () {
             Route::get('/sertifikasi/{id}', [VerifikasiSertifikasiController::class, 'detail'])->name('verifikasi.detail-sertifikasi');
             Route::post('/sertifikasi/{id}/accepted', [VerifikasiSertifikasiController::class, 'accepted'])->name('sertifikasi.accepted');
             Route::post('/sertifikasi/{id}/rejected', [VerifikasiSertifikasiController::class, 'rejected'])->name('sertifikasi.rejected');
-            Route::get('/pelatihan', [VerifikasiPelatihanController::class, 'index'])->name('verifikasi.pelatihan');  
+            Route::get('/pelatihan', [VerifikasiPelatihanController::class, 'index'])->name('verifikasi.pelatihan');
             Route::get('/pelatihan/{id}', [VerifikasiPelatihanController::class, 'detail'])->name('verifikasi.detail-pelatihan');
             Route::post('/pelatihan/{id}/accepted', [VerifikasiPelatihanController::class, 'accepted'])->name('pelatihan.accepted');
             Route::post('/pelatihan/{id}/rejected', [VerifikasiPelatihanController::class, 'rejected'])->name('pelatihan.rejected');

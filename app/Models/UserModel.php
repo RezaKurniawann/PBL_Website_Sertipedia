@@ -115,4 +115,15 @@ class UserModel extends Authenticatable implements JWTSubject
             get :fn ($image) => url ('/storage/posts/' . $image),
         );
     }
+
+    public function pelatihanDetails()
+    {
+        return $this->hasMany(DetailPelatihanModel::class, 'id_user', 'id_user');
+    }
+
+    public function sertifikasiDetails()
+    {
+        return $this->hasMany(DetailSertifikasiModel::class, 'id_user', 'id_user');
+    }
+
 };

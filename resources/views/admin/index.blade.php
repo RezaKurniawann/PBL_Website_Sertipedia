@@ -17,7 +17,8 @@
         <div class="card-body">
             <div class="row" id="dosenCards">
                 @foreach ($users as $user)
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 dosen-card" data-name="{{ $user->nama }}" 
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 dosen-card" 
+                         data-name="{{ $user->nama }}" 
                          data-prodi="{{ $user->prodi->nama ?? '' }}" 
                          data-bidang="{{ $user->bidangMinat->pluck('nama')->join(', ') }}" 
                          data-matkul="{{ $user->mataKuliah->pluck('nama')->join(', ') }}">
@@ -25,12 +26,12 @@
                             <div class="d-flex align-items-center">
                                 <!-- Profile Picture -->
                                 <div class="me-3">
-                                    <img src="{{ $user->image ? asset($user->image) : url ('adminlte/dist/img/defaultUser.jpg') }}"
+                                    <img src="{{$user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}"
                                          alt="Foto Dosen"
                                          class="rounded-circle shadow-sm object-fit-cover"
                                          width="150"
                                          height="150">
-                                </div>                            
+                                </div>
                                 <div>
                                     <h5 class="card-title font-weight-bold">{{ $user->nama }}</h5>
                                     <p class="card-text"><strong>Prodi:</strong> {{ $user->prodi->nama ?? 'N/A' }}</p>
@@ -42,11 +43,12 @@
                                     </ul>
                                     <p class="card-text"><strong>Mata Kuliah:</strong></p>
                                     <ul class="list-unstyled">
-                                        @forelse ($user->mataKuliah as $matkul)
+                                        @foreach ($user->mataKuliah as $matkul)
                                             <li>{{ $matkul->nama }}</li>
                                         @endforeach
                                     </ul>
-                                    <a href="{{ url('/admin/user/' . $user->id_user) }}" class="btn btn-primary w-100">View Profile</a>
+                                    <!-- Link sesuai dengan route -->
+                                    <a href="{{ route('admin.users.show', $user->id_user) }}" class="btn btn-primary w-100">View Profile</a>
                                 </div>
                             </div>
                         </div>
@@ -56,6 +58,7 @@
         </div>
     </div>
 @endsection
+
 @push('js')
     <script>
         $('#searchInput').on('input', function() {

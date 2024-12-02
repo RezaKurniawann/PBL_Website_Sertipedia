@@ -16,7 +16,7 @@
                 <div class="card-body d-flex">
                     <!-- Foto Profil -->
                     <div>
-                        <img src="{{$user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}" 
+                        <img src="{{ $user->image ? asset($user->image) : asset('adminlte/dist/img/defaultUser.jpg') }}" 
                              alt="Foto Profil" 
                              class="rounded-circle" 
                              width="120" 
@@ -32,7 +32,7 @@
                             </tr>
                             <tr>
                                 <td><strong>NIP</strong></td>
-                                <td>{{ $user->username ?? '-' }}</td>
+                                <td>{{ $user->user->id_user ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Prodi</strong></td>
@@ -67,13 +67,13 @@
 
     <!-- Tabs -->
     <div class="row mt-4">
-        <div class="col-12 d-flex justify-content-start">
+        <div class="col-12 text-center">
             <!-- Tab Buttons -->
             <button class="btn btn-success mr-2" data-toggle="tab" href="#pelatihan-tab">Pelatihan</button>
             <button class="btn btn-primary" data-toggle="tab" href="#sertifikasi-tab">Sertifikasi</button>
         </div>
     </div>
-   
+
     <!-- Tabs Content -->
     <div class="row mt-4">
         <div class="col-12">
