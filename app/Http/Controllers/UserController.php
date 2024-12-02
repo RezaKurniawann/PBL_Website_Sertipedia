@@ -82,6 +82,22 @@ class UserController extends Controller
         }
     }
 
+    public function show($id_user)
+    {
+        $breadcrumb = (object)[
+            'title' => 'Home Page',
+            'list' => ['Home', 'HomePage', 'Detail']
+        ];
+    
+        $activeMenu = 'home';
+        $user = UserModel::with(['prodi', 'mataKuliah', 'bidangMinat'])->find($id_user);
+        if (!$user) {
+            return redirect()->route('users.index')->with('error', 'User not found');
+        }
+    
+        return view('admin.show', compact('user', 'activeMenu', 'breadcrumb'));
+    }
+
     public function create_ajax()
     {
         $level = LevelModel::select('id_level', 'nama')->get();
