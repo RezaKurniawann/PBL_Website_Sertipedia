@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\UserModel;
 use App\Models\DetailPelatihanModel;
 use App\Models\DetailSertifikasiModel;
-
-use Illuminate\Http\Request;
 
 class UserHomeController extends Controller
 {
@@ -22,9 +21,9 @@ class UserHomeController extends Controller
 
         $users = UserModel::with(['prodi', 'bidangMinat', 'mataKuliah'])->get();
 
-        $activeMenu = 'manage-admin';
+        $activeMenu = 'manage-user';
 
-        return view('admin.index', [
+        return view('user.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'users' => $users,
@@ -32,19 +31,28 @@ class UserHomeController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($id_user)
     {
-        $user = UserModel::with(['prodi', 'bidangMinat', 'mataKuliah'])->findOrFail($id);
+        $breadcrumb = (object)[
+            'title' => 'Home Page',
+            'list' => ['Home', 'HomePage', 'Detail']
+        ];
 
-        $pelatihan = DetailPelatihanModel::where('id_user', $id)
-            ->with('pelatihan') 
+        $activeMenu = 'home';
+        $user = UserModel::with(['prodi', 'mataKuliah', 'bidangMinat', 'jabatan', 'pangkat', 'Golongan'])->find($id_user);
+        if (!$user) {
+            return redirect()->route('users.index')->with('error', 'User not found');
+        }
+
+        $pelatihan = DetailPelatihanModel::where('id_user', $id_user)
+            ->with('pelatihan')
             ->get();
 
-        $sertifikasi = DetailSertifikasiModel::where('id_user', $id)
-            ->with('sertifikasi')  
-            ->get();
+        $sertifikasi = DetailSertifikasiModel::where('id_user', $id_user)
+        ->with('sertifikasi')
+        ->get();
 
-    return view('admin.show', compact('user', 'pelatihan', 'sertifikasi'));
+        return view('user.show', compact('user', 'pelatihan', 'sertifikasi', 'activeMenu', 'breadcrumb'));
     }
 
 }

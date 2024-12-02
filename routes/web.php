@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminHomeController;
-use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LevelController;
@@ -25,7 +24,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\RekomPelatihanController;
 use App\Http\Controllers\RekomSertifikasiController;
-
+use App\Http\Controllers\UserHomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,7 +63,6 @@ Route::middleware(['auth:admin'])->group(function () {
             Route::post('/import_ajax', [UserController::class, 'import_ajax']);
             Route::get('/export_excel', [UserController::class, 'export_excel']);
             Route::get('/export_pdf', [UserController::class, 'export_pdf']);
-            Route::get('/{id}/show', [UserController::class, 'show']);
         });
         Route::prefix('level')->group(function () {
             Route::get('/', [LevelController::class, 'index']);
@@ -256,6 +254,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
 Route::middleware(['auth:user'])->group(function () {
     Route::get('/user/home', [UserHomeController::class, 'index'])->name('home');
+    Route::get('/user/{id}/show', [UserHomeController::class, 'show'])->name('user.users.show');
     Route::prefix('inputdata')->group(function () {
         Route::get('/pelatihan', [DetailPelatihanController::class, 'formDataPelatihan']);
         Route::post('/pelatihan/{id}/upload', [DetailPelatihanController::class, 'uploadDataPelatihan']);
