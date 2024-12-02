@@ -38,17 +38,22 @@ class ProfileController extends Controller
     {
         // Validasi input dari form
         $this->validate($request, [
-            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',id_user',
-            'nama' => 'required|string|max:100',
+            // 'username' => 'sometimes|required|string|min:3|unique:m_user,username,' . $id . ',id_user',
+            // 'nama' => 'required|string|max:100',
             'old_password' => 'nullable|string',
             'password' => 'nullable|min:5|confirmed',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // Ambil data user berdasarkan ID
         $user = UserModel::findOrFail($id);
-        $user->username = $request->username;
-        $user->nama = $request->nama;
+
+        // Update hanya jika field ada di request
+        // if ($request->has('username')) {
+        //     $user->username = $request->username;
+        // }
+
+        // $user->nama = $request->nama;
 
         // Jika password lama diisi dan benar, ganti password
         if ($request->filled('old_password') && Hash::check($request->old_password, $user->password)) {
@@ -57,17 +62,17 @@ class ProfileController extends Controller
             return response()->json(['success' => false, 'message' => 'Password lama tidak sesuai']);
         }
 
-        // Handle upload avatar jika ada file baru
-        if ($request->hasFile('avatar')) {
-            // Hapus avatar lama jika ada
-            if ($user->avatar && Storage::disk('public')->exists('photos/' . $user->avatar)) {
-                Storage::disk('public')->delete('photos/' . $user->avatar);
+        // Handle upload image jika ada file baru
+        if ($request->hasFile('image')) {
+            // Hapus image lama jika ada
+            if ($user->image && Storage::disk('public')->exists($user->image)) {
+                Storage::disk('public')->delete($user->image);
             }
 
-            // Simpan avatar baru
-            $fileName = $request->file('avatar')->hashName();
-            $request->file('avatar')->storeAs('public/photos', $fileName);
-            $user->avatar = $fileName;
+            // Simpan image baru
+            $fileName = $request->file('image')->hashName();
+            $request->file('image')->storeAs('public/photos', $fileName);
+            $user->image = $fileName;
         }
 
         // Simpan perubahan data user
@@ -76,6 +81,7 @@ class ProfileController extends Controller
         // Kembali ke halaman profile dengan status sukses
         return response()->json(['success' => true, 'message' => 'Profil berhasil diperbarui']);
     }
+
 
     // Method untuk menampilkan halaman form edit profile
     public function edit($id)
