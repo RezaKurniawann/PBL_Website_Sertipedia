@@ -1,140 +1,120 @@
 @extends('layouts.template')
+
 @section('content')
-<html>
-<head>
-    <title>Dosen Jurusan Teknologi Informasi</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .header {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            font-size: 24px;
-            color: #3f3d56;
-        }
-        .profile-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .profile-card img {
-            display: block;
-            margin: 0 auto;
-            width: 100px;
-            height: 100px;
-            border-radius: 5px;
-            background-color: #e0e0e0;
-        }
-        .profile-card table {
-            width: 100%;
-            margin-top: 20px;
-        }
-        .profile-card table td {
-            padding: 5px;
-        }
-        .profile-card table td:first-child {
-            font-weight: bold;
-        }
-        .tabs {
-            margin-bottom: 20px;
-        }
-        .tabs .btn {
-            margin-right: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-        }
-        .btn-success {
-            background-color: #28a745;
-        }
-        .btn-primary {
-            background-color: #007bff;
-        }
-        .table-responsive {
-            margin-top: 20px;
-        }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .table th, .table td {
-            border: 1px solid #e0e0e0;
-            padding: 10px;
-            text-align: left;
-        }
-        .table th {
-            background-color: #f8f9fa;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Dosen Jurusan Teknologi Informasi</h1>
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h3 class="font-weight-bold">Detail Dosen Jurusan Teknologi Informasi</h3>
         </div>
-        <div class="profile-card">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <img src="https://placehold.co/100x100" alt="Profile picture placeholder">
-                </div>
-                <div class="col-md-8">
-                    <table>
-                        <tr>
-                            <td>Nama Lengkap</td>
-                            <td>Nama Dosen, S.ST., MT.</td>
-                        </tr>
-                        <tr>
-                            <td>NIP</td>
-                            <td>197710306005412005</td>
-                        </tr>
-                        <tr>
-                            <td>Prodi</td>
-                            <td>Sistem Informasi Bisnis</td>
-                        </tr>
-                        <tr>
-                            <td>Bidang Minat</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Mata Kuliah</td>
-                            <td></td>
-                        </tr>
-                    </table>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body d-flex">
+                    <!-- Foto Profil -->
+                    <div>
+                        <img src="{{ $user->image ? asset($user->image) : asset('adminlte/dist/img/defaultUser.jpg') }}" 
+                             alt="Foto Profil" 
+                             class="rounded-circle" 
+                             width="120" 
+                             height="120">
+                    </div>
+
+                    <!-- Detail User -->
+                    <div class="ml-4 w-100">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Nama Lengkap</strong></td>
+                                <td>{{ $user->nama ?? 'Nama Tidak Tersedia' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NIP</strong></td>
+                                <td>{{ $user->user->id_user ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Prodi</strong></td>
+                                <td>{{ $user->prodi->nama ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bidang Minat</strong></td>
+                                <td>
+                                    @forelse($user->bidangMinat as $bidang)
+                                        {{ $bidang->nama }}<br>
+                                    @empty
+                                        Tidak ada bidang minat
+                                    @endforelse
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mata Kuliah</strong></td>
+                                <td>
+                                    @forelse($user->mataKuliah as $mataKuliah)
+                                        {{ $mataKuliah->nama }}<br>
+                                    @empty
+                                        Tidak ada mata kuliah
+                                    @endforelse
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="tabs">
-            <button class="btn btn-success">Pelatihan</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <button class="btn btn-success mr-2">Pelatihan</button>
             <button class="btn btn-primary">Sertifikasi</button>
         </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nama Pelatihan</th>
-                        <th>id_mk</th>
-                        <th>id_bidmin</th>
-                        <th>id_vendor</th>
-                        <th>id_periode</th>
-                        <th>waktu_pelaksanaan</th>
-                        <th>level_pelatihan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Add rows here -->
-                </tbody>
-            </table>
+    </div>
+
+    <!-- Data Table -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Pelatihan</th>
+                                    <th>Mata Kuliah</th>
+                                    <th>Bidang Minat</th>
+                                    <th>Vendor</th>
+                                    <th>Periode</th>
+                                    <th>Waktu Pelaksanaan</th>
+                                    <th>Level Pelatihan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($pelatihan as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->nama_pelatihan }}</td>
+                                    <td>{{ $item->mataKuliah->nama ?? '-' }}</td>
+                                    <td>{{ $item->bidangMinat->nama ?? '-' }}</td>
+                                    <td>{{ $item->vendor->nama ?? '-' }}</td>
+                                    <td>{{ $item->periode }}</td>
+                                    <td>{{ $item->waktu_pelaksanaan }}</td>
+                                    <td>{{ $item->level_pelatihan }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="8" class="text-center">Tidak ada data pelatihan</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</body>
-</html>
-
+</div>
 @endsection

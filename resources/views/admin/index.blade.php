@@ -46,7 +46,7 @@
                                             <li>{{ $matkul->nama }}</li>
                                         @endforeach
                                     </ul>
-                                    <a href="{{ route('users.show', $user->id_user) }}" class="btn btn-primary w-100">View Profile</a>
+                                    <a href="{{ url('/admin/user/' . $user->id_user) }}" class="btn btn-primary w-100">View Profile</a>
                                 </div>
                             </div>
                         </div>

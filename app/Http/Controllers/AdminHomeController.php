@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MataKuliahModel;
-use App\Models\BidangMinatModel;
 use App\Models\UserModel;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Http\Request;
+use App\Models\PelatihanModel;
 
 class AdminHomeController extends Controller
 {
+    // Fungsi untuk halaman utama admin
     public function index()
     {
-        $breadcrumb = (object)[
+        $breadcrumb = (object) [
             'title' => 'Home Page',
             'list' => ['Home', 'HomePage']
         ];
@@ -31,41 +29,13 @@ class AdminHomeController extends Controller
             'users' => $users,
             'activeMenu' => $activeMenu
         ]);
-    }    
-    public function list(Request $request)
+    }
+
+    // Fungsi untuk menampilkan detail user
+    public function show($id)
     {
-        $user = UserModel::with([
-            'level',
-            'prodi',
-            'pangkat',
-            'golongan',
-            'jabatan',
-            'mataKuliah',
-            'bidangMinat',
-            'sertifikasi' => function ($query) {
-                $query->select(
-                    'id_detail_sertifikasi',
-                    'id_user',
-                    'id_sertifikasi',
-                    'status',
-                    'no_sertifikasi',
-                    'image',
-                    'surat_tugas',
-                    'created_at',
-                    'updated_at'
-                );
-            }
-        ]);
+        $user = UserModel::with(['prodi', 'bidangMinat', 'mataKuliah'])->find($id);
 
-        if ($request->id_level) {
-            $user->where('id_level', $request->id_level);
-        }
-
-        $users = $user->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => $users
-        ]);
+        return view('admin.show', compact('user'));
     }
 }
