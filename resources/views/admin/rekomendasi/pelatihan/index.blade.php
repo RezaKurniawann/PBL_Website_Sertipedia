@@ -10,7 +10,7 @@
                 @csrf
                 <div class="form-group">
                     <label>Pelatihan</label>
-                    <select name="id_pelatihan" id="id_pelatihan" class="form-control" required>
+                    <select name="id_pelatihan" class="form-control" required>
                         <option value="">- Pilih Pelatihan -</option>
                         @foreach ($pelatihan as $p)
                             <option value="{{ $p->id_pelatihan }}">{{ $p->nama }}</option>
@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group">
                     <label>Vendor</label>
-                    <select name="id_vendor" id="id_vendor" class="form-control" required>
+                    <select name="id_vendor" class="form-control" required>
                         <option value="">- Pilih Vendor -</option>
                         @foreach ($vendor as $v)
                             @if ($v->kategori == 'Pelatihan')
@@ -29,8 +29,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="level_pelatihan">Level Pelatihan</label>
-                    <select name="level_pelatihan" id="level_pelatihan" class="form-control" required>
+                    <label>Level Pelatihan</label>
+                    <select name="level_pelatihan" class="form-control" required>
                         <option value="">- Pilih Jenis pelatihan -</option>
                         <option value="Nasional">Nasional</option>
                         <option value="Internasional">Internasional</option>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <label>Periode</label>
-                    <select name="id_periode" id="id_periode" class="form-control" required>
+                    <select name="id_periode" class="form-control" required>
                         <option value="">- Pilih Periode -</option>
                         @foreach ($periode as $p)
                             <option value="{{ $p->id_periode }}">{{ $p->tahun }}</option>
@@ -47,23 +47,21 @@
                 </div>
                 <div class="form-group">
                     <label for="dosen">Dosen</label>
-                    <div id="dosen-fields">
-                        <div class="dosen-row form-row align-items-center">
+                    <div id="user-fields">
+                        <div class="user-row form-row align-items-center">
                             <div class="form-group col-md-9">
-                                <select name="dosen[]" class="form-control" required>
+                                <select name="user[]" class="form-control" required>
                                     <option value="">Pilih Dosen</option>
-                                    @foreach ($dosen as $d)
-                                        @if ($d->id_level == '3')
-                                            <option value="{{ $d->id_user }}">{{ $d->nama }}</option>
-                                        @endif
+                                    @foreach ($user as $u)
+                                        <option value="{{ $u->id_user }}">{{ $u->nama }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-3 d-flex justify-content-end">
-                                <button type="button" class="btn btn-success btn-add-dosen">
+                                <button type="button" class="btn btn-success btn-add-user">
                                     <i class="fas fa-plus"></i> Add
                                 </button>
-                                <button type="button" class="btn btn-danger btn-remove-dosen" style="display: none;">
+                                <button type="button" class="btn btn-danger btn-remove-user" style="display: none;">
                                     <i class="fas fa-trash"></i> Remove
                                 </button>
                             </div>
@@ -71,7 +69,6 @@
                     </div>
                 </div>
                 <div class="form-group text-right">
-                    <button type="button" id="cancel-form" class="btn btn-warning">Batal</button>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
@@ -83,50 +80,70 @@
 @push('scripts')
 <script>
 $(document).ready(function () {
-    // Tambahkan baris baru
-    $(document).on('click', '.btn-add-dosen', function () {
-        const newField = `
-        <div class="dosen-row form-row align-items-center">
-            <div class="form-group col-md-9">
-                <select name="dosen[]" class="form-control" required>
-                    <option value="">Pilih Dosen</option>
-                    @foreach ($dosen as $d)
-                        @if ($d->id_level == '3')
-                            <option value="{{ $d->id_user }}">{{ $d->nama }}</option>
-                        @endif
-                    @endforeach
-                </select>
+    $(document).off('click', '.btn-add-user');
+            $(document).on('click', '.btn-add-user', function() {
+                const newField = $('.user-row:first').clone();
+                newField.find('select').val(''); // Reset the select field value
+                $('#user-fields').append(newField);
+            });
+        });
+
+        function showToast(message) {
+            const toastHTML = `
+        <div class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050; min-width: 250px; border-radius: 10px; background: linear-gradient(45deg, #ff6b6b, #f0a500); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+            <div class="d-flex">
+                <div class="toast-body" style="padding: 10px 15px; font-size: 16px;">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="form-group col-md-3 d-flex justify-content-end">
-                <button type="button" class="btn btn-success btn-add-dosen">
-                    <i class="fas fa-plus"></i> Add
-                </button>
-                <button type="button" class="btn btn-danger btn-remove-dosen">
-                    <i class="fas fa-trash"></i> Remove
-                </button>
-            </div>
-        </div>`;
-        
-        $('#dosen-fields').append(newField);
+        </div>
+    `;
+            $('body').append(toastHTML);
+            const toastElement = $('.toast').last();
+            const toast = new bootstrap.Toast(toastElement[0]);
+            toast.show();
 
-        // Pastikan tombol Add hanya muncul di baris terakhir
-        $('.btn-add-dosen').hide(); // Sembunyikan semua tombol Add
-        $('.dosen-row:last .btn-add-dosen').show(); // Tampilkan tombol Add di baris terakhir
-    });
-
-    // Hapus baris
-    $(document).on('click', '.btn-remove-dosen', function () {
-        if ($('.dosen-row').length > 1) {
-            $(this).closest('.dosen-row').remove();
-
-            // Pastikan tombol Add tetap di baris terakhir
-            $('.btn-add-dosen').hide();
-            $('.dosen-row:last .btn-add-dosen').show();
-        } else {
-            alert('Minimal satu dosen harus ada!');
+            toastElement.on('hidden.bs.toast', function() {
+                $(this).remove();
+            });
         }
-    });
-});
+
+        function checkDuplicates() {
+            const mataKuliahValues = [];
+            let duplicateFound = false;
+
+            // Mata Kuliah validation
+            $("select[name='mata_kuliah[]']").each(function() {
+                const value = $(this).val();
+                if (mataKuliahValues.includes(value) && value !== "") {
+                    duplicateFound = true;
+                    showToast('Mata Kuliah tidak boleh sama.');
+                }
+                mataKuliahValues.push(value);
+            });
+
+            return !duplicateFound; // Prevent form submission if duplicate found
+        }
+
+        $(document).on('click', '.btn-add-user', function() {
+            const newField = $('.user-row:first').clone();
+            newField.find('select').val(''); // Reset the select field value
+
+            // Re-add the "Add" button to the cloned row
+            newField.find('.btn-add-user').show();
+
+            // Append the cloned field to the user-fields container
+            $('#user-fields').append(newField);
+        });
+
+        $(document).on('click', '.btn-remove-user', function() {
+            if ($('.user-row').length > 1) {
+                $(this).closest('.user-row').remove();
+            } else {
+                showToast('Minimal Satu Mata Kuliah Harus Ada.');
+            }
+        });
 
     // Validasi Form
     $("#form-tambah").validate({
@@ -135,7 +152,7 @@ $(document).ready(function () {
             id_vendor: { required: true },
             level_pelatihan: { required: true },
             id_periode: { required: true },
-            "dosen[]": { required: true }
+            "user[]": { required: true }
         },
         submitHandler: function (form) {
             $.ajax({
@@ -145,7 +162,6 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status) {
                         Swal.fire({ icon: 'success', title: 'Berhasil', text: response.message });
-                        // Reload or reset form
                     } else {
                         Swal.fire({ icon: 'error', title: 'Terjadi Kesalahan', text: response.message });
                     }
@@ -154,6 +170,5 @@ $(document).ready(function () {
             return false;
         }
     });
-});
 </script>
 @endpush

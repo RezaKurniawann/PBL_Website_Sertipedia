@@ -268,8 +268,14 @@ Route::middleware(['auth:user'])->group(function () {
     Route::prefix('pimpinan')->group(function () {
         Route::get('/statistik', [StatistikController::class, 'index']);
         Route::prefix('verifikasi')->group(function () {
-            Route::get('/sertifikasi', [VerifikasiSertifikasiController::class, 'index']);
-            Route::get('/pelatihan', [VerifikasiPelatihanController::class, 'index']);
+            Route::get('/sertifikasi', [VerifikasiSertifikasiController::class, 'index'])->name('verifikasi.sertifikasi');
+            Route::get('/sertifikasi/{id}', [VerifikasiSertifikasiController::class, 'detail'])->name('verifikasi.detail-sertifikasi');
+            Route::post('/sertifikasi/{id}/accepted', [VerifikasiSertifikasiController::class, 'accepted'])->name('sertifikasi.accepted');
+            Route::post('/sertifikasi/{id}/rejected', [VerifikasiSertifikasiController::class, 'rejected'])->name('sertifikasi.rejected');
+            Route::get('/pelatihan', [VerifikasiPelatihanController::class, 'index'])->name('verifikasi.pelatihan');  
+            Route::get('/pelatihan/{id}', [VerifikasiPelatihanController::class, 'detail'])->name('verifikasi.detail-pelatihan');
+            Route::post('/pelatihan/{id}/accepted', [VerifikasiPelatihanController::class, 'accepted'])->name('pelatihan.accepted');
+            Route::post('/pelatihan/{id}/rejected', [VerifikasiPelatihanController::class, 'rejected'])->name('pelatihan.rejected');
         });
         Route::prefix('kompetensi')->group(function () {
             Route::get('/', [KompetensiController::class, 'index_pimpinan']);

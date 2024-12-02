@@ -7,6 +7,7 @@ use App\Models\BidangMinatModel;
 use App\Models\SertifikasiModel;
 use App\Models\PeriodeModel;
 use App\Models\VendorModel;
+use App\Models\UserModel;
 
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -36,8 +37,9 @@ class RekomSertifikasiController extends Controller
         $periode = PeriodeModel::all();
         $vendor = VendorModel::all();
         $sertifikasi = SertifikasiModel::all();
+        $user = UserModel::all();
 
-        return view('admin.rekomendasi.sertifikasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'sertifikasi' => $sertifikasi, 'activeMenu' => $activeMenu]);
+        return view('admin.rekomendasi.sertifikasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'sertifikasi' => $sertifikasi, 'activeMenu' => $activeMenu, 'user' => $user]);
     }
     public function store_ajax(Request $request)
     {
@@ -46,7 +48,9 @@ class RekomSertifikasiController extends Controller
                 'id_sertifikasi' => 'required|integer',
                 'id_vendor' => 'required|integer',
                 'level_sertifikasi' => 'required|string',
-                'id_periode' => 'required|integer'
+                'id_periode' => 'required|integer',
+                'user' => 'required|array',
+                'user.*' => 'integer',
             ];
 
             $validator = Validator::make($request->all(), $rules);
