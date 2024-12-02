@@ -62,6 +62,9 @@ Route::get('users/imageProfile/{user}', [ProfileController::class, 'getImageProf
 Route::get('users/profile/{user}', [ProfileController::class, 'getDataProfile']);
 Route::get('users/bidangminat/{user}', [ProfileController::class, 'getUserBidangMinat']);
 Route::get('users/matakuliah/{user}', [ProfileController::class, 'getUserMataKuliah']);
+Route::get('users/ownSertifikasi/{user}', [ProfileController::class, 'getOwnSertifikasi']);
+Route::get('users/ownPelatihan/{user}', [ProfileController::class, 'getOwnPelatihan']);
+
 //vendor
 Route::get('vendors', [VendorController::class, 'index']);
 Route::get('vendors/{vendor}', [VendorController::class, 'show']);

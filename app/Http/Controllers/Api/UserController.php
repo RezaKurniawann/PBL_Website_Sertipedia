@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -29,13 +30,26 @@ class UserController extends Controller
             'no_telp' => 'required|string',
             'username' => 'required|string',
             'image' => 'nullable|string',
+            'old_password' => 'nullable|string', // old password is optional for non-password updates
+            'new_password' => 'nullable|string|min:6', // new password should be at least 6 characters
         ]);
 
         try {
             // Find the user record by ID
             $user = UserModel::findOrFail($id);
 
-            // Update fields that are always required
+            // If both old_password and new_password are provided, validate and update the password
+            if ($request->has('old_password') && $request->has('new_password')) {
+                // Check if the old password matches the stored password
+                if (!Hash::check($request->input('old_password'), $user->password)) {
+                    return response()->json(['error' => 'Old password is incorrect'], 400);
+                }
+
+                // Update the password if the old password is correct
+                $user->password = Hash::make($request->input('new_password'));
+            }
+
+            // Update other user details
             $user->nama = $request->input('nama');
             $user->email = $request->input('email');
             $user->no_telp = $request->input('no_telp');
@@ -94,6 +108,4 @@ class UserController extends Controller
         }
         return null; // Invalid image type
     }
-
-    
 }
