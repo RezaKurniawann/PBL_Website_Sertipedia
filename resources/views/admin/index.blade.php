@@ -25,12 +25,12 @@
                         <div class="card shadow-sm p-3">
                             <div class="d-flex align-items-center">
                                 <!-- Profile Picture -->
-                                <div class="me-3">
+                                <div class="mx-4">
                                     <img src="{{$user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}"
                                          alt="Foto Dosen"
                                          class="rounded-circle shadow-sm object-fit-cover"
-                                         width="150"
-                                         height="150">
+                                         width="110"
+                                         height="110">
                                 </div>
                                 <div>
                                     <h5 class="card-title font-weight-bold">{{ $user->nama }}</h5>
