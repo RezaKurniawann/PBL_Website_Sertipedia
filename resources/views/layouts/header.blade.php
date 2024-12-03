@@ -13,7 +13,7 @@
   <ul class="navbar-nav ml-auto">
       <!-- Display user name -->    
       <li class="nav-item d-flex align-items-center">
-        <a class="nav-link d-flex align-items-center text-white" href="profile" role="button">
+        <a class="nav-link d-flex align-items-center text-white" href="/profile" role="button">
             @if(Auth::user()->image && file_exists(public_path('storage/photos/' . Auth::user()->image)))
                 <img src="{{ asset('storage/photos/' . Auth::user()->image) }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;" alt="User image">
             @else
