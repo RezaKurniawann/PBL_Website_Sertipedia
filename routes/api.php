@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\VendorController;
 use App\Http\Controllers\Api\DetailPelatihanController;
 use App\Http\Controllers\Api\DetailSertifikasiController;
 use App\Http\Controllers\Api\PeriodeController;  
+use App\Http\Controllers\Api\StatistikController;
 use App\Http\Controllers\Api\ProfileController;
 
 /*
@@ -81,8 +82,8 @@ Route::put('d_sertifikasis/update/{d_sertifikasi}', [DetailSertifikasiController
 Route::get('periode', [PeriodeController::class, 'index']);
 Route::get('periode/{periode}', [PeriodeController::class, 'show']);
 
-
-
+// statistik
+Route::get('/statistik', [StatistikController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -47,6 +47,7 @@ Route::get('/', [LandingPageController::class, 'index']);
 
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/home', [AdminHomeController::class, 'index']);
+    Route::get('/admin/statistik', [StatistikController::class, 'index']);
     Route::get('/admin/{id}/show', [AdminHomeController::class, 'show'])->name('admin.users.show');
     Route::prefix('manage')->group(function () {
         Route::prefix('user')->group(function () {
