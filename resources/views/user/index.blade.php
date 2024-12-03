@@ -1,14 +1,23 @@
 @extends('layouts.template')
 @section('content')
-    <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" data-width="75%" aria-hidden="true"></div>
     <div class="card card-outline card-primary">
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <!-- Search Bar -->
-                <div class="ms-auto d-flex align-items-center">
+                <!-- Layout for Show and Search next to each other -->
+                <div class="d-flex align-items-center">
+                    <!-- Show Dropdown -->
+                    <label for="perPage" class="me-2">Show: </label>
+                    <select id="perPage" class="form-select form-select-sm me-3">
+                        <option value="9" {{ $users->perPage() == 9 ? 'selected' : '' }}>9</option>
+                        <option value="18" {{ $users->perPage() == 18 ? 'selected' : '' }}>18</option>
+                        <option value="27" {{ $users->perPage() == 27 ? 'selected' : '' }}>27</option>
+                        <option value="36" {{ $users->perPage() == 36 ? 'selected' : '' }}>36</option>
+                    </select>
+
+                    <!-- Search Bar -->
                     <label for="searchInput" class="me-2">Search:</label>
-                    <input type="text" id="searchInput" class="form-control form-control-sm" autocomplete="off">
+                    <input type="text" id="searchInput" class="form-control form-control-sm" autocomplete="off" value="{{ $searchTerm }}">
                 </div>
             </div>
         </div>
@@ -48,28 +57,60 @@
                     </div>
                 @endforeach
             </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-end mt-3">
+                <nav>
+                    <ul class="pagination">
+                        <!-- Previous Page Link -->
+                        @if ($users->onFirstPage())
+                            <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $users->previousPageUrl() }}" rel="prev">Previous</a>
+                            </li>
+                        @endif
+
+                        <!-- Pagination Number Links -->
+                        @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
+                            <li class="page-item {{ $users->currentPage() == $page ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endforeach
+
+                        <!-- Next Page Link -->
+                        @if ($users->hasMorePages())
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $users->nextPageUrl() }}" rel="next">Next</a>
+                            </li>
+                        @else
+                            <li class="page-item disabled">
+                                <span class="page-link">Next</span>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 @endsection
 
 @push('js')
     <script>
+        // Handle perPage change and reload content via AJAX
+        $('#perPage').on('change', function() {
+            var perPage = $(this).val();
+            var searchTerm = $('#searchInput').val();
+            window.location.href = '?perPage=' + perPage + '&search=' + searchTerm;
+        });
+
+        // Handle search input and update list
         $('#searchInput').on('input', function() {
             var searchTerm = $(this).val().toLowerCase();
-            $('#dosenCards .dosen-card').each(function() {
-                var card = $(this);
-                var cardName = card.data('name').toLowerCase();
-                var cardProdi = card.data('prodi').toLowerCase();
-                var cardBidang = card.data('bidang').toLowerCase();
-                var cardMatkul = card.data('matkul').toLowerCase();
-
-                if (cardName.indexOf(searchTerm) !== -1 || cardProdi.indexOf(searchTerm) !== -1 || 
-                    cardBidang.indexOf(searchTerm) !== -1 || cardMatkul.indexOf(searchTerm) !== -1) {
-                    card.show();
-                } else {
-                    card.hide();
-                }
-            });
+            var perPage = $('#perPage').val();
+            window.location.href = '?search=' + searchTerm + '&perPage=' + perPage;
         });
     </script>
 @endpush
