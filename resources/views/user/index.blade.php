@@ -41,13 +41,6 @@
                                             <li>{{ $bidang->nama }}</li>
                                         @endforeach
                                     </ul>
-                                    <p class="card-text"><strong>Mata Kuliah:</strong></p>
-                                    <ul class="list-unstyled">
-                                        @foreach ($user->mataKuliah as $matkul)
-                                            <li>{{ $matkul->nama }}</li>
-                                        @endforeach
-                                    </ul>
-                                    <!-- Link sesuai dengan route -->
                                     <a href="{{ route('user.users.show', $user->id_user) }}" class="btn btn-primary w-100">View Profile</a>
                                 </div>
                             </div>

@@ -19,7 +19,7 @@ class UserHomeController extends Controller
             'title' => 'Dosen Jurusan Teknologi Informasi'
         ];
 
-        $users = UserModel::with(['prodi', 'bidangMinat', 'mataKuliah'])->get();
+        $users = UserModel::with(['prodi', 'bidangMinat'])->get();
 
         $activeMenu = 'manage-user';
 

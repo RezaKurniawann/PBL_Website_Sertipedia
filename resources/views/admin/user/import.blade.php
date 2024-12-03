@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Download Template</label>
-                    <a href="{{ url('templateExcel/template_vendor.xlsx') }}" class="btn btn-info btn-sm" download><i class="fa fa-file-excel"></i>Download</a>
+                    <a href="{{ url('templateExcel/template_user.xlsx') }}" class="btn btn-info btn-sm" download><i class="fa fa-file-excel"></i>Download</a>
                     <small id="error-vendor_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
