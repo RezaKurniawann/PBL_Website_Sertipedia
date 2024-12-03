@@ -139,8 +139,9 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Sertifikasi</th>
-                        <th>Tahun</th>
-                        <th>Penerbit</th>
+                        <th>Jenis Sertifikasi</th>
+                        <th>Vendor</th>
+                        <th>Periode</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -148,14 +149,15 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $sertifikasi->nama }}</td>
-                            <td>{{ $sertifikasi->tahun }}</td>
-                            <td>{{ $sertifikasi->penerbit }}</td>
+                            <td>{{ $sertifikasi->jenis_sertifikasi }}</td>
+                            <td>{{ $sertifikasi->vendor->nama }}</td>
+                            <td>{{ $sertifikasi->periode->tahun }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         @else
-            <p>Belum ada data sertifikasi.</p>
+            <p>Belum ada data sertifikasi dengan status Completed.</p>
         @endif
     </div>
 </div>
@@ -172,8 +174,9 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Pelatihan</th>
-                        <th>Tahun</th>
-                        <th>Penyelenggara</th>
+                        <th>Level Pelatihan</th>
+                        <th>Vendor</th>
+                        <th>Periode</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -181,16 +184,16 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $pelatihan->nama }}</td>
-                            <td>{{ $pelatihan->tahun }}</td>
-                            <td>{{ $pelatihan->penyelenggara }}</td>
+                            <td>{{ $pelatihan->level_pelatihan }}</td>
+                            <td>{{ $pelatihan->vendor->nama }}</td>
+                            <td>{{ $pelatihan->periode->tahun }}</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         @else
-            <p>Belum ada data pelatihan.</p>
+            <p>Belum ada data pelatihan dengan status Completed.</p>
         @endif
-        </div>
     </div>
 </div>
 

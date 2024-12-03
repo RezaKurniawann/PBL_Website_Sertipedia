@@ -23,20 +23,25 @@
                             @csrf
                             {{-- @method('PUT') --}}
 
-                            {{-- <div class="form-group mb-3">
-                                <label for="nama" class="col-form-label" style="color: #B3846C;">{{ __('Nama') }}</label>
+                            <div class="form-group mb-3">
+                                <label for="nama" class="col-form-label" style="color: #0d6efd;">{{ __('Nama') }}</label>
                                 <input id="nama" type="text" class="form-control" name="nama" value="{{ $user->nama }}" required>
-                            </div> --}}
+                            </div>
 
-                            {{-- <div class="form-group mb-3">
-                                <label for="username" class="col-form-label" style="color: #B3846C;">{{ __('Username') }}</label>
-                                <input id="username" type="text" class="form-control" name="username" value="{{ $user->username }}" required readonly>
-                            </div> --}}
+                            <div class="form-group mb-3">
+                                <label for="username" class="col-form-label" style="color: #0d6efd;">{{ __('Username') }}</label>
+                                <input id="username" type="text" class="form-control" name="username" value="{{ $user->username }}" required>
+                            </div>
 
-                            {{-- <div class="form-group mb-3">
-                                <label for="email" class="col-form-label" style="color: #B3846C;">{{ __('Email') }}</label>
-                                <input id="email" type="text" class="form-control" email="email" value="{{ $user->email }}" required>
-                            </div> --}}
+                            <div class="form-group mb-3">
+                                <label for="email" class="col-form-label" style="color: #0d6efd;">{{ __('Email') }}</label>
+                                <input id="email" type="text" class="form-control" name="email" value="{{ $user->email }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="no_telp" class="col-form-label" style="color: #0d6efd;">{{ __('No Telepon') }}</label>
+                                <input id="no_telp" type="text" class="form-control" name="no_telp" value="{{ $user->no_telp }}" required>
+                            </div>
 
                             <div class="form-group mb-3">
                                 <label for="old_password" class="col-form-label" style="color: #0d6efd;">{{ __('Password Lama') }}</label>
