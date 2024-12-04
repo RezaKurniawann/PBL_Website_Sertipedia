@@ -5,7 +5,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('manage/user/import') }}')" class="btn btn-sm btn-info mt-1 "><i class="fa fa-upload"></i> Import User</button>
+                {{-- <button onclick="modalAction('{{ url('manage/user/import') }}')" class="btn btn-sm btn-info mt-1 "><i class="fa fa-upload"></i> Import User</button> --}}
                 <a href="{{ url('manage/user/export_excel') }}" class="btn btn-sm btn-success mt-1 "><i class="fa fa-file-excel"></i> Export Excel</a>
                 <a href="{{ url('manage/user/export_pdf') }}" class="btn btn-sm btn-danger mt-1 "><i class="fa fa-file-pdf"></i> Export PDF</a>
                 <button onclick="modalAction('{{ url('manage/user/create_ajax') }}')" class="btn btn-sm btn-primary mt-1 "><i class="fa fa-plus"></i> Tambah Data</button>
