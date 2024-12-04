@@ -180,7 +180,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/manage/surat') }}" class="nav-link {{ $activeMenu == 'manage-surat' ? 'active' : '' }}">
+                <a href="{{ url('/manage/notifikasi') }}" class="nav-link {{ $activeMenu == 'notifikasi' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-envelope"></i>
                     <p>Notifikasi</p>
                 </a>
