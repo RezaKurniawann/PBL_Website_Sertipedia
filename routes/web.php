@@ -22,6 +22,7 @@ use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\RekomPelatihanController;
 use App\Http\Controllers\RekomSertifikasiController;
 use App\Http\Controllers\UserHomeController;
@@ -249,6 +250,9 @@ Route::middleware(['auth:admin'])->group(function () {
                 Route::get('/', [RekomSertifikasiController::class, 'index']);
                 Route::post('/ajax', [RekomSertifikasiController::class, 'store_ajax']);
             });
+        });
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotifikasiController::class, 'index']);
         });
     });
 });
