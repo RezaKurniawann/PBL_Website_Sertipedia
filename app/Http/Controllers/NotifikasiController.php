@@ -1,16 +1,10 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\PelatihanModel;
-use App\Models\SertifikasiModel;
 use App\Models\DetailPelatihanModel;
 use App\Models\DetailSertifikasiModel;
+use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Validator;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\DB;
+
 class NotifikasiController extends Controller
 {
     public function index()
@@ -56,4 +50,32 @@ class NotifikasiController extends Controller
             'activeMenu' => $activeMenu
         ]);
     }
+    public function detail($id)
+    {
+        $breadcrumb = (object) [
+            'title' => 'Detail Notifikasi',
+            'list' => ['Home', 'Notifikasi', 'Detail']
+        ];
+    
+        $page = (object) [
+            'title' => 'Detail Notifikasi'
+        ];
+    
+        $activeMenu = 'notifikasi';
+    
+        // Cari data berdasarkan ID
+        $item = DetailPelatihanModel::with('pelatihan', 'user')->where('id', $id)->first()
+            ?? DetailSertifikasiModel::with('sertifikasi', 'user')->where('id', $id)->first();
+    
+        if (!$item) {
+            return redirect()->route('notifikasi.index')->with('error', 'Data tidak ditemukan.');
+        }
+    
+        return view('admin.notifikasi.detail', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+            'item' => $item
+        ]);
+    }    
 }

@@ -252,7 +252,8 @@ Route::middleware(['auth:admin'])->group(function () {
             });
         });
         Route::prefix('notifikasi')->group(function () {
-            Route::get('/', [NotifikasiController::class, 'index']);
+            Route::get('/', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+            Route::get('/notifikasi/detail/{id}', [NotifikasiController::class, 'detail'])->name('notifikasi.detail');
         });
     });
 });
