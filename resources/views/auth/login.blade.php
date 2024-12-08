@@ -36,17 +36,17 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sistem Informasi Pendataan Sertifikasi dan Pelatihan Dosen Jurusan Teknologi Informasi</p>
-                <form action="{{ url('login') }}" method="POST" id="form-login">
+                <form action="{{ url('/login') }}" method="POST" id="form-login">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" id="username" name="username" class="form-control"
-                            placeholder="Username">
+                        <input type="email" id="email" name="email" class="form-control"
+                            placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                        <small id="error-username" class="error-text text-danger"></small>
+                        <small id="error-email" class="error-text text-danger"></small>
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" id="password" name="password" class="form-control"
@@ -103,10 +103,11 @@
         $(document).ready(function() {
             $("#form-login").validate({
                 rules: {
-                    username: {
+                    email: {
                         required: true,
+                        email: true,
                         minlength: 4,
-                        maxlength: 20
+                        maxlength: 50
                     },
                     password: {
                         required: true,
