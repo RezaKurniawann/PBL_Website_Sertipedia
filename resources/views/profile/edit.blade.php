@@ -28,10 +28,10 @@
                                 <input id="nama" type="text" class="form-control" name="nama" value="{{ $user->nama }}" required>
                             </div>
 
-                            <div class="form-group mb-3">
+                            {{-- <div class="form-group mb-3">
                                 <label for="username" class="col-form-label" style="color: #0d6efd;">{{ __('Username') }}</label>
                                 <input id="username" type="text" class="form-control" name="username" value="{{ $user->username }}" required>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group mb-3">
                                 <label for="email" class="col-form-label" style="color: #0d6efd;">{{ __('Email') }}</label>
@@ -108,6 +108,21 @@
 </div>
 
 <style>
+    .form-group {
+        margin-bottom: 5px;
+    }
+
+    .form-group .col-form-label {
+        margin-bottom: 3px;
+    }
+
+    .form-control {
+        margin: 0;
+        padding: 8px;
+        font-size: 14px;
+        line-height: 1.2;
+    }
+    
     .btn-hover {
         transition: transform 0.3s ease;
     }
