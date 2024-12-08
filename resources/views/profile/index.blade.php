@@ -71,7 +71,7 @@
         text-align: left;
     }
 </style>
-
+{{-- menampilkan gambar  --}}
 <div class="profile-content">
     <div class="card profile-card card-outline card-primary">
         <div class="card-body">
@@ -133,6 +133,7 @@
         <h5 class="card-title">Sertifikasi</h5>
     </div>
     <div class="card-body">
+        {{-- memeriksa apakah ada data sertifikasi --}}
         @if($user->sertifikasi && $user->sertifikasi->count() > 0)
             <table class="table table-striped">
                 <thead>
@@ -145,6 +146,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- menampilkan data sertifikasi satu per satu --}}
                     @foreach($user->sertifikasi as $index => $sertifikasi)
                         <tr>
                             <td>{{ $index + 1 }}</td>

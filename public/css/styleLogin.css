@@ -1,7 +1,33 @@
 /* CSS for login background */
+/* Background */
+body.hold-transition.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Dibutuhkan untuk elemen pseudo */
+    overflow: hidden; /* Pastikan tidak ada scroll akibat elemen pseudo */
+    background-image: url('adminlte/dist/img/background_polinema.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Overlay gelap dengan transparansi */
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Warna gelap transparan */
+    z-index: 1; /* Pastikan berada di atas background */
+}
+
+/* Styling for login box */
 .rounded-logo {
-    width: 170px !important; /* Ukuran lebar logo diperbesar */
-    height: 170px !important; /* Ukuran tinggi logo diperbesar */
+    width: 150px !important; /* Ukuran lebar logo diperbesar */
+    height: 150px !important; /* Ukuran tinggi logo diperbesar */
     border-radius: 50%; /* Membuat bentuk lingkaran */
     object-fit: cover; /* Memastikan gambar memenuhi lingkaran */
     border: 2px solid #0D6EFD; /* Opsional: menambahkan border */
@@ -20,36 +46,17 @@
     transform: scale(1.1); /* Animasi zoom lebih besar saat hover */
     transition: transform 0.3s ease-in-out;
 }
-/* Background */
-body.hold-transition.login-page {
-    position: relative;
-    background-image: url('/storage/element/FOTO POLINEMA.jpg');
-    background-size: cover;
-    background-position: center;
-}
 
-/* Overlay gelap dengan transparansi */
-body.hold-transition.login-page::before {
-    content: ''; /* Membuat elemen pseudo */
-    position: absolute; /* Menempatkan overlay di posisi yang sama */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(200, 200, 200, 0.325); /* Warna hitam dengan transparansi */
-    z-index: -1; /* Menempatkan overlay di belakang konten */
-}
-
-/* Styling for login box */
 .login-box {
-    width: 400px; /* Adjust width for better layout */
-    margin-top: 10vh; /* Center the box vertically */
+    width: 400px; /* Lebar kotak login */
+    position: relative; /* Agar berada di atas overlay */
+    z-index: 2; /* Pastikan di atas layer overlay */
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.9); /* Add transparency to the card */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.9); /* Transparansi pada card */
+    border-radius: 10px; /* Membuat sudut membulat */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Memberikan bayangan */
 }
 
 /* Styling for buttons */

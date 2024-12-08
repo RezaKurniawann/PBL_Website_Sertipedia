@@ -8,6 +8,7 @@
 
 body {
   background-color: #f2f2f2;
+  scroll-behavior: smooth;
 }
 
 /* Header */
@@ -21,14 +22,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 4%;
+  padding: 10px 5%;
 }
 
 .header .logo {
-  font-size: 1.7rem;
-  font-weight: bolder;
-  color: #fff;
-  text-decoration: none;
+  display: flex;
+  align-items: center; /* Menjadikan teks dan gambar sejajar secara vertikal */
+  font-size: 1.5rem; /* Ukuran font untuk teks */
+  font-weight: bold;
+  color: #ffff; /* Warna teks */
+  text-decoration: none; /* Menghapus underline pada tautan */
+}
+
+.header .logo img.logo-image {
+  width: 40px; /* Lebar logo */
+  height: 40px; /* Tinggi logo */
+  margin-right: 10px; /* Jarak antara logo dan teks */
+  border-radius: 50%; /* Opsional: Membuat logo berbentuk lingkaran */
+  object-fit: cover; /* Memastikan gambar sesuai dengan dimensinya */
 }
 
 .header .navbar a {
@@ -65,21 +76,34 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* update css */
-  background-image: url('adminlte/dist/img/FOTO POLINEMA.jpg');
+  position: relative; /* Dibutuhkan untuk elemen pseudo */
+  background-image: url('adminlte/dist/img/background_polinema.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  z-index: 1; /* Pastikan berada di atas overlay */
+}
+
+.home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Warna gelap transparan */
+  z-index: -1; /* Letakkan overlay di bawah konten */
 }
 
 .home .home-text {
-  max-width: 1000px; /* Sesuaikan lebar area teks */
+  position: relative; /* Pastikan teks berada di atas overlay */
+  max-width: 1000px; 
   padding: 20px;
-  background: rgba(255, 255, 255, 0.873); /* Putih pudar dengan transparansi */
-  border-radius: 10px; /* Membuat sudut area melengkung */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Efek bayangan */
-  text-align: center; /* Pusatkan teks */
-  color: #333; /* Warna teks */
+  background: rgba(255, 255, 255, 0.873);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #333;
 }
 
 .home .home-text h1 {
