@@ -12,7 +12,7 @@ class LoginController extends Controller
     {
         // set validation
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]); 
 
@@ -22,13 +22,13 @@ class LoginController extends Controller
         }
 
         // get credentials from request
-        $credentials = $request -> only  ('username', 'password');
+        $credentials = $request -> only  ('email', 'password');
       
         //if auth failed
         if (!$token = auth() -> guard ('api') -> attempt($credentials)) {
             return response() -> json([
                 'success' => false,
-                'message' => 'Username atau Password Anda Salah'
+                'message' => 'Email atau Password Anda Salah'
             ], 401);
         }
         
