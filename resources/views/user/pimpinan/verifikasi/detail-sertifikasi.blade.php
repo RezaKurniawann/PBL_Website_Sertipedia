@@ -50,13 +50,13 @@
                 
                 <form action="{{ route('sertifikasi.rejected', $detailSertifikasi->first()->id_sertifikasi) }}" method="POST" style="display: inline;">
                     @csrf
-                    <button type="submit" class="btn btn-danger" style="height: 38px;margin-top: 16px;margin-left: 5px;"><a href="{{ route('verifikasi.sertifikasi') }} ">Tolak</a></button>
+                    <button type="submit" class="btn btn-danger" style="height: 38px;margin-top: 16px;margin-left: 5px;">Tolak</button>
                 </form>
 
                 <!-- Form untuk Accepted -->
                 <form action="{{ route('sertifikasi.accepted', $detailSertifikasi->first()->id_sertifikasi) }}" method="POST" style="display: inline;">
                     @csrf
-                    <button type="submit" class="btn btn-primary" style="height: 38px;margin-top: 16px;margin-left: 5px;"><a href="{{ route('verifikasi.sertifikasi') }} ">Setujui</a></button>
+                    <button type="submit" class="btn btn-primary" style="height: 38px;margin-top: 16px;margin-left: 5px;">Setujui</button>
                 </form>
             </div>    
         </div>
