@@ -15,11 +15,11 @@
                 </a>
                 <a href="{{ url('manage/pangkat/export_pdf') }}" class="btn btn-sm btn-danger mt-1 ">
                     <i class="fa fa-file-pdf"></i> Export PDF
-                </a>
+                </a> --}}
                 <button onclick="modalAction('{{ url('manage/pangkat/create_ajax') }}')"
                     class="btn btn-sm btn-primary mt-1 ">
                     <i class="fa fa-plus"></i> Tambah Data
-                </button> --}}
+                </button>
             </div>
         </div>
         <div class="card-body">
