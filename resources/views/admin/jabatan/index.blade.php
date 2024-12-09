@@ -6,7 +6,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('manage/jabatan/import') }}')"
+                {{-- <button onclick="modalAction('{{ url('manage/jabatan/import') }}')"
                     class="btn btn-sm btn-info mt-1 ">
                     <i class="fa fa-upload"></i> Import jabatan
                 </button>
@@ -19,7 +19,7 @@
                 <button onclick="modalAction('{{ url('manage/jabatan/create_ajax') }}')"
                     class="btn btn-sm btn-primary mt-1 ">
                     <i class="fa fa-plus"></i> Tambah Data
-                </button>
+                </button> --}}
             </div>
         </div>
         <div class="card-body">
@@ -74,6 +74,7 @@
         $(document).ready(function() {
             var dataJabatan = $('#table_jabatan').DataTable({
                 serverSide: true,
+                processing: true,
                 ajax: {
                     "url": "{{ url('manage/jabatan/list') }}",
                     "dataType": "json",
@@ -83,7 +84,8 @@
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "5%" 
                 }, {
                     data: "nama",
                     className: "",
@@ -91,9 +93,10 @@
                     searchable: true
                 }, {
                     data: "aksi",
-                    className: "",
+                    className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "20%"
                 }]
             });
         });

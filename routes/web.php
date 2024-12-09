@@ -256,6 +256,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotifikasiController::class, 'index'])->name('notifikasi.index');
             Route::get('/notifikasi/detail/{id}', [NotifikasiController::class, 'detail'])->name('notifikasi.detail');
+            Route::get('/notifikasi/export/pdf', [NotifikasiController::class, 'exportPdf'])->name('export.pdf');
         });
     });
 });

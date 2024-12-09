@@ -14,6 +14,12 @@
                         <small id="error-nama" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
+                        <label for="nip">NIP</label>
+                        <input type="text" name="nip" id="nip" class="form-control" required pattern="^[0-9]+$"
+                            aria-describedby="error-nip" placeholder="Masukkan NIP">
+                        <small id="error-nip" class="error-text form-text text-danger"></small>
+                    </div>
+                    <div class="form-group">
                         <label for="id_level">Level</label>
                         <select name="id_level" id="id_level" class="form-control" required>
                             <option value="">- Pilih Level -</option>
@@ -75,12 +81,6 @@
                         <input type="text" name="no_telp" id="no_telp" class="form-control" required
                             aria-describedby="error-no_telp" placeholder="Masukkan Nomor Telepon">
                         <small id="error-no_telp" class="error-text form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required pattern="^[0-9]+$"
-                            aria-describedby="error-username" placeholder="Masukkan username">
-                        <small id="error-username" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
@@ -263,6 +263,12 @@
                     minlength: 3,
                     maxlength: 100
                 },
+                nip: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 50,
+                    pattern: /^[0-9]+$/ // hanya angka
+                },
                 id_level: {
                     required: true
                 },
@@ -287,12 +293,6 @@
                     required: true,
                     minlength: 3,
                     maxlength: 15
-                },
-                username: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 50,
-                    pattern: /^[0-9]+$/ // hanya angka
                 },
                 password: {
                     required: true,

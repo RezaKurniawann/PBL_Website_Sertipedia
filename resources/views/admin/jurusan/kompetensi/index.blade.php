@@ -131,7 +131,8 @@
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "5%",
                 },
                 { 
                     data: "prodi",
