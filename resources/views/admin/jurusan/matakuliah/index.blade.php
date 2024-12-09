@@ -29,7 +29,7 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            <table class="table table-bordered table-striped table-hover table-sm w-auto" id="table_matakuliah">
+            <table class="table table-bordered table-striped table-hover table-sm" id="table_matakuliah">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -43,24 +43,6 @@
 @endsection
 @push('css')
 <style>
-    .table th,
-    .table td {
-        white-space: nowrap; /* Mencegah teks terpotong ke baris baru */
-        text-align: center; /* Rata tengah konten secara horizontal */
-        vertical-align: middle; /* Rata tengah konten secara vertikal */
-        padding-left: 50px; /* Jarak horizontal kiri */
-        padding-right: 50px; /* Jarak horizontal kanan */
-        padding-top: 5; /* Hilangkan jarak vertikal atas */
-        padding-bottom: 5; /* Hilangkan jarak vertikal bawah */
-    }
-
-    .table {
-        table-layout: auto; /* Kolom menyesuaikan isi */
-        width: 100%; /* Gunakan seluruh ruang tabel */
-        border-spacing: 0px; /* Hilangkan spasi antar sel tabel */
-        border-collapse: separate; /* Hindari tumpang tindih */
-    }
-
     .table-hover tbody tr:hover {
         background-color: rgba(0, 123, 255, 0.1); /* Warna highlight saat dihover */
     }
@@ -101,7 +83,8 @@
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "5%"
                 }, {
                     data: "nama",
                     className: "",
@@ -109,9 +92,10 @@
                     searchable: true
                 }, {
                     data: "aksi",
-                    className: "",
+                    className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "20%"
                 }]
             });
         });
