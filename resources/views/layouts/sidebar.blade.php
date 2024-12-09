@@ -103,7 +103,7 @@
                 @if (Auth::user()->level->nama == 'Admin')
                     <li class="nav-item dropdown">
                     <li class="nav-item">
-                        <a href="{{ url('/dosen/home') }}" class="nav-link {{ $activeMenu == 'home' ? 'active' : '' }}">
+                        <a href="{{ url('/admin/home') }}" class="nav-link {{ $activeMenu == 'home' ? 'active' : '' }}">
                             <i class="nav-icon fas fa-home"></i>
                             <p>Home</p>
                         </a>
