@@ -98,7 +98,7 @@
                         </tr>
                         <tr>
                             <td><strong>NIP</strong></td>
-                            <td>{{ $user->username ?? '-' }}</td>
+                            <td>{{ $user->nip ?? '-' }}</td>
                         </tr>
                         <tr>
                             <td><strong>Email</strong></td>

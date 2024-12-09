@@ -21,7 +21,7 @@ class AdminModel extends Authenticatable
     protected $fillable = [
         'id_level', 
         'nama', 
-        'username', 
+        'email', 
         'password', 
         'image', 
         'created_at', 
