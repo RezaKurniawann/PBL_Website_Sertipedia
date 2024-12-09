@@ -66,7 +66,7 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="form-group text-right">
                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -80,95 +80,68 @@
 @push('scripts')
 <script>
 $(document).ready(function () {
-    $(document).off('click', '.btn-add-user');
-            $(document).on('click', '.btn-add-user', function() {
-                const newField = $('.user-row:first').clone();
-                newField.find('select').val(''); // Reset the select field value
-                $('#user-fields').append(newField);
-            });
-        });
-
-        function showToast(message) {
-            const toastHTML = `
-        <div class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050; min-width: 250px; border-radius: 10px; background: linear-gradient(45deg, #ff6b6b, #f0a500); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
-            <div class="d-flex">
-                <div class="toast-body" style="padding: 10px 15px; font-size: 16px;">
-                    ${message}
+    // Fungsi untuk menambahkan baris baru
+    function addNewRow() {
+        const newField = `
+            <div class="user-row form-row align-items-center">
+                <div class="form-group col-md-9">
+                    <select name="user[]" class="form-control" required>
+                        <option value="">Pilih Dosen</option>
+                        @foreach ($user as $u)
+                            <option value="{{ $u->id_user }}">{{ $u->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <div class="form-group col-md-3 d-flex justify-content-end">
+                    <button type="button" class="btn btn-success btn-add-user">
+                        <i class="fas fa-plus"></i> Add
+                    </button>
+                    <button type="button" class="btn btn-danger btn-remove-user" style="margin-left: 5px;">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
             </div>
-        </div>
-    `;
-            $('body').append(toastHTML);
-            const toastElement = $('.toast').last();
-            const toast = new bootstrap.Toast(toastElement[0]);
-            toast.show();
+        `;
+        $('#user-fields').append(newField); // Tambahkan baris baru
+    }
 
-            toastElement.on('hidden.bs.toast', function() {
-                $(this).remove();
-            });
-        }
+    // Event listener untuk tombol "Add"
+    $(document).on('click', '.btn-add-user', function () {
+        addNewRow(); // Tambahkan baris baru
+    });
 
-        function checkDuplicates() {
-            const mataKuliahValues = [];
-            let duplicateFound = false;
-
-            // Mata Kuliah validation
-            $("select[name='mata_kuliah[]']").each(function() {
-                const value = $(this).val();
-                if (mataKuliahValues.includes(value) && value !== "") {
-                    duplicateFound = true;
-                    showToast('Mata Kuliah tidak boleh sama.');
-                }
-                mataKuliahValues.push(value);
-            });
-
-            return !duplicateFound; // Prevent form submission if duplicate found
-        }
-
-        $(document).on('click', '.btn-add-user', function() {
-            const newField = $('.user-row:first').clone();
-            newField.find('select').val(''); // Reset the select field value
-
-            // Re-add the "Add" button to the cloned row
-            newField.find('.btn-add-user').show();
-
-            // Append the cloned field to the user-fields container
-            $('#user-fields').append(newField);
-        });
-
-        $(document).on('click', '.btn-remove-user', function() {
-            if ($('.user-row').length > 1) {
-                $(this).closest('.user-row').remove();
-            } else {
-                showToast('Minimal Satu Mata Kuliah Harus Ada.');
-            }
-        });
-
-    // Validasi Form
-    $("#form-tambah").validate({
-        rules: {
-            id_pelatihan: { required: true },
-            id_vendor: { required: true },
-            level_pelatihan: { required: true },
-            id_periode: { required: true },
-            "user[]": { required: true }
-        },
-        submitHandler: function (form) {
-            $.ajax({
-                url: form.action,
-                type: form.method,
-                data: $(form).serialize(),
-                success: function (response) {
-                    if (response.status) {
-                        Swal.fire({ icon: 'success', title: 'Berhasil', text: response.message });
-                    } else {
-                        Swal.fire({ icon: 'error', title: 'Terjadi Kesalahan', text: response.message });
-                    }
-                }
-            });
-            return false;
+    // Event listener untuk tombol "Remove"
+    $(document).on('click', '.btn-remove-user', function () {
+        if ($('.user-row').length > 1) {
+            $(this).closest('.user-row').remove(); // Hapus baris terkait
+        } else {
+            showToast('Minimal satu dosen harus ada.'); // Tampilkan notifikasi jika hanya satu baris tersisa
         }
     });
+
+    // Fungsi untuk menampilkan notifikasi (Toast)
+    function showToast(message) {
+        const toastHTML = `
+            <div class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050; min-width: 250px; border-radius: 10px; background: linear-gradient(45deg, #ff6b6b, #f0a500); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
+                <div class="d-flex">
+                    <div class="toast-body" style="padding: 10px 15px; font-size: 16px;">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        `;
+        $('body').append(toastHTML); // Tambahkan notifikasi ke body
+        const toastElement = $('.toast').last();
+        const toast = new bootstrap.Toast(toastElement[0]);
+        toast.show(); // Tampilkan notifikasi
+
+        // Hapus notifikasi setelah disembunyikan
+        toastElement.on('hidden.bs.toast', function () {
+            $(this).remove();
+        });
+    }
+});
+
 </script>
 @endpush
