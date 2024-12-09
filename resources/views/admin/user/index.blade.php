@@ -37,14 +37,14 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>NO</th>
                         <th>Nama</th>
+                        <th>NIP</th>
                         <th>Level</th>
                         <th>Prodi</th>
                         <th>Pangkat</th>
                         <th>Golongan</th>
                         <th>Jabatan</th>
-                        <th>Email</th>
                         <th>Nomor Telepon</th>
                         <th>Username</th>
                         <th>Aksi</th>
@@ -58,7 +58,26 @@
 @endsection
 
 @push('css')
-    <!-- Tambahkan custom CSS di sini jika diperlukan -->
+<style>
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+</style>
 @endpush
 
 @push('js')
@@ -73,6 +92,7 @@
             var dataUser = $('#table_user').DataTable({
                 // Mengaktifkan server-side processing 
                 serverSide: true,
+                processing: true,
                 ajax: {
                     "url": "{{ url('manage/user/list') }}",
                     "dataType": "json",
@@ -94,6 +114,12 @@
                         className: "",
                         orderable: true,
                         searchable: true
+                    },                    
+                    {
+                        data: "nip",
+                        className: "",
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "level.nama",
@@ -125,13 +151,6 @@
                         orderable: false,
                         searchable: true
                     },
-                    
-                    {
-                        data: "email",
-                        className: "",
-                        orderable: false,
-                        searchable: false
-                    },
                     {
                         data: "no_telp",
                         className: "",
@@ -139,14 +158,14 @@
                         searchable: false
                     },
                     {
-                        data: "username",
+                        data: "email",
                         className: "",
                         orderable: false,
                         searchable: true
                     },
                     {
                         data: "aksi",
-                        className: "",
+                        className: "text-center",
                         width:"15%",
                         orderable: false,
                         searchable: false

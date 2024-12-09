@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        $users = UserModel::select('id_user', 'id_level', 'id_prodi', 'id_golongan', 'id_jabatan', 'id_pangkat', 'nama', 'email', 'no_telp', 'username')
+        $users = UserModel::select('id_user', 'id_level', 'id_prodi', 'id_golongan', 'id_jabatan', 'id_pangkat', 'nama', 'email', 'no_telp', 'nip')
             ->with('level', 'prodi', 'pangkat', 'golongan', 'jabatan');
         // Filter data user berdasarkan level_id
         if ($request->id_level) {
@@ -114,7 +114,7 @@ class UserController extends Controller
                 'id_jabatan' => 'required|integer',
                 'email'      => 'required|email|max:50',
                 'no_telp'    => 'required|string|max:15',
-                'username' => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
+                'nip' => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
                 'password'   => 'required|string|min:5|max:20',
                 'mata_kuliah' => 'required|array|min:1',
                 'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
@@ -198,18 +198,18 @@ class UserController extends Controller
     {
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'nama'       => 'required|string|min:3|max:100',
-                'id_level'   => 'required|integer',
-                'id_prodi'   => 'required|integer',
-                'id_pangkat' => 'required|integer',
-                'id_golongan' => 'required|integer',
-                'id_jabatan' => 'required|integer',
-                'email'      => 'required|email|max:50',
-                'no_telp'    => 'required|string|max:15',
-                'username'   => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
-                'mata_kuliah' => 'required|array|min:1',
-                'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
-                'bidang_minat' => 'required|array|min:1',
+                'nama'           => 'required|string|min:3|max:100',
+                'id_level'       => 'required|integer',
+                'id_prodi'       => 'required|integer',
+                'id_pangkat'     => 'required|integer',
+                'id_golongan'    => 'required|integer',
+                'id_jabatan'     => 'required|integer',
+                'email'          => 'required|email|max:50',
+                'no_telp'        => 'required|string|max:15',
+                'nip'            => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
+                'mata_kuliah'    => 'required|array|min:1',
+                'mata_kuliah.*'  => 'required|integer|exists:m_matakuliah,id_matakuliah',
+                'bidang_minat'   => 'required|array|min:1',
                 'bidang_minat.*' => 'required|integer|exists:m_bidangminat,id_bidangminat',
             ];
             // use Illuminate\Support\Facades\Validator;
@@ -237,7 +237,7 @@ class UserController extends Controller
                     'id_jabatan' => $request->input('id_jabatan'),
                     'email' => $request->input('email'),
                     'no_telp' => $request->input('no_telp'),
-                    'username' => $request->input('username'),
+                    'nip' => $request->input('nip'),
                 ]);
 
                 // Insert ulang data baru ke tabel `t_user_matakuliah`
@@ -338,14 +338,14 @@ class UserController extends Controller
 
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'Nama');
-        $sheet->setCellValue('C1', 'Level');
-        $sheet->setCellValue('D1', 'Prodi');
-        $sheet->setCellValue('E1', 'Pangkat');
-        $sheet->setCellValue('F1', 'Golongan');
-        $sheet->setCellValue('G1', 'Jabatan');
-        $sheet->setCellValue('H1', 'Email');
-        $sheet->setCellValue('I1', 'Nomor Telepon');
-        $sheet->setCellValue('J1', 'Username');
+        $sheet->setCellValue('C1', 'nip');
+        $sheet->setCellValue('D1', 'Level');
+        $sheet->setCellValue('E1', 'Prodi');
+        $sheet->setCellValue('F1', 'Pangkat');
+        $sheet->setCellValue('G1', 'Golongan');
+        $sheet->setCellValue('H1', 'Jabatan');
+        $sheet->setCellValue('I1', 'Email');
+        $sheet->setCellValue('J1', 'Nomor Telepon');
 
 
         $sheet->getStyle('A1:J1')->getFont()->setBold(true);
@@ -358,13 +358,13 @@ class UserController extends Controller
             $sheet->setCellValue('A' . $baris, $no);
             $sheet->setCellValue('B' . $baris, $value->nama);
             $sheet->setCellValue('C' . $baris, $value->level->nama);
-            $sheet->setCellValue('D' . $baris, $value->prodi->nama);
-            $sheet->setCellValue('E' . $baris, $value->pangkat->nama);
-            $sheet->setCellValue('F' . $baris, $value->golongan->nama);
-            $sheet->setCellValue('G' . $baris, $value->jabatan->nama);
-            $sheet->setCellValue('H' . $baris, $value->email);
-            $sheet->setCellValue('I' . $baris, $value->no_telp);
-            $sheet->setCellValue('J' . $baris, $value->username);
+            $sheet->setCellValue('D' . $baris, $value->nip);
+            $sheet->setCellValue('E' . $baris, $value->prodi->nama);
+            $sheet->setCellValue('F' . $baris, $value->pangkat->nama);
+            $sheet->setCellValue('G' . $baris, $value->golongan->nama);
+            $sheet->setCellValue('H' . $baris, $value->jabatan->nama);
+            $sheet->setCellValue('I' . $baris, $value->email);
+            $sheet->setCellValue('J' . $baris, $value->no_telp);
             $baris++;
             $no++;
         }

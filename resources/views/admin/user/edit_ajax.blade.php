@@ -33,6 +33,12 @@
                             <small id="error-nama" class="error-text form-text text-danger"></small>
                         </div>
                         <div class="form-group">
+                            <label>NIP</label>
+                            <input value="{{ $user->nip }}" type="text" name="nip" id="nip"
+                                class="form-control" required>
+                            <small id="error-nip" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
                             <label>Level</label>
                             <select name="id_level" id="id_level" class="form-control" required>
                                 <option value="">- Pilih Level -</option>
@@ -98,12 +104,6 @@
                             <input value="{{ $user->no_telp }}" type="text" name="no_telp" id="no_telp"
                                 class="form-control" required>
                             <small id="error-no_telp" class="error-text form-text text-danger"></small>
-                        </div>
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input value="{{ $user->username }}" type="text" name="username" id="username"
-                                class="form-control" required>
-                            <small id="error-username" class="error-text form-text text-danger"></small>
                         </div>
                         <div id="mata-kuliah-fields">
                             <h5>Mata Kuliah</h5>
@@ -305,7 +305,7 @@
                             minlength: 3,
                             maxlength: 15
                         },
-                        username: {
+                        nip: {
                             required: true,
                             minlength: 3,
                             maxlength: 50,
