@@ -14,7 +14,7 @@ class LevelSeeder extends Seeder
             [
                 'id_level' => 1, 
                 'kode' => 'ADM', 
-                'nama' => 'Admin'
+                'nama' => 'Admi'
             ],
             [
                 'id_level' => 2, 
