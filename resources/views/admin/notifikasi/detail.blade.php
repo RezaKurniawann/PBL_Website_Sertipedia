@@ -22,7 +22,7 @@
         </table>
         
         <!-- Form Surat Tugas -->
-        <form action="{{ route('notifikasi.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('notifikasi.index') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="dosen" class="form-label">Dosen</label>
@@ -33,11 +33,15 @@
                 <input type="file" class="form-control" id="suratTugas" name="surat_tugas" accept=".pdf" required>
             </div>
             <input type="hidden" name="id_item" value="{{ $item->id }}">
-            <button type="submit" class="btn btn-success">Simpan</button>
+            <div>
+                <a href="{{ route('notifikasi.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+                <button type="submit" class="btn btn-success" style="margin-top: 17px">Simpan</button>
+            </div>
         </form>
 
         <!-- Tombol Kembali -->
-        <a href="{{ route('notifikasi.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+
+
     </div>
 </div>
 @endsection

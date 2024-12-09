@@ -50,13 +50,13 @@
             
             <form action="{{ route('pelatihan.rejected', $detailPelatihan->first()->id_pelatihan) }}" method="POST" style="display: inline;">
                 @csrf
-                <button type="submit" class="btn btn-danger" style="height: 38px;margin-top: 16px;margin-left: 5px;"><a href="{{ route('verifikasi.pelatihan') }} ">Tolak</a></button>
+                <button type="submit" class="btn btn-danger" style="height: 38px;margin-top: 16px;margin-left: 5px;">Tolak</button>
             </form>
 
             <!-- Form untuk Accepted -->
             <form action="{{ route('pelatihan.accepted', $detailPelatihan->first()->id_pelatihan) }}" method="POST" style="display: inline;">
                 @csrf
-                <button type="submit" class="btn btn-primary" style="height: 38px;margin-top: 16px;margin-left: 5px;"><a href="{{ route('verifikasi.pelatihan') }} ">Setujui</a></button>
+                <button type="submit" class="btn btn-primary" style="height: 38px;margin-top: 16px;margin-left: 5px;">Setujui</button>
             </form>
         </div>    
     </div>

@@ -33,7 +33,6 @@ class DetailPelatihanModel extends Pivot
     {
         return $this->belongsTo(UserModel::class, 'id_user', 'id_user');
     }
-
     public function pelatihan(): BelongsTo
     {
         return $this->belongsTo(PelatihanModel::class, 'id_pelatihan', 'id_pelatihan');
