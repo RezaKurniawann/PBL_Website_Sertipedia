@@ -36,7 +36,7 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sistem Informasi Pendataan Sertifikasi dan Pelatihan Dosen Jurusan Teknologi Informasi</p>
-                <form action="{{ url('/login') }}" method="POST" id="form-login">
+                <form action="{{ url('login') }}" method="POST" id="form-login">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="email" id="email" name="email" class="form-control"
@@ -59,11 +59,11 @@
                         <small id="error-password" class="error-text text-danger"></small>
                     </div>
                     <div class="row">
-                        <div class="col-12 text-center">
+                        {{-- <div class="col-12 text-center">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember"><label for="remember">Remember Me</label>
                             </div>
-                        </div>
+                        </div> --}}
                          <!-- /.col -->
                         <div class="col-12 text-center mt-3">
                             <button type="submit" class="btn btn-primary btn-block w-50 mx-auto">Masuk</button>
@@ -72,7 +72,7 @@
                             <span class="divider">atau</span>
                         </div>
                         <div class="col-12 text-center mt-3">
-                            <a href="{{ url('login/mahasiswa') }}" class="btn-secondary w-50 mx-auto d-block">Masuk sebagai Mahasiswa</a>
+                            <a href="{{ url('guest/homepage') }}" class="btn-secondary w-50 mx-auto d-block">Masuk sebagai Mahasiswa</a>
                         </div>
                         <!-- /.col -->
                     </div>

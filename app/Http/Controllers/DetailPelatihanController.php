@@ -9,6 +9,7 @@ use App\Models\VendorModel;
 use App\Models\DetailPelatihanModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
@@ -36,71 +37,88 @@ class DetailPelatihanController extends Controller
 
     public function formDataPelatihan()
     {
-        $user = UserModel::findOrFail(Auth::id());
-        $pelatihan = PelatihanModel::all();
-        $vendor = VendorModel::where('kategori', 'Pelatihan')->get();
-        $periode = PeriodeModel::all();
-
         $breadcrumb = (object) [
-            'title' => 'Form Pelatihan',
-            'list' => ['Home', 'Form Pelatihan']
+            'title' => 'Daftar Pelatihan',
+            'list' => ['Home', 'Pelatihan']
+        ];
+
+        $page = (object) [
+            'title' => 'Daftar Pelatihan yang Sedang Diikuti'
         ];
 
         $activeMenu = 'inputdata';
 
-        return view('user.inputdata.pelatihan', [
-            'user' => $user,
-            'pelatihan' => $pelatihan,
-            'vendor' => $vendor,
-            'periode' => $periode,
-            'breadcrumb' => $breadcrumb,
-            'activeMenu' => $activeMenu
-        ]);
+        return view('user.inputdata.pelatihan', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+    }
+
+    public function listPelatihan(Request $request)
+    {
+        if ($request->ajax()) { // Pastikan hanya melayani request AJAX
+            $user = UserModel::findOrFail(Auth::id());
+
+            // Ambil data detail pelatihan beserta relasi
+            $detailPelatihan = DetailPelatihanModel::with(['user', 'pelatihan.vendor', 'pelatihan.periode'])
+                ->where('id_user', $user->id_user)
+                ->where('status', 'On Going')
+                ->get();
+
+            return DataTables::of($detailPelatihan)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($detailPelatihan) {
+                    return '<button onclick="modalAction(\'' . url('inputdata/pelatihan/' . $detailPelatihan->id_detail_pelatihan . '/show_pelatihan') . '\')" class="btn btn-sm btn-info"><i class="fa fa-upload"></i> Input Data</button>';
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+        return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function showPelatihan(string $id)
+    {
+        $detailPelatihan = DetailPelatihanModel::find($id);
+        if ($detailPelatihan) {
+            return view('user.inputdata.showPelatihan', ['detailPelatihan' => $detailPelatihan]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
     }
 
     public function uploadDataPelatihan(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'id_vendor' => 'required|exists:m_vendor,id_vendor',
-            'level_pelatihan' => 'required|in:Nasional,Internasional',
-            'id_periode' => 'required|exists:m_periode,id_periode',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        
-        $pelatihan = PelatihanModel::where([
-            ['nama', '=', $validated['nama']],
-            ['id_vendor', '=', $validated['id_vendor']],
-            ['level_pelatihan', '=', $validated['level_pelatihan']],
-            ['id_periode', '=', $validated['id_periode']],
-        ])->first();
-
-        if ($pelatihan) {
-            $detailPelatihan = DetailPelatihanModel::where([
-                ['id_user', '=', $id], 
-                ['id_pelatihan', '=', $pelatihan->id_pelatihan], 
-            ])->first();
-        
-            if ($detailPelatihan) {
-                if ($request->hasFile('image')) {
-                    if ($detailPelatihan->image && Storage::disk('public')->exists('photos/' . $detailPelatihan->image)) {
-                        Storage::disk('public')->delete('photos/' . $detailPelatihan->image);
-                    }
-                    $fileName = $request->file('image')->hashName();
-                    $request->file('image')->storeAs('public/photos', $fileName);
-                    $detailPelatihan->image = $fileName;
-                    $detailPelatihan->status = "Completed";
+        $detailPelatihan = DetailPelatihanModel::find($id); // Adjust this according to your model structure
+    
+        if ($detailPelatihan) {
+            // Check if the image file is provided
+            if ($request->hasFile('image_pelatihan')) {
+                // If the record already has an image, delete it from storage
+                if ($detailPelatihan->image && Storage::disk('public')->exists('photos/' . $detailPelatihan->image)) {
+                    Storage::disk('public')->delete('photos/' . $detailPelatihan->image);
                 }
     
-                $detailPelatihan->save();
-        
-                return redirect()->back()->with('success', 'Data Berhasil Diupload!');
-            } else {
-                return redirect()->back()->with('error', 'Detail Pelatihan tidak ditemukan.');
-
+                // Store the new image and update the record
+                $fileName = $request->file('image_pelatihan')->hashName();
+                $request->file('image_pelatihan')->storeAs('public/photos', $fileName);
+                $detailPelatihan->image = $fileName;
+                $detailPelatihan->status = "Completed"; // Update the status if necessary
             }
+    
+            // Save the changes to the database
+            $detailPelatihan->save();
+    
+            // Return a success response in JSON format
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil disimpan!',
+            ]);
         } else {
-            return redirect()->back()->with('error', 'Pelatihan tidak ditemukan.');
+            // Return a failure response if the detail not found
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan!',
+            ]);
         }
     }
 }

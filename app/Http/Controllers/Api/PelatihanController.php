@@ -18,22 +18,20 @@ class PelatihanController extends Controller
         return PelatihanModel::all();
     }
 
-    public function show(PelatihanModel $pelatihan)
+    public function show()
     {
         try {
             // Join the tables to fetch the necessary details
             $detailPelatihan = DetailPelatihanModel::select('t_detail_pelatihan.*', 
-                                                            'm_user.nama as nama',
-                                                            'm_bidangminat.nama as nama_bidang_minat',
-                                                            'm_vendor.nama as nama_vendor',
-                                                            'm_pelatihan.tanggal_awal as tanggal')
-                ->join('m_pelatihan', 't_detail_pelatihan.id_pelatihan', '=', 'm_pelatihan.id_pelatihan')
-                ->join('m_pelatihan', 't_pelatihan_bidangminat.id_pelatihan', '=', 'm_pelatihan.id_pelatihan')
+                                                'p1.nama as nama_pelatihan', 
+                                                'm_vendor.nama as nama_vendor', 
+                                                'p1.tanggal_awal as tanggal')                                          
+                ->join('m_pelatihan as p1', 't_detail_pelatihan.id_pelatihan', '=', 'p1.id_pelatihan')                
                 ->join('m_user', 't_detail_pelatihan.id_user', '=', 'm_user.id_user')
-                ->join('m_bidangminat', 't_pelatihan_bidangminat.id_bidangminat', '=', 'm_bidangminat.id_bidangminat')
-                ->join('m_vendor', 'm_pelatihan.id_vendor', '=', 'm_vendor.id_vendor')
+                ->join('m_vendor', 'p1.id_vendor', '=', 'm_vendor.id_vendor')
                 ->where('t_detail_pelatihan.status', 'Requested')
                 ->get();
+
     
             if ($detailPelatihan->isEmpty()) {
                 Log::warning("No training data found.");

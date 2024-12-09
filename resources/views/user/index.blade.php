@@ -17,7 +17,8 @@
 
                     <!-- Search Bar -->
                     <label for="searchInput" class="me-2">Search:</label>
-                    <input type="text" id="searchInput" class="form-control form-control-sm" autocomplete="off" value="{{ $searchTerm }}">
+                    <input type="text" id="searchInput" class="form-control form-control-sm" autocomplete="off"
+                        value="{{ $searchTerm }}">
                 </div>
             </div>
         </div>
@@ -26,20 +27,17 @@
         <div class="card-body">
             <div class="row" id="dosenCards">
                 @foreach ($users as $user)
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 dosen-card" 
-                         data-name="{{ $user->nama }}" 
-                         data-prodi="{{ $user->prodi->nama ?? '' }}" 
-                         data-bidang="{{ $user->bidangMinat->pluck('nama')->join(', ') }}" 
-                         data-matkul="{{ $user->mataKuliah->pluck('nama')->join(', ') }}">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 dosen-card" data-name="{{ $user->nama }}"
+                        data-prodi="{{ $user->prodi->nama ?? '' }}"
+                        data-bidang="{{ $user->bidangMinat->pluck('nama')->join(', ') }}"
+                        data-matkul="{{ $user->mataKuliah->pluck('nama')->join(', ') }}">
                         <div class="card shadow-sm p-3">
                             <div class="d-flex align-items-center">
                                 <!-- Profile Picture -->
                                 <div class="mx-4">
-                                    <img src="{{$user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}"
-                                         alt="Foto Dosen"
-                                         class="rounded-circle shadow-sm object-fit-cover"
-                                         width="110"
-                                         height="110">
+                                    <img src="{{ $user->image ? asset('storage/photos/' . $user->image) : asset('storage/element/default-profile.jpg') }}"
+                                        alt="Foto Dosen" class="rounded-circle shadow-sm object-fit-cover" width="110"
+                                        height="110">
                                 </div>
                                 <div>
                                     <h5 class="card-title font-weight-bold">{{ $user->nama }}</h5>
@@ -50,7 +48,16 @@
                                             <li>{{ $bidang->nama }}</li>
                                         @endforeach
                                     </ul>
-                                    <a href="{{ route('user.users.show', $user->id_user) }}" class="btn btn-primary w-100">View Profile</a>
+                                    @guest
+                                        <!-- Jika guest -->
+                                        <a href="{{ route('guest.users.show', $user->id_user) }}"
+                                            class="btn btn-primary w-100">View Profile</a>
+                                    @else
+                                        <!-- Jika login -->
+                                        <a href="{{ route('user.users.show', $user->id_user) }}"
+                                            class="btn btn-primary w-100">View Profile</a>
+                                    @endguest
+                                    {{-- <a href="{{ route('user.users.show', $user->id_user) }}" class="btn btn-primary w-100">View Profile</a> --}}
                                 </div>
                             </div>
                         </div>

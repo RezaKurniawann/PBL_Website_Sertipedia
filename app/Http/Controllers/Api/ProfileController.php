@@ -139,8 +139,6 @@ public function getOwnSertifikasi($id)
 }
 
 
-
-
     public function getUserBidangMinat($id)
     {
         try {

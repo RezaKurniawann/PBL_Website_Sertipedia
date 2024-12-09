@@ -40,7 +40,7 @@ class AdminHomeController extends Controller
         // Pagination berdasarkan 'perPage' dan query pencarian
         $users = $query->paginate($perPage);
     
-        $activeMenu = 'manage-admin';
+        $activeMenu = 'home';
     
         if ($request->ajax()) {
             return view('admin.partials.users', compact('users'));

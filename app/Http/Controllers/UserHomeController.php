@@ -39,7 +39,7 @@ class UserHomeController extends Controller
         // Pagination berdasarkan 'perPage' dan query pencarian
         $users = $query->paginate($perPage);
     
-        $activeMenu = 'manage-user';
+        $activeMenu = 'home';
     
         if ($request->ajax()) {
             return view('user.partials.users', compact('users'));
@@ -50,7 +50,7 @@ class UserHomeController extends Controller
             'page' => $page,
             'users' => $users,
             'activeMenu' => $activeMenu,
-            'searchTerm' => $searchTerm // Pastikan search term diteruskan ke view untuk form pencarian
+            'searchTerm' => $searchTerm
         ]);
     }
  
