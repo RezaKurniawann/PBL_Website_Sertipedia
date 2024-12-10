@@ -80,11 +80,10 @@
             </div>
         </div>
     </form>
-
     <script>
         $(document).ready(function() {
-            // Validasi form delete
             $("#form-delete").validate({
+                rules: {},
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -92,30 +91,27 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
-                                $('#modal-master').modal('hide'); // Menutup modal
+                                $('#myModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataLevel.ajax.reload(); // Reload data pada tabel
+                                dataperiode.ajax.reload();
                             } else {
+                                $('.error-text').text('');
+                                $.each(response.msgField, function(prefix, val) {
+                                    $('#error-' + prefix).text(val[0]);
+                                });
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Terjadi Kesalahan',
                                     text: response.message
                                 });
                             }
-                        },
-                        error: function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: 'Gagal menghapus data. Silakan coba lagi.'
-                            });
                         }
                     });
-                    return false; // Prevent form submission
+                    return false;
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {
