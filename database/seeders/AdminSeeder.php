@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
             [
                 'id_level' => 1,
                 'nama' => 'Admin',
-                'username' => '1001',  
+                'email' => 'admin@gmail.com',
                 'password' => Hash::make('admin123'),
                 'image' => null,
             ],

@@ -1,22 +1,22 @@
 
-<form action="{{ url('manage/vendor/import_ajax') }}" method="POST" id="form-import"enctype="multipart/form-data">
+<form action="{{ url('manage/user/import_ajax') }}" method="POST" id="form-import"enctype="multipart/form-data">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Impor Data Vendor</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Impor Data User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>Download Template</label>
-                    <a href="{{ url('templateExcel/template_vendor.xlsx') }}" class="btn btn-info btn-sm" download><i class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-vendor_id" class="error-text form-text text-danger"></small>
+                    <a href="{{ url('templateExcel/template_user.xlsx') }}" class="btn btn-info btn-sm" download><i class="fa fa-file-excel"></i>Download</a>
+                    <small id="error-id_user" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Pilih File</label>
-                    <input type="file" name="file_vendor" id="file_vendor" class="form-control" required>
-                    <small id="error-file_vendor" class="error-text form-text text-danger"></small>
+                    <input type="file" name="file_user" id="file_user" class="form-control" required>
+                    <small id="error-file_user" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -30,7 +30,7 @@
     $(document).ready(function() {
         $("#form-import").validate({
             rules: {
-                file_vendor: {required: true, extension: "xlsx"},
+                file_user: {required: true, extension: "xlsx"},
             },
             submitHandler: function(form) {
                 var formData = new FormData(form); // Jadikan form ke FormData untuk menghandle file

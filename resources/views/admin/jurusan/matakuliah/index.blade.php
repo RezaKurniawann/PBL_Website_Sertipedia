@@ -43,6 +43,10 @@
 @endsection
 @push('css')
 <style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* Warna highlight saat dihover */
+    }
+
     .card {
         border-radius: 10px;
         overflow: hidden;
@@ -55,10 +59,6 @@
     .btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(0, 123, 255, 0.1);
     }
 
 </style>
@@ -83,7 +83,8 @@
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "5%"
                 }, {
                     data: "nama",
                     className: "",
@@ -91,9 +92,10 @@
                     searchable: true
                 }, {
                     data: "aksi",
-                    className: "",
+                    className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "20%"
                 }]
             });
         });

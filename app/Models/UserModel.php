@@ -39,7 +39,7 @@ class UserModel extends Authenticatable implements JWTSubject
         'nama', 
         'email',
         'no_telp',
-        'username', 
+        'nip', 
         'password', 
         'image',
         'created_at', 

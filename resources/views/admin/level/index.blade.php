@@ -6,7 +6,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('manage/level/import') }}')"
+                {{-- <button onclick="modalAction('{{ url('manage/level/import') }}')"
                     class="btn btn-sm btn-info mt-1 ">
                     <i class="fa fa-upload"></i> Import Level
                 </button>
@@ -15,7 +15,7 @@
                 </a>
                 <a href="{{ url('manage/level/export_pdf') }}" class="btn btn-sm btn-danger mt-1 ">
                     <i class="fa fa-file-pdf"></i> Export PDF
-                </a>
+                </a> --}}
                 <button onclick="modalAction('{{ url('manage/level/create_ajax') }}')"
                     class="btn btn-sm btn-primary mt-1 ">
                     <i class="fa fa-plus"></i> Tambah Data
@@ -75,6 +75,8 @@
         $(document).ready(function() {
             var dataLevel = $('#table_level').DataTable({
                 serverSide: true,
+                processing: true,
+                
                 ajax: {
                     "url": "{{ url('manage/level/list') }}",
                     "dataType": "json",
@@ -84,7 +86,8 @@
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "5%" 
                 }, {
                     data: "kode",
                     className: "",
@@ -97,9 +100,10 @@
                     searchable: true
                 }, {
                     data: "aksi",
-                    className: "",
+                    className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "20%"
                 }]
             });
         });

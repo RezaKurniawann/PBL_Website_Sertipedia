@@ -27,7 +27,7 @@ class AuthController extends Controller
     {
         if ($request->ajax() || $request->wantsJson()) {
             
-            $credentials = $request->only('username', 'password');
+            $credentials = $request->only('email', 'password');
             
             // Check login for admin guard
             if (Auth::guard('admin')->attempt($credentials)) {

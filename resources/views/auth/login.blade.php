@@ -20,10 +20,11 @@
 
 </head>
 
-<body class="hold-transition login-page" style="background: url('{{ url('adminlte/dist/img/FOTO POLINEMA.jpg') }}') no-repeat center center; background-size: cover;">
+<body class="hold-transition login-page" style="background: url('{{ url('adminlte/dist/img/background_polinema.jpg') }}') no-repeat center center; background-size: cover;">
+    <div class="background-overlay"></div>
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
+        <div class="card card-outline ">
             <div class="card-header text-center">
                 <!-- Tambahan Logo -->
                 <div class="logos" style="margin-bottom: 1rem; text-align: center;">
@@ -38,14 +39,14 @@
                 <form action="{{ url('login') }}" method="POST" id="form-login">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" id="username" name="username" class="form-control"
-                            placeholder="Username">
+                        <input type="email" id="email" name="email" class="form-control"
+                            placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                        <small id="error-username" class="error-text text-danger"></small>
+                        <small id="error-email" class="error-text text-danger"></small>
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" id="password" name="password" class="form-control"
@@ -58,11 +59,11 @@
                         <small id="error-password" class="error-text text-danger"></small>
                     </div>
                     <div class="row">
-                        <div class="col-12 text-center">
+                        {{-- <div class="col-12 text-center">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember"><label for="remember">Remember Me</label>
                             </div>
-                        </div>
+                        </div> --}}
                          <!-- /.col -->
                         <div class="col-12 text-center mt-3">
                             <button type="submit" class="btn btn-primary btn-block w-50 mx-auto">Masuk</button>
@@ -71,7 +72,7 @@
                             <span class="divider">atau</span>
                         </div>
                         <div class="col-12 text-center mt-3">
-                            <a href="{{ url('login/mahasiswa') }}" class="btn-secondary w-50 mx-auto d-block">Masuk sebagai Mahasiswa</a>
+                            <a href="{{ url('guest/homepage') }}" class="btn-secondary w-50 mx-auto d-block">Masuk sebagai Mahasiswa</a>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -102,10 +103,11 @@
         $(document).ready(function() {
             $("#form-login").validate({
                 rules: {
-                    username: {
+                    email: {
                         required: true,
+                        email: true,
                         minlength: 4,
-                        maxlength: 20
+                        maxlength: 50
                     },
                     password: {
                         required: true,

@@ -15,7 +15,10 @@
 
    <!-- Header -->
 <header class="header">
-    <a href="{{ url('/') }}" class="logo"> <i class=""></i> SERTIPEDIA </a>
+    <a href="{{ url('/') }}" class="logo"> 
+        <img src="{{ url('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="Logo Sertipedia" class="logo-image">
+        SERTIPEDIA
+    </a>
     <nav class="navbar">
         <a href="#home">Home</a>
         <a href="#about">About</a>
@@ -26,7 +29,7 @@
 <!-- Header end -->
 
     <!-- Home Section -->
-    <section class="home hero" id="home" style="background-image: url('{{ asset('adminlte/dist/img/FOTO POLINEMA.jpg') }}');">
+    <section class="home hero" id="home" style="background-image: url('{{ asset('adminlte/dist/img/background_polinema.jpg') }}');">
         <div class="swiper-container home-slider">
             {{-- <div class="swiper-wrapper">
                 @foreach ($slides as $slide)

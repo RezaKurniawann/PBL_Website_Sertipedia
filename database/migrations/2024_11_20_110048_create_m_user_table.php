@@ -17,9 +17,9 @@ return new class extends Migration
             $table -> unsignedBigInteger('id_golongan') -> index;
             $table -> unsignedBigInteger('id_jabatan') -> index;
             $table->string('nama');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('no_telp');
-            $table->string('username') -> unique();
+            $table->string('nip')->unique();
             $table->string('password');
             $table->string('image')->nullable();
             $table->timestamps();

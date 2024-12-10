@@ -5,7 +5,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('manage/user/import') }}')" class="btn btn-sm btn-info mt-1 "><i class="fa fa-upload"></i> Import User</button>
+                {{-- <button onclick="modalAction('{{ url('manage/user/import') }}')" class="btn btn-sm btn-info mt-1 "><i class="fa fa-upload"></i> Import User</button> --}}
                 <a href="{{ url('manage/user/export_excel') }}" class="btn btn-sm btn-success mt-1 "><i class="fa fa-file-excel"></i> Export Excel</a>
                 <a href="{{ url('manage/user/export_pdf') }}" class="btn btn-sm btn-danger mt-1 "><i class="fa fa-file-pdf"></i> Export PDF</a>
                 <button onclick="modalAction('{{ url('manage/user/create_ajax') }}')" class="btn btn-sm btn-primary mt-1 "><i class="fa fa-plus"></i> Tambah Data</button>
@@ -37,8 +37,9 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>NO</th>
                         <th>Nama</th>
+                        <th>NIP</th>
                         <th>Level</th>
                         <th>Prodi</th>
                         <th>Pangkat</th>
@@ -46,7 +47,6 @@
                         <th>Jabatan</th>
                         <th>Email</th>
                         <th>Nomor Telepon</th>
-                        <th>Username</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -58,7 +58,26 @@
 @endsection
 
 @push('css')
-    <!-- Tambahkan custom CSS di sini jika diperlukan -->
+<style>
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+</style>
 @endpush
 
 @push('js')
@@ -73,6 +92,7 @@
             var dataUser = $('#table_user').DataTable({
                 // Mengaktifkan server-side processing 
                 serverSide: true,
+                processing: true,
                 ajax: {
                     "url": "{{ url('manage/user/list') }}",
                     "dataType": "json",
@@ -94,6 +114,12 @@
                         className: "",
                         orderable: true,
                         searchable: true
+                    },                    
+                    {
+                        data: "nip",
+                        className: "",
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "level.nama",
@@ -125,12 +151,11 @@
                         orderable: false,
                         searchable: true
                     },
-                    
                     {
                         data: "email",
                         className: "",
                         orderable: false,
-                        searchable: false
+                        searchable: true
                     },
                     {
                         data: "no_telp",
@@ -139,14 +164,8 @@
                         searchable: false
                     },
                     {
-                        data: "username",
-                        className: "",
-                        orderable: false,
-                        searchable: true
-                    },
-                    {
                         data: "aksi",
-                        className: "",
+                        className: "text-center",
                         width:"15%",
                         orderable: false,
                         searchable: false

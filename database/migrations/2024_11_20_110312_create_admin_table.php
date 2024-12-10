@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_admin');
             $table -> unsignedBigInteger('id_level') -> index;
             $table->string('nama');
-            $table->integer('username')->unique();
+            $table->string('email')->unique();
             $table->string('password');
             $table->string('image')->nullable();
             $table->timestamps();

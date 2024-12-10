@@ -172,7 +172,7 @@ class VendorController extends Controller
 
         $pdf = Pdf::loadView('admin.vendor.export_pdf', ['vendor' => $vendor]);
         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
-        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
+        // $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url $pdf->render();
         return $pdf->stream('Data vendor ' . date('Y-m-d H:i:s') . '.pdf');
     }
 

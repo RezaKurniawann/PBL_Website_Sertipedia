@@ -46,8 +46,7 @@ Route::get('levels/{level}', [LevelController::class, 'show']);
 Route::get('matakuliahs', [MataKuliahController::class, 'index']);
 Route::get('matakuliahs/{matakuliah}', [MataKuliahController::class, 'show']);
 //pelatihan
-Route::get('pelatihans', [PelatihanController::class, 'index']);
-Route::get('pelatihans/{pelatihan}', [PelatihanController::class, 'show']);
+Route::get('pelatihans', [PelatihanController::class, 'show']);
 //prodi
 Route::get('prodis', [ProdiController::class, 'index']);
 Route::get('prodis/{prodi}', [ProdiController::class, 'show']);

@@ -60,7 +60,6 @@
     .table-hover tbody tr:hover {
         background-color: rgba(0, 123, 255, 0.1);
     }
-
 </style>
 @endpush
 @push('js')
@@ -74,6 +73,7 @@
         $(document).ready(function() {
             var databidangminat = $('#table_bidangminat').DataTable({
                 serverSide: true,
+                autoWidth: true, // Mengaktifkan lebar kolom otomatis
                 ajax: {
                     "url": "{{ url('manage/jurusan/bidangminat/list') }}",
                     "dataType": "json",
@@ -83,7 +83,8 @@
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "5%"
                 }, {
                     data: "nama",
                     className: "",
@@ -91,9 +92,10 @@
                     searchable: true
                 }, {
                     data: "aksi",
-                    className: "",
+                    className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "20%"
                 }]
             });
         });

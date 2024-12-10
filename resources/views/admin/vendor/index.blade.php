@@ -51,6 +51,26 @@
 </div>
 @endsection
 @push('css')
+<style>
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+
+</style>
 @endpush
 @push('js')
 <script>
@@ -73,15 +93,52 @@
                 }
             },
             columns: [
-                { data: "DT_RowIndex", className: "text-center", width: "5%", orderable: false, searchable: false },
-                { data: "nama", orderable: true, searchable: true },
-                { data: "alamat", orderable: true, searchable: true },
-                { data: "kota", orderable: false, searchable: true },
-                { data: "telepon", orderable: false, searchable: false },
-                { data: "alamatWeb", orderable: false, searchable: false },
-                { data: "kategori", orderable: false, searchable: true },
-                { data: "aksi", width: "15%", orderable: false, searchable: false }
+                { 
+                    data: "DT_RowIndex", 
+                    className: "text-center", 
+                    width: "5%", 
+                    orderable: false, 
+                    searchable: false 
+                },
+                { 
+                    data: "nama", 
+                    orderable: true, 
+                    searchable: true 
+                },
+                { 
+                    data: "alamat", 
+                    orderable: true, 
+                    searchable: true 
+                },
+                { 
+                    data: "kota", 
+                    orderable: false, 
+                    searchable: true 
+                },
+                { 
+                    data: "telepon", 
+                    orderable: false, 
+                    searchable: false 
+                },
+                { 
+                    data: "alamatWeb", 
+                    orderable: false, 
+                    searchable: false 
+                },
+                { 
+                    data: "kategori", 
+                    orderable: false, 
+                    searchable: true 
+                },
+                { 
+                    data: "aksi",
+                    className: "text-center",  
+                    width: "15%", 
+                    orderable: false, 
+                    searchable: false 
+                }
             ]
+
         });
 
         // Reload DataTable ketika filter berubah

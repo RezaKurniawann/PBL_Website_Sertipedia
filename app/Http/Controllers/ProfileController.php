@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserModel;
+use App\Models\DetailPelatihanModel;
+use App\Models\DetailSertifikasiModel;
 use App\Models\JabatanModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +17,28 @@ class ProfileController extends Controller
     public function index()
     {
         // Ambil data user berdasarkan ID yang sedang login
-        $user = UserModel::with(['prodi', 'pangkat', 'golongan', 'jabatan', 'sertifikasi', 'pelatihan'])->findOrFail(Auth::id());
+        // $user = UserModel::with([
+        //     'prodi', 
+        //     'pangkat', 
+        //     'golongan', 
+        //     'jabatan', 
+        //     'sertifikasi' => function ($query) {
+        //         $query->where('status', 'Completed')->with(['vendor', 'periode']);
+        //     },
+        //     'pelatihan' => function ($query) {
+        //         $query->where('status', 'Completed')->with(['vendor', 'periode']);
+        //     },
+        // ])->findOrFail(Auth::id());
 
-
+        $user = UserModel::with(['prodi', 'mataKuliah', 'bidangMinat', 'jabatan', 'pangkat', 'golongan'])->findOrFail(Auth::id());
+        $pelatihan = DetailPelatihanModel::where('id_user', Auth::id())
+            ->where('status', 'Completed')
+            ->with('pelatihan')
+            ->get();
+        $sertifikasi = DetailSertifikasiModel::where('id_user', Auth::id())
+        ->where('status', 'Completed')
+        ->with('sertifikasi')
+        ->get();
         // Breadcrumb dan active menu
         $breadcrumb = (object) [
             'title' => 'Profile',
@@ -28,6 +49,8 @@ class ProfileController extends Controller
         // Return view
         return view('profile.index', [
             'user' => $user,
+            'pelatihan' => $pelatihan,
+            'sertifikasi' => $sertifikasi,
             'breadcrumb' => $breadcrumb,
             'activeMenu' => $activeMenu,
         ]);
@@ -38,13 +61,14 @@ class ProfileController extends Controller
     {
         // Validasi input dari form
         $this->validate($request, [
-            // 'username' => 'sometimes|required|string|min:3|unique:m_user,username,' . $id . ',id_user',
-            // 'nama' => 'required|string|max:100',
+            'nama' => 'sometimes|required|string|max:100',
+            'username' => 'sometimes|required|string|min:3|unique:m_user,username,' . $id . ',id_user',
+            'email' => 'required|email|unique:m_user,email,' . $id . ',id_user',
+            'no_telp' => 'nullable|string|max:15',
             'old_password' => 'nullable|string',
-            'password' => 'nullable|min:5|confirmed',
+            'password' => 'nullable|string|min:5|confirmed',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
         // Ambil data user berdasarkan ID
         $user = UserModel::findOrFail($id);
 
@@ -53,7 +77,22 @@ class ProfileController extends Controller
         //     $user->username = $request->username;
         // }
 
-        // $user->nama = $request->nama;
+        // Perbarui field secara eksplisit
+        if ($request->has('nama')) {
+            $user->nama = $request->nama;
+        }
+
+        if ($request->has('username')) {
+            $user->username = $request->username;
+        }
+
+        if ($request->has('email')) {
+            $user->email = $request->email;
+        }
+
+        if ($request->has('no_telp')) {
+            $user->no_telp = $request->no_telp;
+        }
 
         // Jika password lama diisi dan benar, ganti password
         if ($request->filled('old_password') && Hash::check($request->old_password, $user->password)) {

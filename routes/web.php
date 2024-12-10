@@ -22,6 +22,7 @@ use App\Http\Controllers\GolonganController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\RekomPelatihanController;
 use App\Http\Controllers\RekomSertifikasiController;
 use App\Http\Controllers\UserHomeController;
@@ -40,6 +41,8 @@ Route::pattern('id', '[0-9]+');
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
+Route::get('/guest/homepage', [UserHomeController::class, 'index'])->name('home');
+Route::get('/guest/{id}/show', [UserHomeController::class, 'show'])->name('guest.users.show');
 
 Route::get('logout', [AuthController::class, 'logout']);
 
@@ -250,6 +253,11 @@ Route::middleware(['auth:admin'])->group(function () {
                 Route::post('/ajax', [RekomSertifikasiController::class, 'store_ajax']);
             });
         });
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+            Route::get('/notifikasi/detail/{id}', [NotifikasiController::class, 'detail'])->name('notifikasi.detail');
+            Route::get('/notifikasi/export/pdf', [NotifikasiController::class, 'exportPdf'])->name('export.pdf');
+        });
     });
 });
 
@@ -258,9 +266,13 @@ Route::middleware(['auth:user'])->group(function () {
     Route::get('/user/{id}/show', [UserHomeController::class, 'show'])->name('user.users.show');
     Route::prefix('inputdata')->group(function () {
         Route::get('/pelatihan', [DetailPelatihanController::class, 'formDataPelatihan']);
-        Route::post('/pelatihan/{id}/upload', [DetailPelatihanController::class, 'uploadDataPelatihan']);
+        Route::post('/pelatihan/list', [DetailPelatihanController::class, 'listPelatihan']);
+        Route::get('/pelatihan/{id}/show_pelatihan', [DetailPelatihanController::class, 'showPelatihan']);
+        Route::put('/pelatihan/{id}/upload', [DetailPelatihanController::class, 'uploadDataPelatihan']);
         Route::get('/sertifikasi', [DetailSertifikasiController::class, 'formDataSertifikasi']);
-        Route::post('/sertifikasi/{id}/upload', [DetailSertifikasiController::class, 'uploadDataSertifikasi']);
+        Route::post('/sertifikasi/list', [DetailSertifikasiController::class, 'listSertifikasi']);
+        Route::get('/sertifikasi/{id}/show_sertifikasi', [DetailSertifikasiController::class, 'showSertifikasi']);
+        Route::put('/sertifikasi/{id}/upload', [DetailSertifikasiController::class, 'uploadDataSertifikasi']);
     });
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index']);

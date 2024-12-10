@@ -9,6 +9,7 @@ use App\Models\VendorModel;
 use App\Models\DetailSertifikasiModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 use Illuminate\Http\Request;
 
@@ -35,72 +36,88 @@ class DetailSertifikasiController extends Controller
 
     public function formDataSertifikasi()
     {
-        $user = UserModel::findOrFail(Auth::id());
-        $sertifikasi = SertifikasiModel::all();
-        $vendor = VendorModel::where('kategori', 'Sertifikasi')->get();
-        $periode = PeriodeModel::all();
-
         $breadcrumb = (object) [
-            'title' => 'Form Sertifikasi',
-            'list' => ['Home', 'Form Sertifikasi']
+            'title' => 'Daftar Sertifikasi',
+            'list' => ['Home', 'Sertifikasi']
+        ];
+
+        $page = (object) [
+            'title' => 'Daftar Sertifikasi yang Sedang Diikuti'
         ];
 
         $activeMenu = 'inputdata';
 
-        return view('user.inputdata.sertifikasi', [
-            'user' => $user,
-            'sertifikasi' => $sertifikasi,
-            'vendor' => $vendor,
-            'periode' => $periode,
-            'breadcrumb' => $breadcrumb,
-            'activeMenu' => $activeMenu
-        ]);
+        return view('user.inputdata.sertifikasi', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
-    public function uploadDataSertifikasi(Request $request, $id)
+    public function listsertifikasi(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'id_vendor' => 'required|exists:m_vendor,id_vendor',
-            'no_sertifikasi' => 'required|string',
-            'jenis_sertifikasi' => 'required|in:Profesi,Keahlian',
-            'id_periode' => 'required|exists:m_periode,id_periode',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        
-        $sertifikasi = SertifikasiModel::where([
-            ['nama', '=', $validated['nama']],
-            ['id_vendor', '=', $validated['id_vendor']],
-            ['jenis_sertifikasi', '=', $validated['jenis_sertifikasi']],
-            ['id_periode', '=', $validated['id_periode']],
-        ])->first();
+        if ($request->ajax()) { // Pastikan hanya melayani request AJAX
+            $user = UserModel::findOrFail(Auth::id());
 
-        if ($sertifikasi) {
-            $detailSertifikasi = DetailSertifikasiModel::where([
-                ['id_user', '=', $id], 
-                ['id_sertifikasi', '=', $sertifikasi->id_sertifikasi], 
-            ])->first();
-        
-            if ($detailSertifikasi) {
-                if ($request->hasFile('image')) {
-                    if ($detailSertifikasi->image && Storage::disk('public')->exists('photos/' . $detailSertifikasi->image)) {
-                        Storage::disk('public')->delete('photos/' . $detailSertifikasi->image);
-                    }
-                    $fileName = $request->file('image')->hashName();
-                    $request->file('image')->storeAs('public/photos', $fileName);
-                    $detailSertifikasi->image = $fileName;
-                    $detailSertifikasi->status = "Completed";
-                    $detailSertifikasi->no_sertifikasi = $validated['no_sertifikasi'];
+            // Ambil data detail sertifikasi beserta relasi
+            $detailSertifikasi = DetailSertifikasiModel::with(['user', 'sertifikasi.vendor', 'sertifikasi.periode'])
+                ->where('id_user', $user->id_user)
+                ->where('status', 'On Going')
+                ->get();
+
+            return DataTables::of($detailSertifikasi)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($detailSertifikasi) {
+                    return '<button onclick="modalAction(\'' . url('inputdata/sertifikasi/' . $detailSertifikasi->id_detail_sertifikasi . '/show_sertifikasi') . '\')" class="btn btn-sm btn-info"><i class="fa fa-upload"></i> Input Data</button>';
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+        return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function showSertifikasi(string $id)
+    {
+        $detailSertifikasi = DetailSertifikasiModel::find($id);
+        if ($detailSertifikasi) {
+            return view('user.inputdata.showSertifikasi', ['detailSertifikasi' => $detailSertifikasi]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
+    }
+
+    public function uploadDatasertifikasi(Request $request, $id)
+    {
+        $detailSertifikasi = DetailSertifikasiModel::find($id); // Adjust this according to your model structure
+    
+        if ($detailSertifikasi) {
+            // Check if the image file is provided
+            if ($request->hasFile('image_sertifikasi')) {
+                // If the record already has an image, delete it from storage
+                if ($detailSertifikasi->image && Storage::disk('public')->exists('photos/' . $detailSertifikasi->image)) {
+                    Storage::disk('public')->delete('photos/' . $detailSertifikasi->image);
                 }
     
-                $detailSertifikasi->save();
-        
-                return redirect()->back()->with('success', 'Data Berhasil Diupload!');
-            } else {
-                return redirect()->back()->with('error', 'Detail Sertifikasi Tidak Ditemukan!.');
+                // Store the new image and update the record
+                $fileName = $request->file('image_sertifikasi')->hashName();
+                $request->file('image_sertifikasi')->storeAs('public/photos', $fileName);
+                $detailSertifikasi->image = $fileName;
+                $detailSertifikasi->status = "Completed"; // Update the status if necessary
             }
+    
+            $detailSertifikasi->no_sertifikasi = $request->input('no_sertifikasi');
+            $detailSertifikasi->save();
+    
+            // Return a success response in JSON format
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil disimpan!',
+            ]);
         } else {
-            return redirect()->back()->with('error', 'Sertifikasi Tidak Ditemukan.');
+            // Return a failure response if the detail not found
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan!',
+            ]);
         }
     }
 }

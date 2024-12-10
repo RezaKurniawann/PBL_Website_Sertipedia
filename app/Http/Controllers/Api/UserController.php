@@ -28,7 +28,7 @@ class UserController extends Controller
             'nama' => 'required|string',
             'email' => 'required|email',
             'no_telp' => 'required|string',
-            'username' => 'required|string',
+            'nip' => 'required|string',
             'image' => 'nullable|string',
             'old_password' => 'nullable|string', // old password is optional for non-password updates
             'new_password' => 'nullable|string|min:6', // new password should be at least 6 characters
@@ -53,7 +53,7 @@ class UserController extends Controller
             $user->nama = $request->input('nama');
             $user->email = $request->input('email');
             $user->no_telp = $request->input('no_telp');
-            $user->username = $request->input('username');
+            $user->nip = $request->input('nip');
 
             // If image is provided, process and update it
             if ($request->has('image') && !empty($request->input('image'))) {

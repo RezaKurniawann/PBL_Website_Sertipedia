@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        $users = UserModel::select('id_user', 'id_level', 'id_prodi', 'id_golongan', 'id_jabatan', 'id_pangkat', 'nama', 'email', 'no_telp', 'username')
+        $users = UserModel::select('id_user', 'id_level', 'id_prodi', 'id_golongan', 'id_jabatan', 'id_pangkat', 'nama', 'email', 'no_telp', 'nip')
             ->with('level', 'prodi', 'pangkat', 'golongan', 'jabatan');
         // Filter data user berdasarkan level_id
         if ($request->id_level) {
@@ -114,7 +114,7 @@ class UserController extends Controller
                 'id_jabatan' => 'required|integer',
                 'email'      => 'required|email|max:50',
                 'no_telp'    => 'required|string|max:15',
-                'username' => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
+                'nip' => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
                 'password'   => 'required|string|min:5|max:20',
                 'mata_kuliah' => 'required|array|min:1',
                 'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
@@ -198,18 +198,18 @@ class UserController extends Controller
     {
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'nama'       => 'required|string|min:3|max:100',
-                'id_level'   => 'required|integer',
-                'id_prodi'   => 'required|integer',
-                'id_pangkat' => 'required|integer',
-                'id_golongan' => 'required|integer',
-                'id_jabatan' => 'required|integer',
-                'email'      => 'required|email|max:50',
-                'no_telp'    => 'required|string|max:15',
-                'username'   => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
-                'mata_kuliah' => 'required|array|min:1',
-                'mata_kuliah.*' => 'required|integer|exists:m_matakuliah,id_matakuliah',
-                'bidang_minat' => 'required|array|min:1',
+                'nama'           => 'required|string|min:3|max:100',
+                'id_level'       => 'required|integer',
+                'id_prodi'       => 'required|integer',
+                'id_pangkat'     => 'required|integer',
+                'id_golongan'    => 'required|integer',
+                'id_jabatan'     => 'required|integer',
+                'email'          => 'required|email|max:50',
+                'no_telp'        => 'required|string|max:15',
+                'nip'            => 'required|string|min:3|max:50|regex:/^[0-9]+$/',
+                'mata_kuliah'    => 'required|array|min:1',
+                'mata_kuliah.*'  => 'required|integer|exists:m_matakuliah,id_matakuliah',
+                'bidang_minat'   => 'required|array|min:1',
                 'bidang_minat.*' => 'required|integer|exists:m_bidangminat,id_bidangminat',
             ];
             // use Illuminate\Support\Facades\Validator;
@@ -237,7 +237,7 @@ class UserController extends Controller
                     'id_jabatan' => $request->input('id_jabatan'),
                     'email' => $request->input('email'),
                     'no_telp' => $request->input('no_telp'),
-                    'username' => $request->input('username'),
+                    'nip' => $request->input('nip'),
                 ]);
 
                 // Insert ulang data baru ke tabel `t_user_matakuliah`
@@ -305,17 +305,17 @@ class UserController extends Controller
         // Mengambil data user dengan relasi yang relevan
         $user = UserModel::with(['level', 'prodi', 'pangkat', 'golongan', 'jabatan'])
             ->orderBy('id_level')
+            ->orderBy('nama')
             ->orderBy('id_prodi')
             ->orderBy('id_pangkat')
             ->orderBy('id_golongan')
             ->orderBy('id_jabatan')
-            ->orderBy('nama')
             ->get();
 
         // Generate PDF
         $pdf = Pdf::loadView('admin.user.export_pdf', ['user' => $user]);
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOption("isRemoteEnabled", true);
+        // $pdf->setOption("isRemoteEnabled", true);
 
         // Stream hasil PDF
         return $pdf->stream('Laporan_Data_User_' . date('Y-m-d_H-i-s') . '.pdf');
@@ -326,26 +326,26 @@ class UserController extends Controller
     {
         $user = UserModel::with('level', 'prodi', 'pangkat', 'golongan', 'jabatan')
             ->orderBy('id_level')
+            ->orderBy('nama')
             ->orderBy('id_prodi')
             ->orderBy('id_pangkat')
             ->orderBy('id_golongan')
             ->orderBy('id_jabatan')
-            ->orderBy('nama')
             ->get();
 
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'Nama');
-        $sheet->setCellValue('C1', 'Level');
-        $sheet->setCellValue('D1', 'Prodi');
-        $sheet->setCellValue('E1', 'Pangkat');
-        $sheet->setCellValue('F1', 'Golongan');
-        $sheet->setCellValue('G1', 'Jabatan');
-        $sheet->setCellValue('H1', 'Email');
-        $sheet->setCellValue('I1', 'Nomor Telepon');
-        $sheet->setCellValue('J1', 'Username');
+        $sheet->setCellValue('C1', 'nip');
+        $sheet->setCellValue('D1', 'Level');
+        $sheet->setCellValue('E1', 'Prodi');
+        $sheet->setCellValue('F1', 'Pangkat');
+        $sheet->setCellValue('G1', 'Golongan');
+        $sheet->setCellValue('H1', 'Jabatan');
+        $sheet->setCellValue('I1', 'Email');
+        $sheet->setCellValue('J1', 'Nomor Telepon');
 
 
         $sheet->getStyle('A1:J1')->getFont()->setBold(true);
@@ -358,22 +358,22 @@ class UserController extends Controller
             $sheet->setCellValue('A' . $baris, $no);
             $sheet->setCellValue('B' . $baris, $value->nama);
             $sheet->setCellValue('C' . $baris, $value->level->nama);
-            $sheet->setCellValue('D' . $baris, $value->prodi->nama);
-            $sheet->setCellValue('E' . $baris, $value->pangkat->nama);
-            $sheet->setCellValue('F' . $baris, $value->golongan->nama);
-            $sheet->setCellValue('G' . $baris, $value->jabatan->nama);
-            $sheet->setCellValue('H' . $baris, $value->email);
-            $sheet->setCellValue('I' . $baris, $value->no_telp);
-            $sheet->setCellValue('J' . $baris, $value->username);
+            $sheet->setCellValue('D' . $baris, $value->nip);
+            $sheet->setCellValue('E' . $baris, $value->prodi->nama);
+            $sheet->setCellValue('F' . $baris, $value->pangkat->nama);
+            $sheet->setCellValue('G' . $baris, $value->golongan->nama);
+            $sheet->setCellValue('H' . $baris, $value->jabatan->nama);
+            $sheet->setCellValue('I' . $baris, $value->email);
+            $sheet->setCellValue('J' . $baris, $value->no_telp);
             $baris++;
             $no++;
         }
         foreach (range('A', 'J') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
-        $sheet->setTitle('Data user');
+        $sheet->setTitle('Data User');
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $filename = 'Data user ' . date('Y-m-d H:i:s') . '.xlsx';
+        $filename = 'Data User ' . date('Y-m-d H:i:s') . '.xlsx';
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -385,87 +385,87 @@ class UserController extends Controller
         exit;
     }
 
-    public function import()
-    {
-        return view('admin.user.import');
-    }
+    // public function import()
+    // {
+    //     return view('admin.user.import');
+    // }
 
-    public function import_ajax(Request $request)
-    {
-        if ($request->ajax() || $request->wantsJson()) {
-            // Validasi file harus berformat xlsx dan maksimal ukuran 1MB
-            $rules = [
-                'file_user' => ['required', 'mimes:xlsx', 'max:1024']
-            ];
-            $validator = Validator::make($request->all(), $rules);
+    // public function import_ajax(Request $request)
+    // {
+    //     if ($request->ajax() || $request->wantsJson()) {
+    //         // Validasi file harus berformat xlsx dan maksimal ukuran 1MB
+    //         $rules = [
+    //             'file_user' => ['required', 'mimes:xlsx', 'max:1024']
+    //         ];
+    //         $validator = Validator::make($request->all(), $rules);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validasi Gagal',
-                    'msgField' => $validator->errors()
-                ]);
-            }
+    //         if ($validator->fails()) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => 'Validasi Gagal',
+    //                 'msgField' => $validator->errors()
+    //             ]);
+    //         }
 
-            try {
-                // Ambil file dari request
-                $file = $request->file('file_user');
-                $reader = IOFactory::createReader('Xlsx'); // Load reader file Excel
-                $reader->setReadDataOnly(true); // Hanya membaca data
-                $spreadsheet = $reader->load($file->getRealPath()); // Load file excel
-                $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
-                $data = $sheet->toArray(null, false, true, true); // Ambil data Excel
+    //         try {
+    //             // Ambil file dari request
+    //             $file = $request->file('file_user');
+    //             $reader = IOFactory::createReader('Xlsx'); // Load reader file Excel
+    //             $reader->setReadDataOnly(true); // Hanya membaca data
+    //             $spreadsheet = $reader->load($file->getRealPath()); // Load file excel
+    //             $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
+    //             $data = $sheet->toArray(null, false, true, true); // Ambil data Excel
 
-                // Siapkan array untuk menampung data yang akan diinsert
-                $insert = [];
+    //             // Siapkan array untuk menampung data yang akan diinsert
+    //             $insert = [];
 
-                if (count($data) > 1) { // Jika data lebih dari 1 baris
-                    foreach ($data as $baris => $value) {
-                        if ($baris > 1) { // Baris ke-1 adalah header, maka lewati
-                            // Pastikan semua kolom tidak kosong sebelum insert
-                            if ($value['A'] && $value['B'] && $value['C'] && $value['D'] && $value['E'] && $value['F'] && $value['G']) {
-                                $insert[] = [
-                                    'id_user' => $value['A'],
-                                    'nama' => $value['B'],
-                                    'alamat' => $value['C'],
-                                    'kota' => $value['D'],
-                                    'telepon' => $value['E'],
-                                    'alamatWeb' => $value['F'],
-                                    'kategori' => $value['G'],
-                                    'updated_at' => now(),
-                                    'created_at' => now(),
-                                ];
-                            }
-                        }
-                    }
+    //             if (count($data) > 1) { // Jika data lebih dari 1 baris
+    //                 foreach ($data as $baris => $value) {
+    //                     if ($baris > 1) { // Baris ke-1 adalah header, maka lewati
+    //                         // Pastikan semua kolom tidak kosong sebelum insert
+    //                         if ($value['A'] && $value['B'] && $value['C'] && $value['D'] && $value['E'] && $value['F'] && $value['G']) {
+    //                             $insert[] = [
+    //                                 'id_user' => $value['A'],
+    //                                 'nama' => $value['B'],
+    //                                 'alamat' => $value['C'],
+    //                                 'kota' => $value['D'],
+    //                                 'telepon' => $value['E'],
+    //                                 'alamatWeb' => $value['F'],
+    //                                 'kategori' => $value['G'],
+    //                                 'updated_at' => now(),
+    //                                 'created_at' => now(),
+    //                             ];
+    //                         }
+    //                     }
+    //                 }
 
-                    if (count($insert) > 0) {
-                        // Insert data ke database, jika data sudah ada, maka diabaikan
-                        userModel::insertOrIgnore($insert);
+    //                 if (count($insert) > 0) {
+    //                     // Insert data ke database, jika data sudah ada, maka diabaikan
+    //                     userModel::insertOrIgnore($insert);
 
-                        return response()->json([
-                            'status' => true,
-                            'message' => 'Data user berhasil diimpor'
-                        ]);
-                    } else {
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Tidak ada data user yang valid untuk diimpor'
-                        ]);
-                    }
-                } else {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'File kosong atau tidak ada data yang diimpor'
-                    ]);
-                }
-            } catch (\Exception $e) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage()
-                ]);
-            }
-        }
-        return redirect('/');
-    }
+    //                     return response()->json([
+    //                         'status' => true,
+    //                         'message' => 'Data user berhasil diimpor'
+    //                     ]);
+    //                 } else {
+    //                     return response()->json([
+    //                         'status' => false,
+    //                         'message' => 'Tidak ada data user yang valid untuk diimpor'
+    //                     ]);
+    //                 }
+    //             } else {
+    //                 return response()->json([
+    //                     'status' => false,
+    //                     'message' => 'File kosong atau tidak ada data yang diimpor'
+    //                 ]);
+    //             }
+    //         } catch (\Exception $e) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage()
+    //             ]);
+    //         }
+    //     }
+    //     return redirect('/');
+    // }
 }

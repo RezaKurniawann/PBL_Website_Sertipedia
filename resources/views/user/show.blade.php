@@ -69,7 +69,29 @@
         margin-top: 20px;
         text-align: left;
     }
+
+    .tab-button {
+        background-color: #0d6efd; /* Warna biru */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .tab-button.active {
+        background-color: #0056b3; /* Warna biru lebih gelap untuk tab aktif */
+        font-weight: bold;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .tab-button:hover {
+        background-color: #004085; /* Warna hover biru lebih gelap */
+        color: white; /* Pastikan teks tetap putih */
+    }
 </style>
+
 <div class="container-fluid">
     <!-- Header -->
     <div class="row mb-4">
@@ -88,59 +110,38 @@
                          class="profile-picture">
                 </div>
                 
-                    <!-- Detail User -->
-                    <div class="ml-4 w-100">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td><strong>Nama Lengkap</strong></td>
-                                <td>{{ $user->nama ?? 'Nama Tidak Tersedia' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>NIP</strong></td>
-                                <td>{{ $user->username ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Email</strong></td>
-                                <td>{{ $user->email ?? 'Email Tidak Tersedia' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Jabatan</strong></td>
-                                <td>{{ $user->jabatan->nama ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Pangkat</strong></td>
-                                <td>{{ $user->pangkat->nama ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Prodi</strong></td>
-                                <td>{{ $user->prodi->nama ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Golongan</strong></td>
-                                <td>{{ $user->golongan->nama ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Bidang Minat</strong></td>
-                                <td>
-                                    @forelse($user->bidangMinat as $bidang)
-                                        {{ $bidang->nama }}<br>
-                                    @empty
-                                        Tidak ada bidang minat
-                                    @endforelse
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Mata Kuliah</strong></td>
-                                <td>
-                                    @forelse($user->mataKuliah as $mataKuliah)
-                                        {{ $mataKuliah->nama }}<br>
-                                    @empty
-                                        Tidak ada mata kuliah
-                                    @endforelse
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                <!-- Detail User -->
+                <div class="ml-4 w-100">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td><strong>Nama Lengkap</strong></td>
+                            <td>{{ $user->nama ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NIP</strong></td>
+                            <td>{{ $user->nip ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email</strong></td>
+                            <td>{{ $user->email ?? 'Email Tidak Tersedia' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jabatan</strong></td>
+                            <td>{{ $user->jabatan->nama ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pangkat</strong></td>
+                            <td>{{ $user->pangkat->nama ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prodi</strong></td>
+                            <td>{{ $user->prodi->nama ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Golongan</strong></td>
+                            <td>{{ $user->golongan->nama ?? '-' }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -150,11 +151,11 @@
     <div class="row mt-4">
         <div class="col-12 d-flex justify-content-start">
             <!-- Tab Buttons -->
-            <button class="btn btn-success mr-2" data-toggle="tab" href="#pelatihan-tab">Pelatihan</button>
-            <button class="btn btn-primary" data-toggle="tab" href="#sertifikasi-tab">Sertifikasi</button>
+            <button class="btn tab-button active" data-target="#pelatihan-tab">Pelatihan</button>
+            <button class="btn tab-button" data-target="#sertifikasi-tab">Sertifikasi</button>
         </div>
     </div>
-   
+
     <!-- Tabs Content -->
     <div class="row mt-4">
         <div class="col-12">
@@ -167,18 +168,24 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>No</th>
                                             <th>Nama Pelatihan</th>
-                                            <th>image</th>
+                                            <th>Vendor</th>
+                                            <th>Level Pelatihan</th>
+                                            <th>Periode</th>
+                                            <th>Image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse($pelatihan as $item)
                                         <tr>
-                                            <td>{{ $item->id_detail_pelatihan }}</td>
-                                            <td>{{ $item->pelatihan->nama_pelatihan ?? '-' }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->pelatihan->nama ?? '-' }}</td>
+                                            <td>{{ $item->pelatihan->vendor->nama ?? '-' }}</td>
+                                            <td>{{ $item->pelatihan->level_pelatihan }}</td>
+                                            <td>{{ $item->pelatihan->periode->tahun }}</td>
                                             <td>
-                                                <img src="{{ asset('images/' . ($item->pelatihan->image ?? 'default.png')) }}" alt="Image" class="img-thumbnail" style="width: 100px;">
+                                                <img src="{{ asset('storage/photos/' . ($item->image ?? 'default.png')) }}" alt="Image" class="img-thumbnail" style="width: 100px; cursor: pointer;">
                                             </td>
                                         </tr>
                                         @empty
@@ -197,20 +204,24 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>No</th>
                                             <th>Nama Sertifikasi</th>
-                                            <th>No Sertifikasi</th>
-                                            <th>image</th>
+                                            <th>Vendor</th>
+                                            <th>Jenis Sertifikasi</th>
+                                            <th>Periode</th>
+                                            <th>Image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse($sertifikasi as $item)
                                         <tr>
-                                            <td>{{ $item->id_detail_sertifikasi }}</td>
-                                            <td>{{ $item->sertifikasi->nama_sertifikasi ?? '-' }}</td>
-                                            <td>{{ $item->no_sertifikasi }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->sertifikasi->nama ?? '-' }}</td>
+                                            <td>{{ $item->sertifikasi->vendor->nama ?? '-' }}</td>
+                                            <td>{{ $item->sertifikasi->jenis_sertifikasi }}</td>
+                                            <td>{{ $item->sertifikasi->periode->tahun }}</td>
                                             <td>
-                                                <img src="{{ asset('images/' . ($item->pelatihan->image ?? 'default.png')) }}" alt="Image" class="img-thumbnail" style="width: 100px;">
+                                                <img src="{{ asset('storage/photos/' . ($item->image ?? 'default.png')) }}" alt="Image" class="img-thumbnail" style="width: 100px; cursor: pointer;">
                                             </td>
                                         </tr>
                                         @empty
@@ -228,4 +239,48 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Full Size Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const images = document.querySelectorAll('.img-thumbnail');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        images.forEach(image => {
+            image.addEventListener('click', function () {
+                modalImage.src = this.src;
+                $('#imageModal').modal('show');
+            });
+        });
+
+        // Handle tab switching manually
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabs = document.querySelectorAll('.tab-pane');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const target = document.querySelector(this.dataset.target);
+
+                // Remove active class from all buttons and tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabs.forEach(tab => tab.classList.remove('show', 'active'));
+
+                // Add active class to the clicked button and corresponding tab
+                this.classList.add('active');
+                target.classList.add('show', 'active');
+            });
+        });
+    });
+</script>
 @endsection

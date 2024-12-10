@@ -34,6 +34,10 @@
                         <td class="col-9">{{ $user->nama }}</td>
                     </tr>
                     <tr>
+                        <th class="text-right col-3">NIP :</th>
+                        <td class="col-9">{{ $user->nip }}</td>
+                    </tr>
+                    <tr>
                         <th class="text-right col-3">Level :</th>
                         <td class="col-9">{{ $user->level->nama }}</td>
                     </tr>
@@ -60,10 +64,6 @@
                     <tr>
                         <th class="text-right col-3">Nomor Telepon :</th>
                         <td class="col-9">{{ $user->no_telp }}</td>
-                    </tr>
-                    <tr>
-                        <th class="text-right col-3">Username :</th>
-                        <td class="col-9">{{ $user->username }}</td>
                     </tr>
                 </table>
                 <div class="mt-4">

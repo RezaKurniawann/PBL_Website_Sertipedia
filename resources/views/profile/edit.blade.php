@@ -5,10 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card card-outline card-primary">
-                <div class="card shadow-lg border-0 rounded-lg">
-                    {{-- <div class="card-header" style="background-image: linear-gradient(135deg, #0d6efd, #0056b3); color: #dee2e6; text-align: center; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                        <h4 style="margin-top: 8px;">{{ __('Edit Profile') }}</h4>
-                    </div> --}}
+                
                     <div class="card-body">
                         <div class="row text-center mb-4">
                             <div class="col-md-12">
@@ -23,20 +20,25 @@
                             @csrf
                             {{-- @method('PUT') --}}
 
-                            {{-- <div class="form-group mb-3">
-                                <label for="nama" class="col-form-label" style="color: #B3846C;">{{ __('Nama') }}</label>
+                            <div class="form-group mb-3">
+                                <label for="nama" class="col-form-label" style="color: #0d6efd;">{{ __('Nama') }}</label>
                                 <input id="nama" type="text" class="form-control" name="nama" value="{{ $user->nama }}" required>
-                            </div> --}}
+                            </div>
 
                             {{-- <div class="form-group mb-3">
-                                <label for="username" class="col-form-label" style="color: #B3846C;">{{ __('Username') }}</label>
-                                <input id="username" type="text" class="form-control" name="username" value="{{ $user->username }}" required readonly>
+                                <label for="username" class="col-form-label" style="color: #0d6efd;">{{ __('Username') }}</label>
+                                <input id="username" type="text" class="form-control" name="username" value="{{ $user->username }}" required>
                             </div> --}}
 
-                            {{-- <div class="form-group mb-3">
-                                <label for="email" class="col-form-label" style="color: #B3846C;">{{ __('Email') }}</label>
-                                <input id="email" type="text" class="form-control" email="email" value="{{ $user->email }}" required>
-                            </div> --}}
+                            <div class="form-group mb-3">
+                                <label for="email" class="col-form-label" style="color: #0d6efd;">{{ __('Email') }}</label>
+                                <input id="email" type="text" class="form-control" name="email" value="{{ $user->email }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="no_telp" class="col-form-label" style="color: #0d6efd;">{{ __('No Telepon') }}</label>
+                                <input id="no_telp" type="text" class="form-control" name="no_telp" value="{{ $user->no_telp }}" required>
+                            </div>
 
                             <div class="form-group mb-3">
                                 <label for="old_password" class="col-form-label" style="color: #0d6efd;">{{ __('Password Lama') }}</label>
@@ -96,13 +98,28 @@
                             @endif
                         </form>
                     </div>
-                </div>
+                
             </div>
         </div>
     </div>
 </div>
 
 <style>
+    .form-group {
+        margin-bottom: 5px;
+    }
+
+    .form-group .col-form-label {
+        margin-bottom: 3px;
+    }
+
+    .form-control {
+        margin: 0;
+        padding: 8px;
+        font-size: 14px;
+        line-height: 1.2;
+    }
+    
     .btn-hover {
         transition: transform 0.3s ease;
     }
@@ -157,13 +174,29 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Profil berhasil diperbarui.');
-                location.reload(); // Refresh the page to see updates
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Profil berhasil diperbarui.',
+                }).then(() => {
+                    location.reload(); // Refresh halaman untuk melihat perubahan
+                });
             } else {
-                alert('Terjadi kesalahan saat memperbarui profil: ' + data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan',
+                    text: 'Terjadi kesalahan saat memperbarui profil: ' + data.message,
+                });
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesalahan',
+                text: 'Gagal menghubungi server. Silakan coba lagi.',
+            });
+        });
     });
 </script>
 @endsection

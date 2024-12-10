@@ -4,24 +4,30 @@
         <li class="nav-item">
             <a class="nav-link text-white" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
+        {{-- <li class="nav-item d-none d-sm-inline-block">
             <a href="/home" class="nav-link text-white">Home</a>
-        </li>
+        </li> --}}
     </ul>
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
       <!-- Display user name -->    
       <li class="nav-item d-flex align-items-center">
-        <a class="nav-link d-flex align-items-center text-white" href="profile" role="button">
-            @if(Auth::user()->image && file_exists(public_path('storage/photos/' . Auth::user()->image)))
-                <img src="{{ asset('storage/photos/' . Auth::user()->image) }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;" alt="User image">
+        <a class="nav-link d-flex align-items-center text-white" href="{{ Auth::check() ? '/profile' : '#' }}" role="button">
+            @if(Auth::check())
+                @if(Auth::user()->image && file_exists(public_path('storage/photos/' . Auth::user()->image)))
+                    <img src="{{ asset('storage/photos/' . Auth::user()->image) }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 5px;" alt="User image">
+                @else
+                    <img src="{{ asset('storage/element/default-profile.jpg') }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 10px;" alt="Default User image">
+                @endif
+                <span class="user-name">{{ Auth::user()->nama }}</span> | <span class="user-level">{{ Auth::user()->level->nama }}</span>
             @else
                 <img src="{{ asset('storage/element/default-profile.jpg') }}" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 10px;" alt="Default User image">
+                <span class="user-name">Guest</span> | <span class="user-level">Visitor</span>
             @endif
-            <span class="user-name">{{ Auth::user()->nama }}</span> | <span class="user-level">{{ Auth::user()->level->nama }}</span>
         </a>
-     </li>
+    </li>
+    
 
      <li class="nav-item">
         <a class="nav-link text-white" data-widget="fullscreen" href="#" role="button">
