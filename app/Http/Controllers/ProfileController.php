@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserModel;
+use App\Models\DetailPelatihanModel;
+use App\Models\DetailSertifikasiModel;
 use App\Models\JabatanModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,20 +17,28 @@ class ProfileController extends Controller
     public function index()
     {
         // Ambil data user berdasarkan ID yang sedang login
-        $user = UserModel::with([
-            'prodi', 
-            'pangkat', 
-            'golongan', 
-            'jabatan', 
-            'sertifikasi' => function ($query) {
-                $query->where('status', 'Completed')->with(['vendor', 'periode']);
-            },
-            'pelatihan' => function ($query) {
-                $query->where('status', 'Completed')->with(['vendor', 'periode']);
-            },
-        ])->findOrFail(Auth::id());
+        // $user = UserModel::with([
+        //     'prodi', 
+        //     'pangkat', 
+        //     'golongan', 
+        //     'jabatan', 
+        //     'sertifikasi' => function ($query) {
+        //         $query->where('status', 'Completed')->with(['vendor', 'periode']);
+        //     },
+        //     'pelatihan' => function ($query) {
+        //         $query->where('status', 'Completed')->with(['vendor', 'periode']);
+        //     },
+        // ])->findOrFail(Auth::id());
 
-
+        $user = UserModel::with(['prodi', 'mataKuliah', 'bidangMinat', 'jabatan', 'pangkat', 'golongan'])->findOrFail(Auth::id());
+        $pelatihan = DetailPelatihanModel::where('id_user', Auth::id())
+            ->where('status', 'Completed')
+            ->with('pelatihan')
+            ->get();
+        $sertifikasi = DetailSertifikasiModel::where('id_user', Auth::id())
+        ->where('status', 'Completed')
+        ->with('sertifikasi')
+        ->get();
         // Breadcrumb dan active menu
         $breadcrumb = (object) [
             'title' => 'Profile',
@@ -39,6 +49,8 @@ class ProfileController extends Controller
         // Return view
         return view('profile.index', [
             'user' => $user,
+            'pelatihan' => $pelatihan,
+            'sertifikasi' => $sertifikasi,
             'breadcrumb' => $breadcrumb,
             'activeMenu' => $activeMenu,
         ]);
