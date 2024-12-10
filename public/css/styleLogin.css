@@ -91,3 +91,17 @@ body.hold-transition.login-page {
     font-size: 14px;
     color: #6c757d;
 }
+
+.text-hover {
+    display: inline-block; /* Memastikan hover diterapkan pada teks */
+    color: #6c757d; /* Warna teks default */
+    font-weight: bold; /* Membuat teks lebih tegas */
+    text-decoration: none; /* Menghilangkan underline */
+    transition: color 0.3s ease, transform 0.3s ease; /* Animasi hover */
+}
+
+.text-hover:hover {
+    color: #0056b3; /* Warna teks saat hover */
+    transform: scale(1.1); /* Efek zoom saat hover */
+    cursor: pointer; /* Memberikan indikator klik */
+}
