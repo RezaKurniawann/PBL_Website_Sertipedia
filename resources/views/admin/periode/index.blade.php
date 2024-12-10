@@ -83,7 +83,8 @@
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                     width: "5%"
                 }, {
                     data: "tahun",
                     className: "",
@@ -91,9 +92,10 @@
                     searchable: true
                 }, {
                     data: "aksi",
-                    className: "",
+                    className: "text-center",
                     orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "20%"
                 }]
             });
         });

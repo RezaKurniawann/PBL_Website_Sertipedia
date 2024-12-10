@@ -279,4 +279,94 @@ class PelatihanController extends Controller
         }
         return redirect('/');
     }
+
+    public function export_pdf()
+    {
+        // Mengambil data user dengan relasi yang relevan
+        $pelatihan = PelatihanModel::with(['vendor', 'periode'])
+            ->orderBy('id_periode')
+            ->orderBy('id_vendor')
+            ->orderBy('nama')
+            ->get();
+
+        // Generate PDF
+        $pdf = Pdf::loadView('admin.event.pelatihan.export_pdf', ['pelatihan' => $pelatihan]);
+        $pdf->setPaper('a4', 'landscape');
+        $pdf->setOption("isRemoteEnabled", true);
+
+        // Stream hasil PDF
+        return $pdf->stream('Laporan_Data_Pelatihan_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
+
+    public function export_excel()
+    {
+        $pelatihan = PelatihanModel::with(['vendor', 'periode'])
+            ->orderBy('id_periode')
+            ->orderBy('id_vendor')
+            ->orderBy('nama')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama');
+        $sheet->setCellValue('C1', 'Vendor');
+        $sheet->setCellValue('D1', 'Kuota');
+        $sheet->setCellValue('E1', 'Lokasi');
+        $sheet->setCellValue('F1', 'Biaya');
+        $sheet->setCellValue('G1', 'Level Pelatihan');
+        $sheet->setCellValue('H1', 'Tanggal Awal');
+        $sheet->setCellValue('I1', 'Tanggal Akhir');
+        $sheet->setCellValue('J1', 'Periode');
+
+
+        $sheet->getStyle('A1:J1')->getFont()->setBold(true);
+
+        $no = 1;
+        // nomor data dimulai dari 1
+        $baris = 2;
+        // baris data dimulai dari baris ke 2
+        foreach ($pelatihan as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->nama);
+            $sheet->setCellValue('C' . $baris, $value->vendor->nama);
+            $sheet->setCellValue('D' . $baris, $value->kuota);
+            $sheet->setCellValue('E' . $baris, $value->lokasi);
+            $sheet->setCellValue('F' . $baris, $value->biaya);
+            $sheet->setCellValue('G' . $baris, $value->level_pelatihan);
+
+            // Mengonversi tanggal ke format Excel (tanpa waktu)
+            $tanggal_awal = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($value->tanggal_awal));
+            $tanggal_akhir = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($value->tanggal_akhir));
+
+            $sheet->setCellValue('H' . $baris, $tanggal_awal);
+            $sheet->setCellValue('I' . $baris, $tanggal_akhir);
+
+            // Mengatur format tanggal tanpa waktu
+            $sheet->getStyle('H' . $baris)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+            $sheet->getStyle('I' . $baris)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+
+            $sheet->setCellValue('J' . $baris, $value->periode->tahun);
+
+            $baris++;
+            $no++;
+        }
+
+        foreach (range('A', 'J') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $sheet->setTitle('Data Pelatihan');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Pelatihan ' . date('Y-m-d H:i:s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: cache, must-revalidate');
+        header('Expires: Mon, 23 Nov 2024 05:00:00 GMT');
+        header('Last-Modified:' . gmdate('D, dMY H:i:s') . 'GMT');
+        header('Pragma: public');
+        $writer->save('php://output');
+        exit;
+    }
 }
