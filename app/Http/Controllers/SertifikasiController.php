@@ -11,6 +11,9 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class SertifikasiController extends Controller
 {
@@ -259,5 +262,92 @@ class SertifikasiController extends Controller
             }
         }
         redirect('/');
+    }
+
+    public function export_pdf()
+    {
+        // Mengambil data user dengan relasi yang relevan
+        $sertifikasi = SertifikasiModel::with(['vendor', 'periode'])
+            ->orderBy('id_periode')
+            ->orderBy('id_vendor')
+            ->orderBy('nama')
+            ->get();
+
+        // Generate PDF
+        $pdf = Pdf::loadView('admin.event.sertifikasi.export_pdf', ['sertifikasi' => $sertifikasi]);
+        $pdf->setPaper('a4', 'landscape');
+        $pdf->setOption("isRemoteEnabled", true);
+
+        // Stream hasil PDF
+        return $pdf->stream('Laporan_Data_Pelatihan_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
+
+    public function export_excel()
+    {
+        $sertifikasi = SertifikasiModel::with(['vendor', 'periode'])
+            ->orderBy('id_periode')
+            ->orderBy('id_vendor')
+            ->orderBy('nama')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama');
+        $sheet->setCellValue('C1', 'Vendor');
+        $sheet->setCellValue('D1', 'Biaya');
+        $sheet->setCellValue('E1', 'Level Pelatihan');
+        $sheet->setCellValue('F1', 'Tanggal Awal');
+        $sheet->setCellValue('G1', 'Tanggal Akhir');
+        $sheet->setCellValue('H1', 'Periode');
+
+
+        $sheet->getStyle('A1:H1')->getFont()->setBold(true);
+
+        $no = 1;
+        // nomor data dimulai dari 1
+        $baris = 2;
+        // baris data dimulai dari baris ke 2
+        foreach ($sertifikasi as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->nama);
+            $sheet->setCellValue('C' . $baris, $value->vendor->nama);
+            $sheet->setCellValue('D' . $baris, $value->biaya);
+            $sheet->setCellValue('E' . $baris, $value->jenis_sertifikasi);
+
+            // Format tanggal untuk menghilangkan waktu (jika diperlukan)
+            $tanggal_awal = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($value->tanggal_awal));
+            $tanggal_akhir = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($value->tanggal_akhir));
+
+            $sheet->setCellValue('F' . $baris, $tanggal_awal);
+            $sheet->setCellValue('G' . $baris, $tanggal_akhir);
+
+            // Mengatur format tanggal tanpa waktu
+            $sheet->getStyle('F' . $baris)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+            $sheet->getStyle('G' . $baris)->getNumberFormat()->setFormatCode('DD/MM/YYYY');
+
+            $sheet->setCellValue('H' . $baris, $value->periode->tahun);
+
+            $baris++;
+            $no++;
+        }
+
+
+        foreach (range('A', 'H') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+        $sheet->setTitle('Data Sertifikasi');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Sertifikasi ' . date('Y-m-d H:i:s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: cache, must-revalidate');
+        header('Expires: Mon, 23 Nov 2024 05:00:00 GMT');
+        header('Last-Modified:' . gmdate('D, dMY H:i:s') . 'GMT');
+        header('Pragma: public');
+        $writer->save('php://output');
+        exit;
     }
 }

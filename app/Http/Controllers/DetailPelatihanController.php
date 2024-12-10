@@ -88,33 +88,25 @@ class DetailPelatihanController extends Controller
 
     public function uploadDataPelatihan(Request $request, $id)
     {
-        $detailPelatihan = DetailPelatihanModel::find($id); // Adjust this according to your model structure
-    
+        $detailPelatihan = DetailPelatihanModel::find($id); 
         if ($detailPelatihan) {
-            // Check if the image file is provided
             if ($request->hasFile('image_pelatihan')) {
-                // If the record already has an image, delete it from storage
                 if ($detailPelatihan->image && Storage::disk('public')->exists('photos/' . $detailPelatihan->image)) {
                     Storage::disk('public')->delete('photos/' . $detailPelatihan->image);
                 }
-    
-                // Store the new image and update the record
                 $fileName = $request->file('image_pelatihan')->hashName();
                 $request->file('image_pelatihan')->storeAs('public/photos', $fileName);
                 $detailPelatihan->image = $fileName;
-                $detailPelatihan->status = "Completed"; // Update the status if necessary
+                $detailPelatihan->status = "Completed";
             }
     
-            // Save the changes to the database
             $detailPelatihan->save();
     
-            // Return a success response in JSON format
             return response()->json([
                 'status' => true,
                 'message' => 'Data berhasil disimpan!',
             ]);
         } else {
-            // Return a failure response if the detail not found
             return response()->json([
                 'status' => false,
                 'message' => 'Data tidak ditemukan!',

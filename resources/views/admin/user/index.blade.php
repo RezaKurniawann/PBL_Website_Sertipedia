@@ -45,8 +45,8 @@
                         <th>Pangkat</th>
                         <th>Golongan</th>
                         <th>Jabatan</th>
+                        <th>Email</th>
                         <th>Nomor Telepon</th>
-                        <th>Username</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -152,16 +152,16 @@
                         searchable: true
                     },
                     {
-                        data: "no_telp",
-                        className: "",
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
                         data: "email",
                         className: "",
                         orderable: false,
                         searchable: true
+                    },
+                    {
+                        data: "no_telp",
+                        className: "",
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: "aksi",
