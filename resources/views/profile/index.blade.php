@@ -244,6 +244,8 @@
 
 
     <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Referensi elemen
         const sertifikasiCard = document.getElementById('sertifikasi-card');
         const pelatihanCard = document.getElementById('pelatihan-card');
         const btnSertifikasi = document.getElementById('btn-sertifikasi');
@@ -252,6 +254,32 @@
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
 
+        // Fungsi untuk mengatur tab aktif
+        function setActiveTab(activeButton, inactiveButton) {
+            activeButton.classList.add('active-tab');
+            inactiveButton.classList.remove('active-tab');
+        }
+
+        // Default: Tampilkan Sertifikasi dan aktifkan tombol Sertifikasi
+        sertifikasiCard.classList.remove('hidden');
+        pelatihanCard.classList.add('hidden');
+        setActiveTab(btnSertifikasi, btnPelatihan);
+
+        // Event listener untuk tombol Sertifikasi
+        btnSertifikasi.addEventListener('click', () => {
+            sertifikasiCard.classList.remove('hidden');
+            pelatihanCard.classList.add('hidden');
+            setActiveTab(btnSertifikasi, btnPelatihan);
+        });
+
+        // Event listener untuk tombol Pelatihan
+        btnPelatihan.addEventListener('click', () => {
+            pelatihanCard.classList.remove('hidden');
+            sertifikasiCard.classList.add('hidden');
+            setActiveTab(btnPelatihan, btnSertifikasi);
+        });
+
+        // Modal untuk gambar
         images.forEach(image => {
             image.addEventListener('click', function() {
                 modalImage.src = this.src;
@@ -259,29 +287,10 @@
             });
         });
 
-
+        // Edit Profile Button
         document.getElementById('edit-profile-btn').addEventListener('click', function() {
             window.location.href = "{{ url('profile/' . $user->id_user . '/edit') }}";
         });
-
-        // Fungsi untuk mengatur tab aktif
-        function setActiveTab(activeButton, inactiveButton) {
-            activeButton.classList.add('active-tab');
-            inactiveButton.classList.remove('active-tab');
-        }
-
-        // Event listener untuk tombol Sertifikasi
-        btnSertifikasi.addEventListener('click', () => {
-            sertifikasiCard.classList.remove('hidden');
-            pelatihanCard.classList.add('hidden');
-            setActiveTab(btnSertifikasi, btnPelatihan); // Set tombol aktif
-        });
-
-        // Event listener untuk tombol Pelatihan
-        btnPelatihan.addEventListener('click', () => {
-            pelatihanCard.classList.remove('hidden');
-            sertifikasiCard.classList.add('hidden');
-            setActiveTab(btnPelatihan, btnSertifikasi); // Set tombol aktif
-        });
-    </script>
+    });
+</script>
 @endsection
