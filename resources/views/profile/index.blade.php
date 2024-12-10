@@ -67,8 +67,17 @@
     }
 
     .btn-container {
-        margin-top: 20px;
+        margin-bottom: 20px;
         text-align: left;
+    }
+
+    .active-tab {
+        background-color: #004085; /* Warna lebih gelap untuk tombol aktif */
+        border-color: #003366;
+    }
+
+    .hidden {
+        display: none;
     }
 </style>
 {{-- menampilkan gambar  --}}
@@ -101,7 +110,7 @@
                 </tr>
                 <tr class="table-border">
                     <th>NIP/NIDN</th>
-                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->nip }}</td>
                 </tr>
                 <tr class="table-border">
                     <th>Email</th>
@@ -127,13 +136,18 @@
     </div>
 </div>
 
+{{-- Tombol Pilihan --}}
+<div class="btn-container">
+    <button type="button" class="btn btn-primary" id="btn-sertifikasi">Sertifikasi</button>
+    <button type="button" class="btn btn-primary" id="btn-pelatihan">Pelatihan</button>
+</div>
+
 <!-- Sertifikasi Card -->
-<div class="card card-outline card-primary">
+<div id="sertifikasi-card" class="card card-outline card-primary">
     <div class="card-header">
         <h5 class="card-title">Sertifikasi</h5>
     </div>
     <div class="card-body">
-        {{-- memeriksa apakah ada data sertifikasi --}}
         @if($user->sertifikasi && $user->sertifikasi->count() > 0)
             <table class="table table-striped">
                 <thead>
@@ -146,7 +160,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- menampilkan data sertifikasi satu per satu --}}
                     @foreach($user->sertifikasi as $index => $sertifikasi)
                         <tr>
                             <td>{{ $index + 1 }}</td>
@@ -165,7 +178,7 @@
 </div>
 
 <!-- Pelatihan Card -->
-<div class="card card-outline card-primary">
+<div id="pelatihan-card" class="card card-outline card-primary hidden">
     <div class="card-header">
         <h5 class="card-title">Pelatihan</h5>
     </div>
@@ -201,8 +214,33 @@
 
 
 <script>
+    const sertifikasiCard = document.getElementById('sertifikasi-card');
+    const pelatihanCard = document.getElementById('pelatihan-card');
+    const btnSertifikasi = document.getElementById('btn-sertifikasi');
+    const btnPelatihan = document.getElementById('btn-pelatihan');
+
     document.getElementById('edit-profile-btn').addEventListener('click', function() {
         window.location.href = "{{ url('profile/' . $user->id_user . '/edit') }}";
+    });
+
+    // Fungsi untuk mengatur tab aktif
+    function setActiveTab(activeButton, inactiveButton) {
+        activeButton.classList.add('active-tab');
+        inactiveButton.classList.remove('active-tab');
+    }
+
+    // Event listener untuk tombol Sertifikasi
+    btnSertifikasi.addEventListener('click', () => {
+        sertifikasiCard.classList.remove('hidden');
+        pelatihanCard.classList.add('hidden');
+        setActiveTab(btnSertifikasi, btnPelatihan); // Set tombol aktif
+    });
+
+    // Event listener untuk tombol Pelatihan
+    btnPelatihan.addEventListener('click', () => {
+        pelatihanCard.classList.remove('hidden');
+        sertifikasiCard.classList.add('hidden');
+        setActiveTab(btnPelatihan, btnSertifikasi); // Set tombol aktif
     });
 </script>
 @endsection

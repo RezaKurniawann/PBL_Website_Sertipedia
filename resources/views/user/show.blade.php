@@ -69,6 +69,27 @@
         margin-top: 20px;
         text-align: left;
     }
+
+    .tab-button {
+        background-color: #0d6efd; /* Warna biru */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .tab-button.active {
+        background-color: #0056b3; /* Warna biru lebih gelap untuk tab aktif */
+        font-weight: bold;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .tab-button:hover {
+        background-color: #004085; /* Warna hover biru lebih gelap */
+        color: white; /* Pastikan teks tetap putih */
+    }
 </style>
 
 <div class="container-fluid">
@@ -130,8 +151,8 @@
     <div class="row mt-4">
         <div class="col-12 d-flex justify-content-start">
             <!-- Tab Buttons -->
-            <button class="btn btn-success mr-2 tab-button" data-target="#pelatihan-tab">Pelatihan</button>
-            <button class="btn btn-primary tab-button" data-target="#sertifikasi-tab">Sertifikasi</button>
+            <button class="btn tab-button active" data-target="#pelatihan-tab">Pelatihan</button>
+            <button class="btn tab-button" data-target="#sertifikasi-tab">Sertifikasi</button>
         </div>
     </div>
 
@@ -251,7 +272,12 @@
             button.addEventListener('click', function () {
                 const target = document.querySelector(this.dataset.target);
 
+                // Remove active class from all buttons and tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabs.forEach(tab => tab.classList.remove('show', 'active'));
+
+                // Add active class to the clicked button and corresponding tab
+                this.classList.add('active');
                 target.classList.add('show', 'active');
             });
         });

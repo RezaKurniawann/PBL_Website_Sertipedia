@@ -5,10 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card card-outline card-primary">
-                <div class="card shadow-lg border-0 rounded-lg">
-                    {{-- <div class="card-header" style="background-image: linear-gradient(135deg, #0d6efd, #0056b3); color: #dee2e6; text-align: center; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                        <h4 style="margin-top: 8px;">{{ __('Edit Profile') }}</h4>
-                    </div> --}}
+                
                     <div class="card-body">
                         <div class="row text-center mb-4">
                             <div class="col-md-12">
@@ -101,7 +98,7 @@
                             @endif
                         </form>
                     </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -177,13 +174,29 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Profil berhasil diperbarui.');
-                location.reload(); // Refresh the page to see updates
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Profil berhasil diperbarui.',
+                }).then(() => {
+                    location.reload(); // Refresh halaman untuk melihat perubahan
+                });
             } else {
-                alert('Terjadi kesalahan saat memperbarui profil: ' + data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan',
+                    text: 'Terjadi kesalahan saat memperbarui profil: ' + data.message,
+                });
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesalahan',
+                text: 'Gagal menghubungi server. Silakan coba lagi.',
+            });
+        });
     });
 </script>
 @endsection
