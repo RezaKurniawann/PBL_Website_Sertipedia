@@ -59,6 +59,7 @@ $tanggalAkhirFormatted = formatTanggal($tanggalAkhir, $bulanIndonesia);
         }
         .font-bold {
             font-weight: bold;
+            font-size: 18;
         }
         .header {
             border-bottom: 2px solid black;
@@ -122,17 +123,16 @@ $tanggalAkhirFormatted = formatTanggal($tanggalAkhir, $bulanIndonesia);
         {{ $tanggalAwalFormatted }} sd {{ $tanggalAkhirFormatted }}. 
     </p>
     <p class="text-align: left">
-        Biaya perjalanan dinas pada kegiatan ini dibebankan pada anggaran Jurusan Teknologi Informasi<br>
-        Politeknik Negeri Malang. Selesai melaksanakan tugas harap melaporkan <br>
-        hasilnya kepada Ketua Jurusan Teknologi Informasi.
-        Demikian untuk dilaksanakan sebaik-baiknya.
+        Biaya perjalanan dinas pada kegiatan ini dibebankan pada anggaran Jurusan Teknologi Informasi
+        Politeknik Negeri Malang. Selesai melaksanakan tugas harap melaporkan hasilnya kepada 
+        Ketua Jurusan Teknologi Informasi. Demikian untuk dilaksanakan sebaik-baiknya.
     </p>
     <br>
     <div style="margin-left: 10cm">
         <p class="text-left">
             <?php echo $currentDate ?><br>
             Ketua Jurusan Teknologi Informasi,
-            <br><br><br>
+            <br><br><br><br><br>
             Dr. Eng. Rosa Andrie Asmara, S.T., M.T. <br>
             NIP. 198010102005011001
         </p>
