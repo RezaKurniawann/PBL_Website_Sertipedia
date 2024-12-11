@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MataKuliahModel;
-use App\Models\BidangMinatModel;
 use App\Models\SertifikasiModel;
 use App\Models\PeriodeModel;
-use App\Models\VendorModel;
 use App\Models\UserModel;
-
-use Illuminate\Support\Facades\Validator;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\VendorModel;
+use App\Models\DetailSertifikasiModel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
@@ -22,54 +19,109 @@ class RekomSertifikasiController extends Controller
     public function index()
     {
         $breadcrumb = (object) [
-            'title' => 'Rekomendasi Sertifikasi',
-            'list' => ['Home', 'Rekomendasi']
+            'title' => 'Daftar Detail Sertifikasi',
+            'list' => ['Home', 'Detail Sertifikasi']
         ];
 
         $page = (object) [
-            'title' => 'Rekomendasi Sertifikasi untuk Dosen'
+            'title' => 'Daftar detail sertifikasi yang terdaftar dalam sistem'
         ];
 
         $activeMenu = 'rekomendasi';
 
-        $matakuliah = MataKuliahModel::all();
-        $bidangminat = BidangMinatModel::all();
-        $periode = PeriodeModel::all();
-        $vendor = VendorModel::all();
-        $sertifikasi = SertifikasiModel::all();
         $user = UserModel::all();
+        $sertifikasi = SertifikasiModel::all();
 
-        return view('admin.rekomendasi.sertifikasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'matakuliah' => $matakuliah, 'bidangminat' => $bidangminat, 'periode' => $periode, 'vendor' => $vendor, 'sertifikasi' => $sertifikasi, 'activeMenu' => $activeMenu, 'user' => $user]);
+        return view('admin.rekomendasi.sertifikasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'sertifikasi' => $sertifikasi, 'activeMenu' => $activeMenu]);
     }
-    public function store_ajax(Request $request)
+
+    public function formDataSertifikasi()
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'id_sertifikasi' => 'required|integer',
-                'id_vendor' => 'required|integer',
-                'level_sertifikasi' => 'required|string',
-                'id_periode' => 'required|integer',
-                'user' => 'required|array',
-                'user.*' => 'integer',
-            ];
+        $breadcrumb = (object) [
+            'title' => 'Daftar Sertifikasi',
+            'list' => ['Home', 'Sertifikasi']
+        ];
 
-            $validator = Validator::make($request->all(), $rules);
+        $page = (object) [
+            'title' => 'Daftar Sertifikasi'
+        ];
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'    => false,    //response status, false: eror/gagal, true:berhasil
-                    'message'   => 'Validasi Gagal',
-                    'msgField'  => $validator->errors(),    //pesan eror validasi
-                ]);
-            }
+        $activeMenu = 'rekomendasi';
 
-            SertifikasiModel::create($request->all());
+        return view('admin.rekomendasi.sertifikasi.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+    }
+
+    public function listSertifikasi(Request $request)
+    {
+        if ($request->ajax()) { // Pastikan hanya melayani request AJAX
+            $user = UserModel::findOrFail(Auth::id());
+
+            // Ambil data detail pelatihan beserta relasi
+            $detailSertifikasi = SertifikasiModel::with(['user', 'vendor', 'periode'])
+                ->get();
+
+            return DataTables::of($detailSertifikasi)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($detailSertifikasi) {
+                    return '<button onclick="modalAction(\'' . url('manage/rekomendasi/sertifikasi/' . $detailSertifikasi->id_sertifikasi . '/show_sertifikasi') . '\')" class="btn btn-sm btn-info"><i class="fa fa-upload"></i> Input Data</button>';
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+        return response()->json(['error' => 'Invalid request'], 400);
+    }
+
+    public function showSertifikasi(string $id)
+    {
+        $detailSertifikasi = SertifikasiModel::find($id);
+        $users = UserModel::all(); // Ambil semua data user
+
+        if ($detailSertifikasi) {
+            return view('admin.rekomendasi.sertifikasi.showSertifikasi', [
+                'detailSertifikasi' => $detailSertifikasi,
+                'users' => $users, // Kirim data user ke view
+            ]);
+        } else {
             return response()->json([
-                'status'    => true,
-                'message'   => 'Data berhasil disimpan'
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
             ]);
         }
-        redirect('/');
     }
-    
-}
+
+    public function storeDetailSertifikasi(Request $request, string $id)
+    {
+        $validated = $request->validate([
+            'user' => 'required|array', // Pastikan input berupa array
+            'user.*' => 'exists:m_user,id_user', // Validasi bahwa ID user valid
+        ]);
+
+        $data = [];
+        foreach ($validated['user'] as $userId) {
+            $data[] = [
+                'id_user' => $userId,
+                'id_sertifikasi' => $id,
+                'status' => 'Requested',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        try {
+            DetailSertifikasiModel::insert($data);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan saat menyimpan data',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+    }
