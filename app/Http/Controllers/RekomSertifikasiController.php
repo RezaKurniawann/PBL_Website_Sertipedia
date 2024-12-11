@@ -95,7 +95,7 @@ class RekomSertifikasiController extends Controller
             'user' => 'required|array', // Pastikan input berupa array
             'user.*' => 'exists:m_user,id_user', // Validasi bahwa ID user valid
         ]);
-
+    
         $data = [];
         foreach ($validated['user'] as $userId) {
             $data[] = [
@@ -106,12 +106,31 @@ class RekomSertifikasiController extends Controller
                 'updated_at' => now(),
             ];
         }
+    
         try {
             DetailSertifikasiModel::insert($data);
     
-            return redirect()->route('manage/rekomendasi/sertifikasi/') // Sesuaikan dengan nama rute Anda
+            // Jika request melalui AJAX, kembalikan respons JSON
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil disimpan.',
+                ]);
+            }
+    
+            // Jika bukan AJAX, redirect
+            return redirect()->route('manage/rekomendasi/sertifikasi/')
                 ->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
+            // Jika request melalui AJAX, kembalikan respons JSON dengan error
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage(),
+                ], 500);
+            }
+    
+            // Jika bukan AJAX, redirect dengan error
             return redirect()->back()
                 ->withInput()
                 ->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()]);

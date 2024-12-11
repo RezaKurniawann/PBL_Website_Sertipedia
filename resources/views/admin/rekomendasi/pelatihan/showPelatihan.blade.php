@@ -82,131 +82,81 @@
         </div>
     </form>
     <script>
-        $(document).ready(function() {
-            $('#myModal').on('shown.bs.modal', function() {
-            // Hapus event handler lama jika ada
-            $(document).off('click', '.btn-add-user');
+    $(document).ready(function() {
+    // Event handler for the "Add" button
+    $(document).on('click', '.btn-add-user', function() {
+        const newField = $('.user-row:first').clone(); // Clone the first user row
+        newField.find('select').val(''); // Reset the select field value
+        $('#user-fields').append(newField); // Append the cloned field to the user-fields container
+    });
 
-            // Tambahkan event handler baru
-            $(document).on('click', '.btn-add-user', function() {
-                const newField = $('.user-row:first').clone();
-                newField.find('select').val(''); // Reset the select field value
-                $('#user-fields').append(newField);
-            });
-        });
-
-        function showToast(message) {
-            const toastHTML = `
-            <div class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1050; min-width: 250px; border-radius: 10px; background: linear-gradient(45deg, #ff6b6b, #f0a500); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
-                <div class="d-flex">
-                    <div class="toast-body" style="padding: 10px 15px; font-size: 16px;">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-            </div>
-        `;
-            $('body').append(toastHTML);
-            const toastElement = $('.toast').last();
-            const toast = new bootstrap.Toast(toastElement[0]);
-            toast.show();
-
-            toastElement.on('hidden.bs.toast', function() {
-                $(this).remove();
-            });
+    // Event handler for the "Remove" button
+    $(document).on('click', '.btn-remove-user', function() {
+        if ($('.user-row').length > 1) {
+            $(this).closest('.user-row').remove(); // Remove the closest user row
+        } else {
+            showToast('Minimal Satu Dosen Harus Ada.'); // Show toast if only one row remains
         }
+    });
 
-        function checkDuplicates() {
-            const mataKuliahValues = [];
-            let duplicateFound = false;
-
-            // Mata Kuliah validation
-            $("select[name='user[]']").each(function() {
-                const value = $(this).val();
-                if (mataKuliahValues.includes(value) && value !== "") {
-                    duplicateFound = true;
-                    showToast('Dosen tidak boleh sama.');
-                }
-                mataKuliahValues.push(value);
-            });
-            return !duplicateFound; // Prevent form submission if duplicate found
-        }
-
-        $(document).on('click', '.btn-add-user', function() {
-            const newField = $('.user-row:first').clone();
-            newField.find('select').val(''); // Reset the select field value
-
-            // Re-add the "Add" button to the cloned row
-            newField.find('.btn-add-user').show();
-
-            // Append the cloned field to the user-fields container
-            $('#user-fields').append(newField);
-        });
-
-        $(document).on('click', '.btn-remove-user', function() {
-            if ($('.user-row').length > 1) {
-                $(this).closest('.user-row').remove();
-            } else {
-                showToast('Minimal Satu Dosen Harus Ada.');
+    // Form validation and submission
+    $("#form-edit").validate({
+        rules: {
+            'user[]': {
+                required: true,
             }
-        });
-            $("#form-edit").validate({
-                rules: {
-                    user[]: {
-                        required: true,
+        },
+        submitHandler: function(form) {
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: new FormData(form),
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status) {
+                        $('#myModal').modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: response.message
+                        });
+                        datadetailPelatihan.ajax.reload();
+                    } else {
+                        $('.error-text').text('');
+                        $.each(response.msgField, function(prefix, val) {
+                            $('#error-' + prefix).text(val[0]);
+                        });
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan',
+                            text: response.message
+                        });
                     }
                 },
-                submitHandler: function(form) {
-                    $.ajax({
-                        url: form.action,
-                        type: form.method, 
-                        data: new FormData(form), 
-                        processData: false,
-                        contentType: false, 
-                        success: function(response) {
-                            if (response.status) {
-                                $('#myModal').modal('hide');
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: response.message
-                                });
-                                datadetailPelatihan.ajax.reload();
-                            } else {
-                                $('.error-text').text('');
-                                $.each(response.msgField, function(prefix, val) {
-                                    $('#error-' + prefix).text(val[0]);
-                                });
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Terjadi Kesalahan',
-                                    text: response.message
-                                });
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Kesalahan Server',
-                                text: 'Terjadi kesalahan di server. Coba lagi nanti.'
-                            });
-                        }
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Kesalahan Server',
+                        text: 'Terjadi kesalahan di server. Coba lagi nanti.'
                     });
-                    return false;
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
                 }
             });
-        });
+            return false;
+        },
+        errorElement: 'span',
+        errorPlacement: function(error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+        highlight: function(element, errorClass, validClass) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        }
+    });
+});
     </script>
 @endempty
 
