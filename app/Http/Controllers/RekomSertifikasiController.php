@@ -106,20 +106,15 @@ class RekomSertifikasiController extends Controller
                 'updated_at' => now(),
             ];
         }
-
         try {
             DetailSertifikasiModel::insert($data);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Data berhasil disimpan',
-            ]);
+    
+            return redirect()->route('manage/rekomendasi/sertifikasi/') // Sesuaikan dengan nama rute Anda
+                ->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Terjadi kesalahan saat menyimpan data',
-                'error' => $e->getMessage(),
-            ], 500);
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()]);
         }
     }
 

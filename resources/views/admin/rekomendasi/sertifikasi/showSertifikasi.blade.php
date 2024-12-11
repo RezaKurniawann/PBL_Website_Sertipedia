@@ -56,7 +56,7 @@
                                     <select name="user[]" class="form-control" required>
                                         <option value="">Pilih Dosen</option>
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->nama }}</option>
+                                            <option value="{{ $user->id_user }}">{{ $user->nama }}</option>
                                         @endforeach
                                     </select>                                    
                                 </div>
