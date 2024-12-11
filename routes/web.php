@@ -245,12 +245,16 @@ Route::middleware(['auth:admin'])->group(function () {
         });
         Route::prefix('rekomendasi')->group(function () {
             Route::prefix('pelatihan')->group(function () {
-                Route::get('/', [RekomPelatihanController::class, 'index']);
-                Route::post('/ajax', [RekomPelatihanController::class, 'store_ajax']);
+                Route::get('/', [RekomPelatihanController::class, 'formDataPelatihan']);
+                Route::post('/list', [RekomPelatihanController::class, 'listPelatihan']);
+                Route::get('/{id}/show_pelatihan', [RekomPelatihanController::class, 'showPelatihan']);
+                Route::put('/{id}/upload', [RekomPelatihanController::class, 'storeDetailPelatihan']);
             });
             Route::prefix('sertifikasi')->group(function () {
-                Route::get('/', [RekomSertifikasiController::class, 'index']);
-                Route::post('/ajax', [RekomSertifikasiController::class, 'store_ajax']);
+                Route::get('/sertifikasi', [RekomSertifikasiController::class, 'formDataSertifikasi']);
+                Route::post('/sertifikasi/list', [RekomSertifikasiController::class, 'listSertifikasi']);
+                Route::get('/sertifikasi/{id}/show_sertifikasi', [RekomSertifikasiController::class, 'showSertifikasi']);
+                Route::put('/sertifikasi/{id}/upload', [RekomSertifikasiController::class, 'uploadDataSertifikasi']);
             });
         });
         Route::prefix('notifikasi')->group(function () {
