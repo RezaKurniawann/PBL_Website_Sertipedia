@@ -21,52 +21,24 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 4, // Penata Tk. 1
                 'id_golongan' => 3, // IIIC
                 'id_jabatan' => 2, // Lektor
-                'nama' => 'Pimpinan TI',
-                'email' => 'pimpinan_ti@example.com',
+                'nama' => 'Rosa Andrie Asmara, ST., MT., Dr. Eng.',
+                'email' => 'rosa.andrie@polinema.ac.id',
                 'no_telp' => '081234567001',
-                'nip' => 1002,
-                'password' => Hash::make('password123'),
+                'nip' => "0010108003",
+                'password' => Hash::make('Pimpinan123'),
                 'image' => null,
             ],
-            [
-                'id_level' => 2,
-                'id_prodi' => 2,
-                'id_pangkat' => 3, // Penata
-                'id_golongan' => 2, // IIIB
-                'id_jabatan' => 3, // Lektor Kepala
-                'nama' => 'Pimpinan SIB',
-                'email' => 'pimpinan_sib@example.com',
-                'no_telp' => '081234567002',
-                'nip' => 1003,
-                'password' => Hash::make('password123'),
-                'image' => null,
-            ],
-            [
-                'id_level' => 2,
-                'id_prodi' => 3,
-                'id_pangkat' => 5, // Pembina
-                'id_golongan' => 4, // IIID
-                'id_jabatan' => 4, // Profesor
-                'nama' => 'Pimpinan FD',
-                'email' => 'pimpinan_fd@example.com',
-                'no_telp' => '081234567003',
-                'nip' => 1004,
-                'password' => Hash::make('password123'),
-                'image' => null,
-            ],
-
-            // Dosen
             [
                 'id_level' => 3,
                 'id_prodi' => 1,
                 'id_pangkat' => 2, // Penata Muda Tk. 1
                 'id_golongan' => 1, // IIIA
                 'id_jabatan' => 1, // Asisten Ahli
-                'nama' => 'Dosen 1',
-                'email' => 'dosen1@example.com',
+                'nama' => 'Ade Ismail, S.Kom., M.TI',
+                'email' => 'ade.ismail@polinema.ac.id',
                 'no_telp' => '081234567004',
-                'nip' => 2001,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0404079101",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -75,11 +47,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 3, // Penata
                 'id_golongan' => 2, // IIIB
                 'id_jabatan' => 2, // Lektor
-                'nama' => 'Dosen 2',
-                'email' => 'dosen2@example.com',
+                'nama' => 'Agung Nugroho Pramudhita, S.T., M.T.',
+                'email' => 'agung.nugroho@polinema.ac.id',
                 'no_telp' => '081234567005',
-                'nip' => 2002,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0010028903",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -88,11 +60,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 4, // Penata Tk. 1
                 'id_golongan' => 3, // IIIC
                 'id_jabatan' => 3, // Lektor Kepala
-                'nama' => 'Dosen 3',
-                'email' => 'dosen3@example.com',
+                'nama' => 'Ahmadi Yuli Ananta, ST., M.M.',
+                'email' => 'ahmadi.yuli@polinema.ac.id',
                 'no_telp' => '081234567006',
-                'nip' => 2003,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0005078102",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -101,11 +73,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 5, // Pembina
                 'id_golongan' => 4, // IIID
                 'id_jabatan' => 4, // Profesor
-                'nama' => 'Dosen 4',
-                'email' => 'dosen4@example.com',
+                'nama' => 'Annisa Puspa Kirana, S.Kom., M.Kom',
+                'email' => 'annisa.puspa@polinema.ac.id',
                 'no_telp' => '081234567007',
-                'nip' => 2004,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0023018906",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -114,11 +86,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 3, // Penata
                 'id_golongan' => 2, // IIIB
                 'id_jabatan' => 2, // Lektor
-                'nama' => 'Dosen 5',
-                'email' => 'dosen5@example.com',
+                'nama' => 'Annisa Taufika Firdausi, ST., MT.',
+                'email' => 'annisa.taufika@polinema.ac.id',
                 'no_telp' => '081234567008',
-                'nip' => 2005,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0014128704",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -127,11 +99,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 6, // Pembina Tk. 1
                 'id_golongan' => 5, // IVA
                 'id_jabatan' => 4, // Profesor
-                'nama' => 'Dosen 6',
-                'email' => 'dosen6@example.com',
+                'nama' => 'Anugrah Nur Rahmanto, S.Sn., M.Ds.',
+                'email' => 'anugrah.nur@polinema.ac.id',
                 'no_telp' => '081234567009',
-                'nip' => 2006,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0030129101",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -140,11 +112,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 3, // Penata
                 'id_golongan' => 2, // IIIB
                 'id_jabatan' => 3, // Lektor Kepala
-                'nama' => 'Dosen 7',
-                'email' => 'dosen7@example.com',
+                'nama' => 'Ariadi Retno Ririd, S.Kom., M.Kom.',
+                'email' => 'ariadi.retno@polinema.ac.id',
                 'no_telp' => '081234567010',
-                'nip' => 2007,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0010088101",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -153,11 +125,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 4, // Penata Tk. 1
                 'id_golongan' => 3, // IIIC
                 'id_jabatan' => 2, // Lektor
-                'nama' => 'Dosen 8',
-                'email' => 'dosen8@example.com',
+                'nama' => 'Arie Rachmad Syulistyo, S.Kom., M.Kom',
+                'email' => 'arie.rachmad@polinema.ac.id',
                 'no_telp' => '081234567011',
-                'nip' => 2008,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0024088701",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -166,11 +138,11 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 5, // Pembina
                 'id_golongan' => 4, // IIID
                 'id_jabatan' => 4, // Profesor
-                'nama' => 'Dosen 9',
-                'email' => 'dosen9@example.com',
+                'nama' => 'Arief Prasetyo, S.Kom., M.Kom.',
+                'email' => 'arief.prasetyo@polinema.ac.id',
                 'no_telp' => '081234567012',
-                'nip' => 2009,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0013037905",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
             ],
             [
@@ -179,15 +151,40 @@ class UserSeeder extends Seeder
                 'id_pangkat' => 6, // Pembina Tk. 1
                 'id_golongan' => 5, // IVA
                 'id_jabatan' => 3, // Lektor Kepala
-                'nama' => 'Dosen 10',
-                'email' => 'dosen10@example.com',
+                'nama' => 'Astrifidha Rahma Amalia,S.Pd., M.Pd.',
+                'email' => 'astrifidha.rahma@polinema.ac.id',
                 'no_telp' => '081234567013',
-                'nip' => 2010,
-                'password' => Hash::make('dosen123'),
+                'nip' => "0021059405",
+                'password' => Hash::make('Dosen123'),
                 'image' => null,
-            ],
+            ],  
+            [
+                'id_level' => 3,
+                'id_prodi' => 2,
+                'id_pangkat' => 5,
+                'id_golongan' => 4, 
+                'id_jabatan' => 2, 
+                'nama' => 'Atiqah Nurul Asri, S.Pd., M.Pd.',
+                'email' => 'atiqah.nurul@polinema.ac.id',
+                'no_telp' => '081234567011',
+                'nip' => "0025067607",
+                'password' => Hash::make('Dosen123'),
+                'image' => null,
+            ], 
+            [
+                'id_level' => 3,
+                'id_prodi' => 2,
+                'id_pangkat' => 3,
+                'id_golongan' => 4, 
+                'id_jabatan' => 1, 
+                'nama' => 'Bagas Satya Dian Nugraha, ST., MT.',
+                'email' => 'bagas.satya@polinema.ac.id',
+                'no_telp' => '081234567012',
+                'nip' => "0016069009",
+                'password' => Hash::make('Dosen123'),
+                'image' => null,
+            ],           
         ];
-
         DB::table('m_user')->insert($data);
     }
 }
