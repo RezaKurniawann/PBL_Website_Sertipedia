@@ -57,9 +57,12 @@
                         <small id="error-alamatWeb" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label>Kategori</label>
-                        <input value="{{ $vendor->kategori }}" type="text" name="kategori" id="kategori"
-                            class="form-control" required>
+                        <label for="kategori">Kategori</label>
+                        <select name="kategori" id="kategori" class="form-control" required aria-describedby="error-kategori">
+                            <option value="">Pilih Kategori</option>
+                            <option value="sertifikasi">Sertifikasi</option>
+                            <option value="pelatihan">Pelatihan</option>
+                        </select>
                         <small id="error-kategori" class="error-text form-text text-danger"></small>
                     </div>
                 </div>

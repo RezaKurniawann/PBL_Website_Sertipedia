@@ -3,13 +3,13 @@
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Tambah Data vendor</h5>
+                <h5 class="modal-title" id="createModalLabel">Tambah Data Vendor</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                    <div class="form-group">
+                <div class="form-group">
                     <label for="nama">Nama Vendor</label>
                     <input type="text" name="nama" id="nama" class="form-control" required
                         aria-describedby="error-nama" placeholder="Masukkan Nama Vendor">
@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label for="kota">Kota Vendor</label>
                     <input type="text" name="kota" id="kota" class="form-control" required
-                        aria-describedby="error-kota" placeholder="Masukkan Nomor Telepon">
+                        aria-describedby="error-kota" placeholder="Masukkan Kota Vendor">
                     <small id="error-kota" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
@@ -35,14 +35,17 @@
                 </div>
                 <div class="form-group">
                     <label for="alamatWeb">Alamat Website</label>
-                    <input type="alamatWeb" name="alamatWeb" id="alamatWeb" class="form-control" required
+                    <input type="text" name="alamatWeb" id="alamatWeb" class="form-control" required
                         aria-describedby="error-alamatWeb" placeholder="Masukkan Alamat Website">
                     <small id="error-alamatWeb" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label for="kategori">Kategori</label>
-                    <input type="kategori" name="kategori" id="kategori" class="form-control" required
-                        aria-describedby="error-kategori" placeholder="Masukkan Kategori">
+                    <select name="kategori" id="kategori" class="form-control" required aria-describedby="error-kategori">
+                        <option value="">Pilih Kategori</option>
+                        <option value="sertifikasi">Sertifikasi</option>
+                        <option value="pelatihan">Pelatihan</option>
+                    </select>
                     <small id="error-kategori" class="error-text form-text text-danger"></small>
                 </div>
             </div>
@@ -83,9 +86,7 @@
                     maxlength: 100
                 },
                 kategori: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 20
+                    required: true
                 },
             },
             submitHandler: function(form) {
