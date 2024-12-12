@@ -245,12 +245,16 @@ Route::middleware(['auth:admin'])->group(function () {
         });
         Route::prefix('rekomendasi')->group(function () {
             Route::prefix('pelatihan')->group(function () {
-                Route::get('/', [RekomPelatihanController::class, 'index']);
-                Route::post('/ajax', [RekomPelatihanController::class, 'store_ajax']);
+                Route::get('/', [RekomPelatihanController::class, 'formDataPelatihan']);
+                Route::post('/list', [RekomPelatihanController::class, 'listPelatihan']);
+                Route::get('/{id}/show_pelatihan', [RekomPelatihanController::class, 'showPelatihan']);
+                Route::put('/{id}/upload', [RekomPelatihanController::class, 'storeDetailPelatihan']);
             });
             Route::prefix('sertifikasi')->group(function () {
-                Route::get('/', [RekomSertifikasiController::class, 'index']);
-                Route::post('/ajax', [RekomSertifikasiController::class, 'store_ajax']);
+                Route::get('/', [RekomSertifikasiController::class, 'formDataSertifikasi']);
+                Route::post('/list', [RekomSertifikasiController::class, 'listSertifikasi']);
+                Route::get('/{id}/show_sertifikasi', [RekomSertifikasiController::class, 'showSertifikasi']);
+                Route::put('/{id}/upload', [RekomSertifikasiController::class, 'storeDetailSertifikasi']);
             });
         });
         Route::prefix('statistik')->group(function () {
@@ -259,8 +263,9 @@ Route::middleware(['auth:admin'])->group(function () {
         });
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotifikasiController::class, 'index'])->name('notifikasi.index');
-            Route::get('/notifikasi/detail/{id}', [NotifikasiController::class, 'detail'])->name('notifikasi.detail');
-            Route::get('/notifikasi/export/pdf', [NotifikasiController::class, 'exportPdf'])->name('export.pdf');
+            Route::get('/detail/{id}', [NotifikasiController::class, 'detail'])->name('notifikasi.detail');
+            Route::get('/export/pdf', [NotifikasiController::class, 'exportPdf'])->name('export.pdf');
+            Route::post('/store', [NotifikasiController::class, 'store'])->name('notifikasi.store');
         });
     });
 });
@@ -283,6 +288,10 @@ Route::middleware(['auth:user'])->group(function () {
         Route::get('/{id}/edit', [ProfileController::class, 'edit']);
         Route::post('/{id}/update', [ProfileController::class, 'update']);
     });
+    Route::prefix('notifikasi')->group(function () {
+        Route::get('/', [NotifikasiController::class, 'showUser'])->name('notifikasi.showUser');
+        Route::get('/export/pdf', [NotifikasiController::class, 'exportUserPDF'])->name('userExport.pdf');
+    });
     Route::prefix('pimpinan')->group(function () {
         Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
         Route::prefix('verifikasi')->group(function () {
@@ -300,6 +309,10 @@ Route::middleware(['auth:user'])->group(function () {
             Route::post('/list', [KompetensiController::class, 'list_pimpinan']);
             Route::post('/ajax', [KompetensiController::class, 'store_ajax']);
             Route::get('/{id}/show_ajax', [KompetensiController::class, 'show_ajax']);
+        });
+        Route::prefix('notifikasi')->group(function () {
+            Route::get('/', [NotifikasiController::class, 'showUser'])->name('notifikasi.showUser');
+            Route::get('/export/pdf', [NotifikasiController::class, 'exportPimPDF'])->name('pimExport.pdf');
         });
     });
 });

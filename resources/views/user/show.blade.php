@@ -71,24 +71,25 @@
     }
 
     .tab-button {
-        background-color: #0d6efd; /* Warna biru */
+        background-color: #0d6efd;
         color: white;
         border: none;
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
+        margin-right: 15px;
     }
 
     .tab-button.active {
-        background-color: #0056b3; /* Warna biru lebih gelap untuk tab aktif */
+        background-color: #0056b3;
         font-weight: bold;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .tab-button:hover {
-        background-color: #004085; /* Warna hover biru lebih gelap */
-        color: white; /* Pastikan teks tetap putih */
+        background-color: #004085;
+        color: white;
     }
 </style>
 
@@ -151,8 +152,8 @@
     <div class="row mt-4">
         <div class="col-12 d-flex justify-content-start">
             <!-- Tab Buttons -->
-            <button class="btn tab-button active" data-target="#pelatihan-tab">Pelatihan</button>
-            <button class="btn tab-button" data-target="#sertifikasi-tab">Sertifikasi</button>
+            <button class="btn tab-button active" data-target="#sertifikasi-tab">Sertifikasi</button>
+            <button class="btn tab-button" data-target="#pelatihan-tab">Pelatihan</button>
         </div>
     </div>
 

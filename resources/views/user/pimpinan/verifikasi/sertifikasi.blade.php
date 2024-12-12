@@ -21,7 +21,6 @@
             </thead>
             <tbody>
                 @foreach ($sertifikasi as $item)
-                  @if ($item->status == "Requested")
                     <tr>
                         <td>{{ $item->sertifikasi->nama ?? 'N/A' }}</td>
                         <td>{{ $item->sertifikasi->jenis_sertifikasi ?? 'N/A' }}</td>
@@ -35,7 +34,6 @@
                             </a>                        
                         </td>
                     </tr>
-                    @endif
                 @endforeach
             </tbody>
         </table>

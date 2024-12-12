@@ -30,18 +30,11 @@
 
     <!-- Home Section -->
     <section class="home hero" id="home" style="background-image: url('{{ asset('adminlte/dist/img/background_polinema.jpg') }}');">
-        <div class="swiper-container home-slider">
-            {{-- <div class="swiper-wrapper">
-                @foreach ($slides as $slide)
-                    <img src="{{ url('storage/element/FOTO POLINEMA.jpg') }}" alt="Foto Polinema">
-                @endforeach
-            </div> --}}
-            <div class="home-text">
-                <h1>Sertifikasi dan Pelatihan</h1>
-                <p>Aplikasi ini dirancang khusus untuk mengelola data sertifikasi dan pelatihan dosen 
-                    di Jurusan Teknologi Informasi (JTI). Melalui sistem berbasis web ini, 
-                    kami berkomitmen untuk memudahkan proses pendataan dan pemantauan kompetensi dosen, 
-                    serta menyediakan informasi yang akurat dan terkini tentang kualifikasi dan pelatihan yang telah diikuti oleh dosen.</p>
+        <div class="home-content">
+            <div class="logo-container">
+                <img src="{{ url('adminlte/dist/img/LOGO_POLINEMA.png') }}" alt="Logo Politeknik Negeri Malang" class="logo-home">
+                <img src="{{ url('adminlte/dist/img/LOGO_JTI.png') }}" alt="Logo JTI Polinema" class="logo-home">
+                <img src="{{ url('adminlte/dist/img/LOGO_SERTIPEDIA.png') }}" alt="Logo Sertipedia" class="logo-home rounded-logo">
             </div>
         </div>
     </section>
@@ -52,7 +45,7 @@
         <div class="row">
             <div class="content">
                 <h3>Sistem Pendataan Sertifikasi dan Pelatihan</h3>
-                <p>Sistem Pendataan Sertifikasi dan Pelatihan Dosen JTI 
+                <p>Sistem Pendataan Sertifikasi dan Pelatihan Dosen JTI (SERTIPEDIA)
                     adalah sebuah platform berbasis web yang dikembangkan untuk 
                     memudahkan pengelolaan data sertifikasi dan pelatihan dosen 
                     di Jurusan Teknologi Informasi (JTI). Kami berkomitmen untuk 

@@ -33,7 +33,10 @@ class VerifikasiSertifikasiController extends Controller
         $vendor = VendorModel::all();
         
         // Query untuk data detail sertifikasi dengan relasi sertifikasi
-        $detailSertifikasi = DetailSertifikasiModel::with('sertifikasi')->distinct('id_sertifikasi')->get();
+        $detailSertifikasi = DetailSertifikasiModel::with('sertifikasi')
+        ->distinct('id_sertifikasi')
+        ->where('status','=','Requested')
+        ->get();
         $detailSertifikasi = $detailSertifikasi->unique('id_sertifikasi');
 
         return view('user.pimpinan.verifikasi.sertifikasi', [

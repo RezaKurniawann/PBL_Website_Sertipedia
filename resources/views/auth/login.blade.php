@@ -72,7 +72,7 @@
                             <span class="divider">atau</span>
                         </div>
                         <div class="col-12 text-center mt-3">
-                            <a href="{{ url('guest/homepage') }}" class="btn-secondary w-50 mx-auto d-block">Masuk sebagai Mahasiswa</a>
+                            <a href="{{ url('guest/homepage') }}" class="text-hover">Masuk sebagai Mahasiswa</a>
                         </div>
                         <!-- /.col -->
                     </div>
