@@ -20,7 +20,7 @@ class StatistikController extends Controller
         $pelatihanCount = PelatihanModel::count();
 
         // Ambil filter tahun dari request, default ke tahun saat ini
-        $tahunFilter = $request->input('periode');
+        $tahunFilter = $request->input('periode', 2018);
 
         // Query data sertifikasi
         $queryStatusSertifikasi = DB::table('sertipedia.t_detail_sertifikasi AS td')
@@ -49,69 +49,54 @@ class StatistikController extends Controller
         $dataStatusPelatihan = $queryStatusPelatihan->get();
 
         // Status yang diharapkan
-        $statuses = ['Requested', 'Accepted', 'Rejected', 'On Going', 'Completed'];
+        $statusesSertifikasi = ['Requested', 'Accepted', 'Rejected', 'On Going', 'Completed'];
+        $statusesPelatihan = ['Requested', 'Accepted', 'Rejected', 'On Going', 'Completed'];
 
         // Proses data sertifikasi
-        $statusCountSertifikasi = [];
+        $statusCountSertifikasi = array_fill_keys($statusesSertifikasi, 0);
         foreach ($dataStatusSertifikasi as $row) {
-            $tahun = $row->periode_tahun;
-            if (!isset($statusCountSertifikasi[$tahun])) {
-                $statusCountSertifikasi[$tahun] = array_fill_keys($statuses, 0);
-            }
-            $statusCountSertifikasi[$tahun][$row->status] = $row->jumlah_status;
+            $statusCountSertifikasi[$row->status] = $row->jumlah_status;
         }
 
-        $chartDataSertifikasi = [];
-        foreach ($statusCountSertifikasi as $tahun => $counts) {
-            $chartDataSertifikasi[] = [
-                'tahun' => $tahun,
-                'labels' => array_keys($counts),
-                'datasets' => [
-                    [
-                        'label' => "Jumlah Status Sertifikasi ($tahun)",
-                        'data' => array_values($counts),
-                        'backgroundColor' => [
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                        ],
+        $chartDataSertifikasi = [
+            'labels' => array_keys($statusCountSertifikasi),
+            'datasets' => [
+                [
+                    'label' => 'Jumlah Status Sertifikasi',
+                    'data' => array_values($statusCountSertifikasi),
+                    'backgroundColor' => [
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
                     ],
                 ],
-            ];
-        }
+            ],
+        ];
 
         // Proses data pelatihan
-        $statusCountPelatihan = [];
+        $statusCountPelatihan = array_fill_keys($statusesPelatihan, 0);
         foreach ($dataStatusPelatihan as $row) {
-            $tahun = $row->periode_tahun;
-            if (!isset($statusCountPelatihan[$tahun])) {
-                $statusCountPelatihan[$tahun] = array_fill_keys($statuses, 0);
-            }
-            $statusCountPelatihan[$tahun][$row->status] = $row->jumlah_status;
+            $statusCountPelatihan[$row->status] = $row->jumlah_status;
         }
 
-        $chartDataPelatihan = [];
-        foreach ($statusCountPelatihan as $tahun => $counts) {
-            $chartDataPelatihan[] = [
-                'tahun' => $tahun,
-                'labels' => array_keys($counts),
-                'datasets' => [
-                    [
-                        'label' => "Jumlah Status Pelatihan ($tahun)",
-                        'data' => array_values($counts),
-                        'backgroundColor' => [
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                        ],
+        $chartDataPelatihan = [
+            'labels' => array_keys($statusCountPelatihan),
+            'datasets' => [
+                [
+                    'label' => 'Jumlah Status Pelatihan',
+                    'data' => array_values($statusCountPelatihan),
+                    'backgroundColor' => [
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
                     ],
                 ],
-            ];
-        }
+            ],
+        ];
 
         // Ambil daftar tahun periode untuk dropdown
         $daftarPeriode = PeriodeModel::pluck('tahun', 'tahun');
