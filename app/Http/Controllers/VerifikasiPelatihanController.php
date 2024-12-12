@@ -33,7 +33,10 @@ class VerifikasiPelatihanController extends Controller
          $vendor = VendorModel::all();
          
         // Query untuk data pelatihan
-        $detailPelatihan = DetailPelatihanModel::with('pelatihan')->distinct('id_pelatihan')->get();
+        $detailPelatihan = DetailPelatihanModel::with('pelatihan')
+        ->distinct('id_pelatihan')
+        ->where('status','=','Requested')
+        ->get();
         $detailPelatihan = $detailPelatihan->unique('id_pelatihan');
 
         return view('user.pimpinan.verifikasi.pelatihan', [

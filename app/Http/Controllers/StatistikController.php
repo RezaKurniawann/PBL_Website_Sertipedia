@@ -18,27 +18,35 @@ class StatistikController extends Controller
             'list' => ['Home', 'Statistik']
         ];
 
-        $activeMenu = 'statistik';
+        $page = (object) [
+            'title' => 'Laporan Visualisasi'
+        ];
 
-        // Dapatkan jumlah user dan sertifikasi
+        $activeMenu = 'statistik';
+        
+        // Dapatkan jumlah user, sertifikasi, pelatihan
         $userCount = UserModel::count();
         $sertifikasiCount = SertifikasiModel::count();
         $pelatihanCount = PelatihanModel::count();
-        $sertifikasiOnGoingCount = DetailSertifikasiModel::where('status', 'on going')->count();
-        $sertifikasiFinishedCount = DetailSertifikasiModel::where('status', 'finished')->count();
-        $pelatihanOnGoingCount = DetailPelatihanModel::where('status', 'on going')->count();
-        $pelatihanFinishedCount = DetailPelatihanModel::where('status', 'Finished')->count();
+        // Menghitung status sertifikasi
+        $statusList = ['requested', 'rejected', 'accepted', 'on going', 'completed'];
+        $sertifikasiStatusCount = [];
+        $pelatihanStatusCount = [];
+
+        foreach ($statusList as $status) {
+            $sertifikasiStatusCount[$status] = DetailSertifikasiModel::where('status', $status)->count();
+            $pelatihanStatusCount[$status] = DetailPelatihanModel::where('status', $status)->count();
+        }
 
         return view('user.pimpinan.statistik', [
-            'breadcrumb' => $breadcrumb, 
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
             'activeMenu' => $activeMenu,
-            'userCount' => $userCount, 
+            'userCount' => $userCount,
             'sertifikasiCount' => $sertifikasiCount,
             'pelatihanCount' => $pelatihanCount,
-            'sertifikasiOnGoingCount' => $sertifikasiOnGoingCount,
-            'sertifikasiFinishedCount' => $sertifikasiFinishedCount,
-            'pelatihanOnGoingCount' => $pelatihanOnGoingCount,
-            'pelatihanFinishedCount' => $pelatihanFinishedCount
+            'sertifikasiStatusCount' => $sertifikasiStatusCount,
+            'pelatihanStatusCount' => $pelatihanStatusCount,
         ]);
     }
 }

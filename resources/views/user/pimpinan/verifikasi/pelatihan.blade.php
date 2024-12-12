@@ -17,7 +17,6 @@
         </thead>
         <tbody>
             @foreach ($pelatihan as $item)
-             @if ($item->status == "Requested")
                 <tr>
                     <td>{{ $item->pelatihan->nama ?? 'N/A' }}</td>
                         <td>{{ $item->pelatihan->level_pelatihan ?? 'N/A' }}</td>
@@ -31,7 +30,6 @@
                             </a>                        
                         </td>
                 </tr>
-                @endif
             @endforeach
         </tbody>
     </table>
