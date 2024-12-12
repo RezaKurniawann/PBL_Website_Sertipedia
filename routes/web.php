@@ -50,7 +50,7 @@ Route::get('/', [LandingPageController::class, 'index']);
 
 Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/home', [AdminHomeController::class, 'index']);
-    Route::get('/admin/statistik', [StatistikController::class, 'index']);
+    Route::get('/admin/statistik', [StatistikController::class, 'indexAdmin'])->name('statistik.admin.index');
     Route::get('/admin/{id}/show', [AdminHomeController::class, 'show'])->name('admin.users.show');
     Route::prefix('manage')->group(function () {
         Route::prefix('user')->group(function () {
@@ -253,6 +253,10 @@ Route::middleware(['auth:admin'])->group(function () {
                 Route::post('/ajax', [RekomSertifikasiController::class, 'store_ajax']);
             });
         });
+        Route::prefix('statistik')->group(function () {
+            Route::get('/statistik', [StatistikController::class, 'indexAdmin'])->name('statistik.admin.index');
+
+        });
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotifikasiController::class, 'index'])->name('notifikasi.index');
             Route::get('/notifikasi/detail/{id}', [NotifikasiController::class, 'detail'])->name('notifikasi.detail');
@@ -280,7 +284,7 @@ Route::middleware(['auth:user'])->group(function () {
         Route::post('/{id}/update', [ProfileController::class, 'update']);
     });
     Route::prefix('pimpinan')->group(function () {
-        Route::get('/statistik', [StatistikController::class, 'index']);
+        Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
         Route::prefix('verifikasi')->group(function () {
             Route::get('/sertifikasi', [VerifikasiSertifikasiController::class, 'index'])->name('verifikasi.sertifikasi');
             Route::get('/sertifikasi/{id}', [VerifikasiSertifikasiController::class, 'detail'])->name('verifikasi.detail-sertifikasi');
