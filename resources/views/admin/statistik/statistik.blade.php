@@ -50,7 +50,7 @@
                             <div class="icon">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <a href="/user/home" class="small-box-footer">More info <i
+                            <a href="/manage/user" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                             <div class="icon">
                                 <i class="fas fa-layer-group"></i>
                             </div>
-                            <a href="/pimpinan/verifikasi/sertifikasi" class="small-box-footer">More info <i
+                            <a href="/manage/event/sertifikasi" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                             <div class="icon">
                                 <i class="fas fa-boxes"></i>
                             </div>
-                            <a href="/pimpinan/verifikasi/pelatihan" class="small-box-footer">More info <i
+                            <a href="/manage/event/pelatihan" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
             </div>
             <div class="card-body">
                 <!-- Filter Periode -->
-                <form action="{{ route('statistik.index') }}" method="get" class="form-inline align-items-center">
+                <form action="{{ route('statistik.admin.index') }}" method="get" class="form-inline align-items-center">
                     <div class="form-group">
                         <select name="periode" id="tahun" class="form-control" style="width: 150px;">
                             @foreach ($daftarPeriode as $tahun)
