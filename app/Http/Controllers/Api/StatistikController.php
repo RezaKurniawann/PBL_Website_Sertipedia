@@ -20,7 +20,7 @@ class StatistikController extends Controller
         $pelatihanCount = PelatihanModel::count();
 
         // Ambil filter tahun dari request, default ke tahun saat ini
-        $tahunFilter = $request->input('periode', 2018);
+        $tahunFilter = $request->input('periode', now()->year);
 
         // Query data sertifikasi
         $queryStatusSertifikasi = DB::table('sertipedia.t_detail_sertifikasi AS td')
