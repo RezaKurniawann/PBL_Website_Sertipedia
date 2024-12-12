@@ -222,7 +222,7 @@ class NotifikasiController extends Controller
             foreach ($items as $item) {
                 $item->update([
                     'surat_tugas' => $filePath,
-                    'status' => 'Ongoing'
+                    'status' => 'On going'
                 ]);
             }
 
