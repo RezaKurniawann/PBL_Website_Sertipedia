@@ -74,20 +74,26 @@ class RekomPelatihanController extends Controller
 
     public function showPelatihan(string $id)
     {
-        $detailPelatihan = PelatihanModel::find($id);
-        $users = UserModel::all(); // Ambil semua data user
+        // Ambil data pelatihan beserta relasi ke bidangminat dan matakuliah
+        $detailPelatihan = PelatihanModel::with(['bidangminat', 'matakuliah'])->find($id);
 
-        if ($detailPelatihan) {
-            return view('admin.rekomendasi.pelatihan.showPelatihan', [
-                'detailPelatihan' => $detailPelatihan,
-                'users' => $users, // Kirim data user ke view
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Data tidak ditemukan'
-            ]);
+        if (!$detailPelatihan) {
+            return redirect()->route('notifikasi.index')->with('error', 'Data pelatihan tidak ditemukan.');
         }
+
+        // Ambil pengguna yang memiliki bidangminat dan matakuliah yang sesuai dengan pelatihan
+        $users = UserModel::whereHas('bidangminat', function ($query) use ($detailPelatihan) {
+                $query->whereIn('t_user_bidangminat.id_bidangminat', $detailPelatihan->bidangminat->pluck('id_bidangminat'));
+            })
+            ->whereHas('matakuliah', function ($query) use ($detailPelatihan) {
+                $query->whereIn('t_user_matakuliah.id_matakuliah', $detailPelatihan->matakuliah->pluck('id_matakuliah'));
+            })
+            ->get();
+
+        return view('admin.rekomendasi.pelatihan.showPelatihan', [
+            'detailPelatihan' => $detailPelatihan,
+            'users' => $users
+        ]);
     }
 
     public function storeDetailPelatihan(Request $request, string $id)
