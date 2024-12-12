@@ -114,10 +114,10 @@ class NotifikasiController extends Controller
     
         // Cari data berdasarkan ID dari pelatihan atau sertifikasi
         $item = DetailPelatihanModel::with(['pelatihan', 'user'])
-            ->where('id_pelatihan', $id)
+            ->where(['id_pelatihan', $id],['status','=','Accepted'])
             ->first()
             ?? DetailSertifikasiModel::with(['sertifikasi', 'user'])
-                ->where('id_sertifikasi', $id)
+                ->where(['id_sertifikasi', $id],['status','=','Accepted'])
                 ->first();
     
         if (!$item) {
@@ -182,9 +182,9 @@ class NotifikasiController extends Controller
         $data = null;
 
         if ($type == 'Pelatihan') {
-            $data = DetailPelatihanModel::with(['pelatihan', 'user'])->where('id_pelatihan', $id)->first();
+            $data = DetailPelatihanModel::with(['pelatihan', 'user'])->where(['id_pelatihan', $id],['status','=','Accepted'])->first();
         } elseif ($type == 'Sertifikasi') {
-            $data = DetailSertifikasiModel::with(['sertifikasi', 'user'])->where('id_sertifikasi', $id)->first();
+            $data = DetailSertifikasiModel::with(['sertifikasi', 'user'])->where(['id_sertifikasi', $id],['status','=','Accepted'])->first();
         }
 
         if (!$data) {

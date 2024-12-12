@@ -92,6 +92,7 @@
                 searchable: true
             },
             {
+                
                 data: "periode.tahun",
                 className: "",
                 orderable: true,

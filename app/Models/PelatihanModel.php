@@ -64,5 +64,8 @@ class PelatihanModel extends Model
     {
         return $this->belongsToMany(UserModel::class, 't_detail_pelatihan', 'id_pelatihan', 'id_user');
     }
-
+    public function pelatihanDetails()
+    {
+        return $this->hasMany(DetailPelatihanModel::class, 'id_pelatihan', 'id_pelatihan');
+    }
 }
