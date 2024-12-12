@@ -2,7 +2,10 @@
 
 @section('content')
 
-<div class="card mt-4">
+<div class="card card-outline card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{{ $page->title }}</h3>
+    </div>    
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
             <thead class="table-light">
@@ -40,7 +43,8 @@
                 @endforelse
             </tbody>            
         </table>
-    </div>
+     </div>
+   </div>
 </div>
 
 @endsection
