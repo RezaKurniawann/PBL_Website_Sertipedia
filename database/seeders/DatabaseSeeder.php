@@ -54,8 +54,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             UserSeeder::class,
             
-            DetailSertifikasiSeeder::class,
-            DetailPelatihanSeeder::class,
+            // DetailSertifikasiSeeder::class,
+            // DetailPelatihanSeeder::class,
 
             UserMataKuliahSeeder::class,
             PelatihanMataKuliahSeeder::class,

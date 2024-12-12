@@ -6,7 +6,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('manage/periode/import') }}')"
+                {{-- <button onclick="modalAction('{{ url('manage/periode/import') }}')"
                     class="btn btn-sm btn-info mt-1 ">
                     <i class="fa fa-upload"></i> Import periode
                 </button>
@@ -15,7 +15,7 @@
                 </a>
                 <a href="{{ url('manage/periode/export_pdf') }}" class="btn btn-sm btn-danger mt-1 ">
                     <i class="fa fa-file-pdf"></i> Export PDF
-                </a>
+                </a> --}}
                 <button onclick="modalAction('{{ url('manage/periode/create_ajax') }}')"
                     class="btn btn-sm btn-primary mt-1 ">
                     <i class="fa fa-plus"></i> Tambah Data
