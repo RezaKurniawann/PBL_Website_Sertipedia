@@ -74,20 +74,24 @@ class RekomSertifikasiController extends Controller
 
     public function showSertifikasi(string $id)
     {
-        $detailSertifikasi = SertifikasiModel::find($id);
-        $users = UserModel::all(); // Ambil semua data user
+        $detailSertifikasi = SertifikasiModel::with(['bidangminat', 'matakuliah'])->find($id);
 
-        if ($detailSertifikasi) {
-            return view('admin.rekomendasi.sertifikasi.showSertifikasi', [
-                'detailSertifikasi' => $detailSertifikasi,
-                'users' => $users, // Kirim data user ke view
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Data tidak ditemukan'
-            ]);
+        if (!$detailSertifikasi) {
+            return redirect()->route('notifikasi.index')->with('error', 'Data sertifikasi tidak ditemukan.');
         }
+
+        $users = UserModel::whereHas('bidangminat', function ($query) use ($detailSertifikasi) {
+                $query->whereIn('t_user_bidangminat.id_bidangminat', $detailSertifikasi->bidangminat->pluck('id_bidangminat'));
+            })
+            ->whereHas('matakuliah', function ($query) use ($detailSertifikasi) {
+                $query->whereIn('t_user_matakuliah.id_matakuliah', $detailSertifikasi->matakuliah->pluck('id_matakuliah'));
+            })
+            ->get();
+
+        return view('admin.rekomendasi.sertifikasi.showSertifikasi', [
+            'detailSertifikasi' => $detailSertifikasi,
+            'users' => $users
+        ]);
     }
 
     public function storeDetailSertifikasi(Request $request, string $id)

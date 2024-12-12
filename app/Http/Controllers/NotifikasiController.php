@@ -114,11 +114,13 @@ class NotifikasiController extends Controller
     
         // Cari data berdasarkan ID dari pelatihan atau sertifikasi
         $item = DetailPelatihanModel::with(['pelatihan', 'user'])
-            ->where(['id_pelatihan', $id],['status','=','Accepted'])
-            ->first()
-            ?? DetailSertifikasiModel::with(['sertifikasi', 'user'])
-                ->where(['id_sertifikasi', $id],['status','=','Accepted'])
-                ->first();
+        ->where('id_pelatihan', $id)
+        ->where('status', 'Accepted')
+        ->first()
+        ?? DetailSertifikasiModel::with(['sertifikasi', 'user'])
+            ->where('id_sertifikasi', $id)
+            ->where('status', 'Accepted')
+            ->first();    
     
         if (!$item) {
             return redirect()->route('notifikasi.index')->with('error', 'Data tidak ditemukan.');
