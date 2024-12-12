@@ -56,9 +56,10 @@ class RekomSertifikasiController extends Controller
         if ($request->ajax()) { // Pastikan hanya melayani request AJAX
             $user = UserModel::findOrFail(Auth::id());
 
-            // Ambil data detail pelatihan beserta relasi
-            $detailSertifikasi = SertifikasiModel::with(['user', 'vendor', 'periode'])
-                ->get();
+            $null = DetailSertifikasiModel::pluck('id_sertifikasi')->all();
+            $detailSertifikasi = SertifikasiModel::whereNotIn('id_sertifikasi',$null)
+            ->with(['user', 'vendor', 'periode'])
+            ->get();
 
             return DataTables::of($detailSertifikasi)
                 ->addIndexColumn()

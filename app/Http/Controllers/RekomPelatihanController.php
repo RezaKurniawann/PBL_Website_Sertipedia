@@ -53,11 +53,12 @@ class RekomPelatihanController extends Controller
 
     public function listPelatihan(Request $request)
     {
-        if ($request->ajax()) { // Pastikan hanya melayani request AJAX
+        if ($request->ajax()) { 
             $user = UserModel::findOrFail(Auth::id());
 
-            // Ambil data detail pelatihan beserta relasi
-            $detailPelatihan = PelatihanModel::with(['user', 'vendor', 'periode'])
+            $null = DetailPelatihanModel::pluck('id_pelatihan')->all();
+            $detailPelatihan = PelatihanModel::whereNotIn('id_pelatihan',$null)
+                ->with(['user', 'vendor', 'periode'])
                 ->get();
 
             return DataTables::of($detailPelatihan)
@@ -136,6 +137,4 @@ class RekomPelatihanController extends Controller
                 ->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()]);
         }
     }
-    
-
-    }
+}
