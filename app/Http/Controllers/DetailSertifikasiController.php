@@ -50,7 +50,7 @@ class DetailSertifikasiController extends Controller
         return view('user.inputdata.sertifikasi', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
-    public function listsertifikasi(Request $request)
+    public function listSertifikasi(Request $request)
     {
         if ($request->ajax()) { // Pastikan hanya melayani request AJAX
             $user = UserModel::findOrFail(Auth::id());
