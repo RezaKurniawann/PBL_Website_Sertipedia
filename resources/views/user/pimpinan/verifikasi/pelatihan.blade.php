@@ -2,9 +2,22 @@
 
 @section('content')
 
-<div class="card">
-    <table class="table table-hover">
-        <thead>
+<div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" data-backdrop="static"
+    data-keyboard="false" data-width="75%" aria-hidden="true"></div>
+
+<div class="card card-outline card-primary">
+    <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
+        <h5 class="card-title mb-0" style="font-weight: bold;">Daftar Pengajuan Pelatihan</h5>
+    </div>
+    <div class="card-body">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+        <table class="table table-bordered table-striped table-hover table-sm" id="table_sertifikasi">
+            <thead>
             <tr>
                 <th scope="col">Nama Pelatihan</th>
                 <th scope="col">Level Pelatihan</th>
