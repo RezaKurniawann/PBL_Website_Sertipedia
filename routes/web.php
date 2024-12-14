@@ -259,7 +259,6 @@ Route::middleware(['auth:admin'])->group(function () {
         });
         Route::prefix('statistik')->group(function () {
             Route::get('/statistik', [StatistikController::class, 'indexAdmin'])->name('statistik.admin.index');
-
         });
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotifikasiController::class, 'index'])->name('notifikasi.index');
@@ -293,7 +292,7 @@ Route::middleware(['auth:user'])->group(function () {
         Route::get('/export/pdf', [NotifikasiController::class, 'exportUserPDF'])->name('userExport.pdf');
     });
     Route::prefix('pimpinan')->group(function () {
-        Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
+        // Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
         Route::prefix('verifikasi')->group(function () {
             Route::get('/sertifikasi', [VerifikasiSertifikasiController::class, 'index'])->name('verifikasi.sertifikasi');
             Route::get('/sertifikasi/{id}', [VerifikasiSertifikasiController::class, 'detail'])->name('verifikasi.detail-sertifikasi');
@@ -313,6 +312,11 @@ Route::middleware(['auth:user'])->group(function () {
         Route::prefix('notifikasi')->group(function () {
             Route::get('/', [NotifikasiController::class, 'showUser'])->name('notifikasi.showUser');
             Route::get('/export/pdf', [NotifikasiController::class, 'exportPimPDF'])->name('pimExport.pdf');
+        });
+        Route::prefix('statistik')->group(function () {
+            Route::get('/', [StatistikController::class, 'index'])->name('statistik.index');
+            Route::get('/detail_sertifikasi', [StatistikController::class, 'listSertifikasi'])->name('statistik.detail_sertifikasi');
+            Route::get('/detail_pelatihan', [StatistikController::class, 'listpelatihan'])->name('statistik.detail_pelatihan');
         });
     });
 });

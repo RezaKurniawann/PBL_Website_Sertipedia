@@ -252,7 +252,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/pimpinan/statistik') }}"
+                        <a href="{{ url('/pimpinan/statistik/') }}"
                             class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                             <i class="nav-icon fas fa-chart-bar"></i>
                             <p>Statistik</p>

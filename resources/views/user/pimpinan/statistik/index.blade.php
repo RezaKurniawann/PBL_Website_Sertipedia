@@ -83,19 +83,6 @@
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-custom">
-                        <div class="small-box bg-secondary">
-                            <div class="inner">
-                                <h3>{{ $vendorCount }}</h3>
-                                <p>Vendor</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fas fa-home"></i>
-                            </div>
-                            <a href="/manage/vendor" class="small-box-footer">Detail Info<i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -107,10 +94,10 @@
             </div>
             <div class="card-body">
                 <!-- Filter Periode Serifikasi -->
-                <form id="filterForm" action="{{ route('statistik.admin.index') }}" method="get"
+                <form id="filterForm" action="{{ route('statistik.index') }}" method="get"
                     class="form-inline align-items-center">
                     <div class="form-group">
-                        <select name="periodeSertifikasi" id="tahun" class="form-control" style="width: 150px;">
+                        <select name="periodeSertfikasi" id="tahun" class="form-control" style="width: 150px;">
                             @foreach (collect($daftarPeriodeSertifikasi)->sort() as $tanggal)
                                 <option value="{{ $tanggal }}" {{ $tanggal == $tahunFilterSertifikasi ? 'selected' : '' }}>
                                     {{ \Carbon\Carbon::parse($tanggal)->format('d M Y') }}
@@ -134,7 +121,7 @@
             </div>
             <div class="card-body">
                 <!-- Filter Periode Pelatihan -->
-                <form id="filterForm" action="{{ route('statistik.admin.index') }}" method="get"
+                <form id="filterForm" action="{{ route('statistik.index') }}" method="get"
                     class="form-inline align-items-center">
                     <div class="form-group">
                         <select name="periodePelatihan" id="tahun" class="form-control" style="width: 150px;">
