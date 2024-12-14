@@ -18,7 +18,7 @@ use App\Http\Controllers\Api\DetailSertifikasiController;
 use App\Http\Controllers\Api\PeriodeController;  
 use App\Http\Controllers\Api\StatistikController;
 use App\Http\Controllers\Api\ProfileController;
-
+use App\Http\Controllers\Api\NotifikasiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -83,6 +83,9 @@ Route::get('periode/{periode}', [PeriodeController::class, 'show']);
 
 // statistik
 Route::get('statistik', [StatistikController::class, 'index']);
+
+// notifikasi
+Route::get('/notifikasi', [NotifikasiController::class, 'fetchData']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
