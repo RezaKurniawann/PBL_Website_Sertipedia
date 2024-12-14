@@ -7,7 +7,7 @@
 
 <div class="card card-outline card-primary">
     <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
-        <h5 class="card-title mb-0" style="font-weight: bold;">Daftar Pengajuan Sertifikasi</h5>
+        <h5 class="card-title mb-0">Daftar Pengajuan Sertifikasi</h5>
     </div>
     <div class="card-body">
         @if (session('success'))
