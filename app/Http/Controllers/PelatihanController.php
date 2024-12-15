@@ -234,13 +234,7 @@ class PelatihanController extends Controller
             ];
 
             $validator = Validator::make($request->all(), $rules);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'    => false, // response status, false: error/gagal, true: berhasil
-                    'message'   => 'Validasi Gagal',
-                    'msgField'  => $validator->errors(), // pesan error validasi
-                ]);
-            }
+            
             try {
                 // Gunakan transaction untuk menjamin konsistensi data
                 DB::beginTransaction();
