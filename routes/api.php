@@ -82,7 +82,9 @@ Route::get('periode', [PeriodeController::class, 'index']);
 Route::get('periode/{periode}', [PeriodeController::class, 'show']);
 
 // statistik
-Route::get('statistik', [StatistikController::class, 'index']);
+Route::get('statistiks', [StatistikController::class, 'index']);
+Route::get('sertifikasi_statistiks', [StatistikController::class, 'listSertifikasi']);
+Route::get('pelatihan_statistiks', [StatistikController::class, 'listPelatihan']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\UserModel;
 use App\Models\SertifikasiModel;
 use App\Models\PelatihanModel;
-use App\Models\PeriodeModel;
+use Yajra\DataTables\Facades\DataTables;
 
 class StatistikController extends Controller
 {
@@ -19,29 +19,33 @@ class StatistikController extends Controller
         $sertifikasiCount = SertifikasiModel::count();
         $pelatihanCount = PelatihanModel::count();
 
-        // Ambil filter tahun dari request, default ke tahun saat ini
-        $tahunFilter = $request->input('periode', now()->year);
+        // Ambil filter tahun dari request atau gunakan tahun saat ini
+        $tahunFilter = $request->get('tahun', now()->year);
 
         // Query data sertifikasi
         $queryStatusSertifikasi = DB::table('sertipedia.t_detail_sertifikasi AS td')
-            ->join('sertipedia.m_sertifikasi AS s', 'td.id_sertifikasi', '=', 's.id_sertifikasi')
-            ->join('sertipedia.m_periode AS p', 's.id_periode', '=', 'p.id_periode')
-            ->select(DB::raw('p.tahun AS periode_tahun'), 'td.status', DB::raw('COUNT(td.status) AS jumlah_status'))
-            ->groupBy('p.tahun', 'td.status')
+            ->select(
+                DB::raw('YEAR(td.created_at) AS periode_tahun'),
+                'td.status',
+                DB::raw('COUNT(td.status) AS jumlah_status')
+            )
+            ->groupBy(DB::raw('YEAR(td.created_at)'), 'td.status')
             ->orderByRaw("FIELD(td.status, 'Requested', 'Accepted', 'Rejected', 'On Going', 'Completed')");
 
         // Query data pelatihan
         $queryStatusPelatihan = DB::table('sertipedia.t_detail_pelatihan AS td')
-            ->join('sertipedia.m_pelatihan AS pl', 'td.id_pelatihan', '=', 'pl.id_pelatihan')
-            ->join('sertipedia.m_periode AS pr', 'pl.id_periode', '=', 'pr.id_periode')
-            ->select(DB::raw('pr.tahun AS periode_tahun'), 'td.status', DB::raw('COUNT(td.status) AS jumlah_status'))
-            ->groupBy('pr.tahun', 'td.status')
+            ->select(
+                DB::raw('YEAR(td.created_at) AS periode_tahun'),
+                'td.status',
+                DB::raw('COUNT(td.status) AS jumlah_status')
+            )
+            ->groupBy(DB::raw('YEAR(td.created_at)'), 'td.status')
             ->orderByRaw("FIELD(td.status, 'Requested', 'Accepted', 'Rejected', 'On Going', 'Completed')");
 
         // Jika tahunFilter tidak kosong, tambahkan filter where
         if ($tahunFilter) {
-            $queryStatusSertifikasi->where('p.tahun', $tahunFilter);
-            $queryStatusPelatihan->where('pr.tahun', $tahunFilter);
+            $queryStatusSertifikasi->where(DB::raw('YEAR(td.created_at)'), $tahunFilter);
+            $queryStatusPelatihan->where(DB::raw('YEAR(td.created_at)'), $tahunFilter);
         }
 
         // Ambil data dari query
@@ -49,11 +53,10 @@ class StatistikController extends Controller
         $dataStatusPelatihan = $queryStatusPelatihan->get();
 
         // Status yang diharapkan
-        $statusesSertifikasi = ['Requested', 'Accepted', 'Rejected', 'On Going', 'Completed'];
-        $statusesPelatihan = ['Requested', 'Accepted', 'Rejected', 'On Going', 'Completed'];
+        $statuses = ['Requested', 'Accepted', 'Rejected', 'On Going', 'Completed'];
 
         // Proses data sertifikasi
-        $statusCountSertifikasi = array_fill_keys($statusesSertifikasi, 0);
+        $statusCountSertifikasi = array_fill_keys($statuses, 0);
         foreach ($dataStatusSertifikasi as $row) {
             $statusCountSertifikasi[$row->status] = $row->jumlah_status;
         }
@@ -76,7 +79,7 @@ class StatistikController extends Controller
         ];
 
         // Proses data pelatihan
-        $statusCountPelatihan = array_fill_keys($statusesPelatihan, 0);
+        $statusCountPelatihan = array_fill_keys($statuses, 0);
         foreach ($dataStatusPelatihan as $row) {
             $statusCountPelatihan[$row->status] = $row->jumlah_status;
         }
@@ -98,8 +101,16 @@ class StatistikController extends Controller
             ],
         ];
 
-        // Ambil daftar tahun periode untuk dropdown
-        $daftarPeriode = PeriodeModel::pluck('tahun', 'tahun');
+        // Ambil daftar tanggal unik
+        $daftarPeriodeSertifikasi = DB::table('sertipedia.t_detail_sertifikasi')
+            ->select(DB::raw('DATE(created_at) AS tanggal'))
+            ->distinct()
+            ->pluck('tanggal');
+
+        $daftarPeriodePelatihan = DB::table('sertipedia.t_detail_pelatihan')
+            ->select(DB::raw('DATE(created_at) AS tanggal'))
+            ->distinct()
+            ->pluck('tanggal');
 
         // Mengembalikan data dalam format JSON
         return response()->json([
@@ -108,8 +119,49 @@ class StatistikController extends Controller
             'pelatihanCount' => $pelatihanCount,
             'chartDataSertifikasi' => $chartDataSertifikasi,
             'chartDataPelatihan' => $chartDataPelatihan,
-            'daftarPeriode' => $daftarPeriode,
+            'daftarPeriodeSertifikasi' => $daftarPeriodeSertifikasi,
+            'daftarPeriodePelatihan' => $daftarPeriodePelatihan,
             'tahunFilter' => $tahunFilter,
+        ]);
+    }
+
+    public function listSertifikasi(Request $request)
+    {
+        $sertifikasi = SertifikasiModel::with(['vendor', 'periode']);
+
+        if ($request->ajax()) {
+            return DataTables::of($sertifikasi)
+                ->addColumn('vendor', function ($row) {
+                    return $row->vendor->nama;
+                })
+                ->addColumn('periode', function ($row) {
+                    return $row->periode->tahun;
+                })
+                ->make(true);
+        }
+
+        return response()->json([
+            'sertifikasi' => $sertifikasi->get(),  
+        ]);
+    }
+
+    public function listPelatihan(Request $request)
+    {
+        $pelatihan = PelatihanModel::with(['vendor', 'periode']);
+
+        if ($request->ajax()) {
+            return DataTables::of($pelatihan)
+                ->addColumn('vendor', function ($row) {
+                    return $row->vendor->nama;
+                })
+                ->addColumn('periode', function ($row) {
+                    return $row->periode->tahun;
+                })
+                ->make(true);
+        }
+
+        return response()->json([
+            'pelatihan' => $pelatihan->get(), 
         ]);
     }
 }
