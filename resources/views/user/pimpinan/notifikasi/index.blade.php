@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 @forelse ($dataGabungan as $item)
-                    @if ($item->id_user == Auth::user()->id_user && $item->status != 'Accepted' && $item->status != 'Rejected')
+                    @if ($item->id_user == Auth::user()->id_user && $item->status != 'Rejected' && $item->status != 'Rejected')
                         <tr>
                             <td>
                                 @if ($item->type == 'Pelatihan')
@@ -28,7 +28,7 @@
                             </td>
                             <td>{{ ucfirst($item->type) }}</td>
                             <td class="text-center">
-                                @if ($item->surat_tugas && $item->status == 'Completed')
+                                @if ($item->surat_tugas && $item->status == 'On Going')
                                     <a href="{{ Storage::url('surat_tugas/'.$item->surat_tugas) }}" class="btn btn-primary btn-sm" target="_blank">Lihat Surat Tugas</a>
                                 @else
                                    {{ $item->status ?? 'N/A' }}
