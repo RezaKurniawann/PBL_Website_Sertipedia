@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 @forelse ($dataGabungan as $item)
-                    @if ($item->status == "Completed")
+                    @if ($item->status == "Completed" && $item->image == null)
                         <tr>
                             <td>
                                 @if ($item->type == 'Pelatihan')
@@ -29,7 +29,7 @@
                             <td>{{ ucfirst($item->type) }}</td>
                             <td class="text-center">
                                 @if ($item->surat_tugas)
-                                    <a href="{{ Storage::url($item->surat_tugas) }}" class="btn btn-primary btn-sm" target="_blank">Lihat Surat Tugas</a>
+                                    <a href="{{ Storage::url('surat_tugas/'.$item->surat_tugas) }}" class="btn btn-primary btn-sm" target="_blank">Lihat Surat Tugas</a>
                                 @else
                                     <span class="text-muted">Belum diunggah</span>
                                 @endif

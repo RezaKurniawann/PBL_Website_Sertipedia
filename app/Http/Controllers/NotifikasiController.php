@@ -254,13 +254,18 @@ class NotifikasiController extends Controller
 
         // Upload file surat tugas
         if ($request->hasFile('surat_tugas')) {
-            $file = $request->file('');
+            $file = $request->file('surat_tugas');
+
+            // Simpan file ke folder 'surat_tugas' di public storage, dengan nama unik
             $filePath = $file->store('surat_tugas', 'public'); 
+
+            // Ambil nama file saja (tanpa folder)
+            $fileName = basename($filePath);
 
             // Perbarui semua entri terkait dengan status dan path surat tugas
             foreach ($items as $item) {
                 $item->update([
-                    'surat_tugas' => $filePath,
+                    'surat_tugas' => $fileName, // Simpan hanya nama file
                     'status' => 'On Going'
                 ]);
             }

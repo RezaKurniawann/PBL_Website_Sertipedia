@@ -14,7 +14,6 @@ use App\Http\Controllers\Api\DetailSertifikasiController;
 use App\Http\Controllers\api\NotifikasiController;
 use App\Http\Controllers\Api\StatistikController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\NotifikasiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes

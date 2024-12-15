@@ -29,7 +29,7 @@
                             <td>{{ ucfirst($item->type) }}</td>
                             <td class="text-center">
                                 @if ($item->surat_tugas)
-                                    <a href="{{ Storage::url($item->surat_tugas) }}" class="btn btn-primary btn-sm" target="_blank">Lihat Surat Tugas</a>
+                                    <a href="{{ Storage::url('surat_tugas/'.$item->surat_tugas) }}" class="btn btn-primary btn-sm" target="_blank">Lihat Surat Tugas</a>
                                 @else
                                     <span class="text-muted">Belum diunggah</span>
                                 @endif

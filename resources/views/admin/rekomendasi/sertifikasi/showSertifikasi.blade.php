@@ -98,7 +98,21 @@
             showToast('Minimal Satu Dosen Harus Ada.'); // Show toast if only one row remains
         }
     });
+    function checkDuplicates() {
+            const userValues = [];
+            let duplicateFound = false;
 
+            $("select[name='user[]']").each(function() {
+                const value = $(this).val();
+                if (userValues.includes(value) && value !== "") {
+                    duplicateFound = true;
+                    showToast('Dosen tidak boleh sama.'); // Show error toast
+                }
+                userValues.push(value);
+            });
+
+            return !duplicateFound;
+        }
     // Form validation and submission
     $("#form-edit").validate({
         rules: {
@@ -107,6 +121,9 @@
             }
         },
         submitHandler: function(form) {
+            if (!checkDuplicates()) {
+                    return false; // Prevent form submission
+            }
             $.ajax({
                 url: form.action,
                 type: form.method,
@@ -156,6 +173,13 @@
             $(element).removeClass('is-invalid');
         }
     });
+    function showToast(message) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Perhatian',
+                text: message
+            });
+        }
 });
     </script>
 @endempty

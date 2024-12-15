@@ -12,7 +12,7 @@ class NotifikasiController extends Controller
 {
     public function downloadFile(Request $request, $fileName)
     {
-        if (Storage::exists("public/surat_tugas/{$fileName}")) {
+        if (Storage::exists("public/{$fileName}")) {
             return response()->download(storage_path("app/public/surat_tugas/{$fileName}"));
         } else {
             return response()->json(['error' => 'File not found'], 404);

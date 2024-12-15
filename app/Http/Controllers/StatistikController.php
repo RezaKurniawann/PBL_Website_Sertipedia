@@ -309,6 +309,7 @@ class StatistikController extends Controller
                         'rgba(255, 206, 86, 0.6)',
                     ],
                 ],
+                
             ],
         ];
 
