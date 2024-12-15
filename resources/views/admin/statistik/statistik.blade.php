@@ -38,9 +38,9 @@
 
     <div class="container">
         <!-- Additional Stats -->
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title">Data Statistik</h3>
+        <div class="card card-outline card-primary">
+            <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
+                <h5 class="card-title mb-0">Data Statistik</h5>
             </div>
             <div class="card-body">
                 <div class="card-container">
@@ -101,9 +101,9 @@
         </div>
 
         <!-- Statistik Sertifikasi dengan Filter -->
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title">Statistik Berdasarkan Status</h3>
+        <div class="card card-outline card-primary">
+            <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
+                <h5 class="card-title mb-0">Statistik Sertifikasi Berdasarkan Status</h5>
             </div>
             <div class="card-body">
                 <!-- Filter Periode Serifikasi -->
@@ -128,9 +128,9 @@
         </div>
 
         <!-- Statistik Pelatihan dengan Filter -->
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title">Statistik Berdasarkan Status</h3>
+        <div class="card card-outline card-primary mt-4">
+            <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
+                <h5 class="card-title mb-0">Statistik Pelatihan Berdasarkan Status</h5>
             </div>
             <div class="card-body">
                 <!-- Filter Periode Pelatihan -->

@@ -164,7 +164,7 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <!-- Tab Pelatihan -->
-                        <div class="tab-pane fade show active" id="pelatihan-tab">
+                        <div class="tab-pane fade" id="pelatihan-tab">
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -200,7 +200,7 @@
                         </div>
 
                         <!-- Tab Sertifikasi -->
-                        <div class="tab-pane fade" id="sertifikasi-tab">
+                        <div class="tab-pane fade show active" id="sertifikasi-tab">
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>

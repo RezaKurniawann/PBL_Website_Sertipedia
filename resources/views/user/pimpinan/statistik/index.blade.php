@@ -38,9 +38,9 @@
 
     <div class="container">
         <!-- Additional Stats -->
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title">Data Statistik</h3>
+        <div class="card card-outline card-primary">
+            <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
+                <h5 class="card-title mb-0">Data Statistik</h5>
             </div>
             <div class="card-body">
                 <div class="card-container">
@@ -88,16 +88,16 @@
         </div>
 
         <!-- Statistik Sertifikasi dengan Filter -->
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title">Statistik Berdasarkan Status</h3>
+        <div class="card card-outline card-primary">
+            <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
+                <h5 class="card-title mb-0">Statistik Sertifikasi Berdasarkan Status</h5>
             </div>
             <div class="card-body">
-                <!-- Filter Periode Serifikasi -->
-                <form id="filterForm" action="{{ route('statistik.index') }}" method="get"
+                <!-- Filter Periode Sertifikasi -->
+                <form id="filterFormSertifikasi" action="{{ route('statistik.index') }}" method="get"
                     class="form-inline align-items-center">
                     <div class="form-group">
-                        <select name="periodeSertfikasi" id="tahun" class="form-control" style="width: 150px;">
+                        <select name="periodeSertfikasi" id="periodeSertifikasi" class="form-control" style="width: 150px;">
                             @foreach (collect($daftarPeriodeSertifikasi)->sort() as $tanggal)
                                 <option value="{{ $tanggal }}" {{ $tanggal == $tahunFilterSertifikasi ? 'selected' : '' }}>
                                     {{ \Carbon\Carbon::parse($tanggal)->format('d M Y') }}
@@ -115,16 +115,16 @@
         </div>
 
         <!-- Statistik Pelatihan dengan Filter -->
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title">Statistik Berdasarkan Status</h3>
+        <div class="card card-outline card-primary mt-4">
+            <div class="card-header d-flex align-items-center" style="padding: 10px 20px;">
+                <h5 class="card-title mb-0">Statistik Pelatihan Berdasarkan Status</h5>
             </div>
             <div class="card-body">
                 <!-- Filter Periode Pelatihan -->
-                <form id="filterForm" action="{{ route('statistik.index') }}" method="get"
+                <form id="filterFormPelatihan" action="{{ route('statistik.index') }}" method="get"
                     class="form-inline align-items-center">
                     <div class="form-group">
-                        <select name="periodePelatihan" id="tahun" class="form-control" style="width: 150px;">
+                        <select name="periodePelatihan" id="periodePelatihan" class="form-control" style="width: 150px;">
                             @foreach (collect($daftarPeriodePelatihan)->sort() as $tanggal)
                                 <option value="{{ $tanggal }}" {{ $tanggal == $tahunFilterPelatihan ? 'selected' : '' }}>
                                     {{ \Carbon\Carbon::parse($tanggal)->format('d M Y') }}

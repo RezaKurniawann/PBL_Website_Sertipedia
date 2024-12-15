@@ -71,6 +71,12 @@ Route::get('d_sertifikasis', [DetailSertifikasiController::class, 'index']);
 Route::get('d_sertifikasis/{d_sertifikasi}', [DetailSertifikasiController::class, 'show']);
 Route::put('d_sertifikasis/update/{d_sertifikasi}', [DetailSertifikasiController::class, 'update']);
 
+
+// statistik
+Route::get('statistiks', [StatistikController::class, 'index']);
+Route::get('sertifikasi_statistiks', [StatistikController::class, 'listSertifikasi']);
+Route::get('pelatihan_statistiks', [StatistikController::class, 'listPelatihan']);
+
 Route::get('notifikasi/showPelatihan/{id_user}', [NotifikasiController::class, 'NotifikasiStatusPelatihan']);
 Route::get('notifikasi/showSertifikasi/{id_user}', [NotifikasiController::class, 'NotifikasiStatusSertifikasi']);
 Route::get('notifikasi/downloadSurat/{fileName}', [NotifikasiController::class, 'downloadFile']);
