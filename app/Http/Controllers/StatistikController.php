@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\UserModel;
 use App\Models\SertifikasiModel;
 use App\Models\PelatihanModel;
-use App\Models\PeriodeModel;
+use App\Models\VendorModel;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class StatistikController extends Controller
 {
@@ -24,35 +26,45 @@ class StatistikController extends Controller
 
         $activeMenu = 'statistik';
 
+
         // Dapatkan jumlah user, sertifikasi, pelatihan
         $userCount = UserModel::count();
         $sertifikasiCount = SertifikasiModel::count();
         $pelatihanCount = PelatihanModel::count();
 
-        // Ambil filter tahun dari request
-        $tahunFilter = $request->input('periode', now()->year);
+        // Ambil filter tanggal dari request
+        $tahunFilterSertifikasi = $request->input('periodeSertifikasi', now()->format('Y-m-d'));
+        $tahunFilterPelatihan = $request->input('periodePelatihan', now()->format('Y-m-d'));
 
         // Query data sertifikasi
         $queryStatusSertifikasi = DB::table('sertipedia.t_detail_sertifikasi AS td')
-            ->join('sertipedia.m_sertifikasi AS s', 'td.id_sertifikasi', '=', 's.id_sertifikasi')
-            ->join('sertipedia.m_periode AS p', 's.id_periode', '=', 'p.id_periode')
-            ->select(DB::raw('p.tahun AS periode_tahun'), 'td.status', DB::raw('COUNT(td.status) AS jumlah_status'))
-            ->groupBy('p.tahun', 'td.status')
+            ->select(
+                DB::raw('YEAR(td.created_at) AS periode_tahun'),
+                'td.status',
+                DB::raw('COUNT(td.status) AS jumlah_status')
+            )
+            ->groupBy(DB::raw('YEAR(td.created_at)'), 'td.status')
             ->orderByRaw("FIELD(td.status, 'Requested', 'Accepted', 'Rejected', 'On Going', 'Completed')");
 
         // Query data pelatihan
         $queryStatusPelatihan = DB::table('sertipedia.t_detail_pelatihan AS td')
-            ->join('sertipedia.m_pelatihan AS pl', 'td.id_pelatihan', '=', 'pl.id_pelatihan')
-            ->join('sertipedia.m_periode AS pr', 'pl.id_periode', '=', 'pr.id_periode')
-            ->select(DB::raw('pr.tahun AS periode_tahun'), 'td.status', DB::raw('COUNT(td.status) AS jumlah_status'))
-            ->groupBy('pr.tahun', 'td.status')
+            ->select(
+                DB::raw('YEAR(td.created_at) AS periode_tahun'),
+                'td.status',
+                DB::raw('COUNT(td.status) AS jumlah_status')
+            )
+            ->groupBy(DB::raw('YEAR(td.created_at)'), 'td.status')
             ->orderByRaw("FIELD(td.status, 'Requested', 'Accepted', 'Rejected', 'On Going', 'Completed')");
 
-        // Jika tahunFilter tidak kosong, tambahkan filter where
-        if ($tahunFilter) {
-            $queryStatusSertifikasi->where('p.tahun', $tahunFilter);
-            $queryStatusPelatihan->where('pr.tahun', $tahunFilter);
+
+        if ($tahunFilterSertifikasi) {
+            $queryStatusSertifikasi->whereRaw('YEAR(td.created_at) = ?', [$tahunFilterSertifikasi]);
         }
+
+        if ($tahunFilterPelatihan) {
+            $queryStatusPelatihan->whereRaw('YEAR(td.created_at) = ?', [$tahunFilterPelatihan]);
+        }
+
 
         // Ambil data dari query
         $dataStatusSertifikasi = $queryStatusSertifikasi->get();
@@ -108,10 +120,18 @@ class StatistikController extends Controller
             ],
         ];
 
-        // Ambil daftar tahun periode untuk dropdown
-        $daftarPeriode = PeriodeModel::pluck('tahun', 'tahun');
+        // Ambil daftar tanggal unik dari kolom created_at untuk dropdown
+        $daftarPeriodeSertifikasi = DB::table('sertipedia.t_detail_sertifikasi')
+            ->select(DB::raw('DATE(created_at) AS tanggal'))
+            ->distinct()
+            ->pluck('tanggal', 'tanggal');
 
-        return view('user.pimpinan.statistik', compact(
+        $daftarPeriodePelatihan = DB::table('sertipedia.t_detail_pelatihan')
+            ->select(DB::raw('DATE(created_at) AS tanggal'))
+            ->distinct()
+            ->pluck('tanggal', 'tanggal');
+
+        return view('user.pimpinan.statistik.index', compact(
             'breadcrumb',
             'page',
             'activeMenu',
@@ -120,9 +140,68 @@ class StatistikController extends Controller
             'pelatihanCount',
             'chartDataSertifikasi',
             'chartDataPelatihan',
-            'daftarPeriode',
-            'tahunFilter'
+            'daftarPeriodeSertifikasi',
+            'daftarPeriodePelatihan',
+            'tahunFilterSertifikasi',
+            'tahunFilterPelatihan'
         ));
+    }
+
+    public function listSertifikasi(Request $request)
+    {
+        $breadcrumb = (object) [
+            'title' => 'Statistik',
+            'list' => ['Home', 'Statistik']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Sertifikasi'
+        ];
+
+        $activeMenu = 'statistik';
+
+        $sertifikasi = SertifikasiModel::with(['vendor', 'periode']);
+
+        if ($request->ajax()) {
+            return DataTables::of($sertifikasi)
+                ->addColumn('vendor', function ($row) {
+                    return $row->vendor->nama;
+                })
+                ->addColumn('periode', function ($row) {
+                    return $row->periode->tahun;
+                })
+                ->make(true);
+        }
+        return view('user.pimpinan.statistik.detail_sertifikasi', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+    }
+
+
+    public function listPelatihan(Request $request)
+    {
+        $breadcrumb = (object) [
+            'title' => 'Statistik',
+            'list' => ['Home', 'Statistik']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Pelatihan'
+        ];
+
+        $activeMenu = 'statistik';
+
+        $pelatihan = pelatihanModel::with(['vendor', 'periode']);
+
+        if ($request->ajax()) {
+            return DataTables::of($pelatihan)
+                ->addColumn('vendor', function ($row) {
+                    return $row->vendor->nama;
+                })
+                ->addColumn('periode', function ($row) {
+                    return $row->periode->tahun;
+                })
+                ->make(true);
+        }
+        return view('user.pimpinan.statistik.detail_Pelatihan', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function indexAdmin(Request $request)
@@ -138,35 +217,46 @@ class StatistikController extends Controller
 
         $activeMenu = 'statistik';
 
+
         // Dapatkan jumlah user, sertifikasi, pelatihan
         $userCount = UserModel::count();
         $sertifikasiCount = SertifikasiModel::count();
         $pelatihanCount = PelatihanModel::count();
+        $vendorCount = VendorModel::count();
 
-        // Ambil filter tahun dari request
-        $tahunFilter = $request->input('periode', now()->year);
+        // Ambil filter tanggal dari request
+        $tahunFilterSertifikasi = $request->input('periodeSertifikasi', now()->format('Y-m-d'));
+        $tahunFilterPelatihan = $request->input('periodePelatihan', now()->format('Y-m-d'));
 
         // Query data sertifikasi
         $queryStatusSertifikasi = DB::table('sertipedia.t_detail_sertifikasi AS td')
-            ->join('sertipedia.m_sertifikasi AS s', 'td.id_sertifikasi', '=', 's.id_sertifikasi')
-            ->join('sertipedia.m_periode AS p', 's.id_periode', '=', 'p.id_periode')
-            ->select(DB::raw('p.tahun AS periode_tahun'), 'td.status', DB::raw('COUNT(td.status) AS jumlah_status'))
-            ->groupBy('p.tahun', 'td.status')
+            ->select(
+                DB::raw('YEAR(td.created_at) AS periode_tahun'),
+                'td.status',
+                DB::raw('COUNT(td.status) AS jumlah_status')
+            )
+            ->groupBy(DB::raw('YEAR(td.created_at)'), 'td.status')
             ->orderByRaw("FIELD(td.status, 'Requested', 'Accepted', 'Rejected', 'On Going', 'Completed')");
 
         // Query data pelatihan
         $queryStatusPelatihan = DB::table('sertipedia.t_detail_pelatihan AS td')
-            ->join('sertipedia.m_pelatihan AS pl', 'td.id_pelatihan', '=', 'pl.id_pelatihan')
-            ->join('sertipedia.m_periode AS pr', 'pl.id_periode', '=', 'pr.id_periode')
-            ->select(DB::raw('pr.tahun AS periode_tahun'), 'td.status', DB::raw('COUNT(td.status) AS jumlah_status'))
-            ->groupBy('pr.tahun', 'td.status')
+            ->select(
+                DB::raw('YEAR(td.created_at) AS periode_tahun'),
+                'td.status',
+                DB::raw('COUNT(td.status) AS jumlah_status')
+            )
+            ->groupBy(DB::raw('YEAR(td.created_at)'), 'td.status')
             ->orderByRaw("FIELD(td.status, 'Requested', 'Accepted', 'Rejected', 'On Going', 'Completed')");
 
-        // Jika tahunFilter tidak kosong, tambahkan filter where
-        if ($tahunFilter) {
-            $queryStatusSertifikasi->where('p.tahun', $tahunFilter);
-            $queryStatusPelatihan->where('pr.tahun', $tahunFilter);
+
+        if ($tahunFilterSertifikasi) {
+            $queryStatusSertifikasi->whereRaw('YEAR(td.created_at) = ?', [$tahunFilterSertifikasi]);
         }
+
+        if ($tahunFilterPelatihan) {
+            $queryStatusPelatihan->whereRaw('YEAR(td.created_at) = ?', [$tahunFilterPelatihan]);
+        }
+
 
         // Ambil data dari query
         $dataStatusSertifikasi = $queryStatusSertifikasi->get();
@@ -222,8 +312,16 @@ class StatistikController extends Controller
             ],
         ];
 
-        // Ambil daftar tahun periode untuk dropdown
-        $daftarPeriode = PeriodeModel::pluck('tahun', 'tahun');
+        // Ambil daftar tanggal unik dari kolom created_at untuk dropdown
+        $daftarPeriodeSertifikasi = DB::table('sertipedia.t_detail_sertifikasi')
+            ->select(DB::raw('DATE(created_at) AS tanggal'))
+            ->distinct()
+            ->pluck('tanggal', 'tanggal');
+
+        $daftarPeriodePelatihan = DB::table('sertipedia.t_detail_pelatihan')
+            ->select(DB::raw('DATE(created_at) AS tanggal'))
+            ->distinct()
+            ->pluck('tanggal', 'tanggal');
 
         return view('admin.statistik.statistik', compact(
             'breadcrumb',
@@ -232,10 +330,13 @@ class StatistikController extends Controller
             'userCount',
             'sertifikasiCount',
             'pelatihanCount',
+            'vendorCount',
             'chartDataSertifikasi',
             'chartDataPelatihan',
-            'daftarPeriode',
-            'tahunFilter'
+            'daftarPeriodeSertifikasi',
+            'daftarPeriodePelatihan',
+            'tahunFilterSertifikasi',
+            'tahunFilterPelatihan'
         ));
     }
 }
