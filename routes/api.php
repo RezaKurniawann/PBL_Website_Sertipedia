@@ -4,18 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
-use App\Http\Controllers\Api\BidangMinatController;
 use App\Http\Controllers\Api\KompetensiController;
-use App\Http\Controllers\Api\LevelController;
-use App\Http\Controllers\Api\MataKuliahController;
 use App\Http\Controllers\Api\PelatihanController;
 use App\Http\Controllers\Api\ProdiController;
 use App\Http\Controllers\Api\SertifikasiController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\VendorController;  
 use App\Http\Controllers\Api\DetailPelatihanController;
 use App\Http\Controllers\Api\DetailSertifikasiController;
-use App\Http\Controllers\Api\PeriodeController;  
+use App\Http\Controllers\api\NotifikasiController;
 use App\Http\Controllers\Api\StatistikController;
 use App\Http\Controllers\Api\ProfileController;
 
@@ -33,30 +29,30 @@ use App\Http\Controllers\Api\ProfileController;
 Route::post('/login', LoginController::class);
 Route::post('/logout', LogoutController::class);
 
-//bidangminat
-Route::get('bidangminats', [BidangMinatController::class, 'index']);
-Route::get('bidangminats/{bidangminat}', [BidangMinatController::class, 'show']);
 //kompetensi
 Route::get('kompetensis', [KompetensiController::class, 'index']);
 Route::get('kompetensis/{kompetensi}', [KompetensiController::class, 'show']);
-//level
-Route::get('levels', [LevelController::class, 'index']);
-Route::get('levels/{level}', [LevelController::class, 'show']);
-//matakuliah
-Route::get('matakuliahs', [MataKuliahController::class, 'index']);
-Route::get('matakuliahs/{matakuliah}', [MataKuliahController::class, 'show']);
+
 //pelatihan
 Route::get('pelatihans', [PelatihanController::class, 'show']);
+Route::get('verifikasi/pelatihan', [PelatihanController::class, 'verifikasiPelatihan']);
+Route::get('users/pelatihan', [PelatihanController::class, 'showUserPelatihan']);
+Route::put('status/pelatihan/{id_pelatihan}', [PelatihanController::class, 'updateStatus']);
+Route::put('status/sertifikasi/{id_sertifikasi}', [SertifikasiController::class, 'updateStatus']);
 //prodi
 Route::get('prodis', [ProdiController::class, 'index']);
 Route::get('prodis/{prodi}', [ProdiController::class, 'show']);
 //sertifikasi
 Route::get('sertifikasis', [SertifikasiController::class, 'index']);
-Route::get('sertifikasis/{sertifikasi}', [SertifikasiController::class, 'show']);
+Route::get('verifikasi/sertifikasi', [SertifikasiController::class, 'verifikasiSertifikasi']);
+Route::get('users/sertifikasi', [SertifikasiController::class, 'showUserSertifikasi']);
 //user
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{user}', [UserController::class, 'show']);
 Route::put('users/update/{user}', [UserController::class, 'update']);
+
+Route::get('users/pelatihan/{id_pelatihan}', [PelatihanController::class, 'getUserDetailsByPelatihan']);
+Route::get('users/sertifikasi/{id_sertikasi}', [SertifikasiController::class, 'getUserDetailsBySertifikasi']);
 
 Route::get('users/imageProfile/{user}', [ProfileController::class, 'getImageProfile']);
 Route::get('users/profile/{user}', [ProfileController::class, 'getDataProfile']);
@@ -65,9 +61,6 @@ Route::get('users/matakuliah/{user}', [ProfileController::class, 'getUserMataKul
 Route::get('users/ownSertifikasi/{user}', [ProfileController::class, 'getOwnSertifikasi']);
 Route::get('users/ownPelatihan/{user}', [ProfileController::class, 'getOwnPelatihan']);
 
-//vendor
-Route::get('vendors', [VendorController::class, 'index']);
-Route::get('vendors/{vendor}', [VendorController::class, 'show']);
 //detail pelatihan
 Route::get('d_pelatihans', [DetailPelatihanController::class, 'index']);
 Route::get('d_pelatihans/{d_pelatihan}', [DetailPelatihanController::class, 'show']);
@@ -77,14 +70,13 @@ Route::put('d_pelatihans/update/{d_pelatihan}', [DetailPelatihanController::clas
 Route::get('d_sertifikasis', [DetailSertifikasiController::class, 'index']);
 Route::get('d_sertifikasis/{d_sertifikasi}', [DetailSertifikasiController::class, 'show']);
 Route::put('d_sertifikasis/update/{d_sertifikasi}', [DetailSertifikasiController::class, 'update']);
-//periode
-Route::get('periode', [PeriodeController::class, 'index']);
-Route::get('periode/{periode}', [PeriodeController::class, 'show']);
+
+Route::get('notifikasi/showPelatihan/{id_user}', [NotifikasiController::class, 'NotifikasiStatusPelatihan']);
+Route::get('notifikasi/showSertifikasi/{id_user}', [NotifikasiController::class, 'NotifikasiStatusSertifikasi']);
+Route::get('notifikasi/downloadSurat/{fileName}', [NotifikasiController::class, 'downloadFile']);
 
 // statistik
-Route::get('statistiks', [StatistikController::class, 'index']);
-Route::get('sertifikasi_statistiks', [StatistikController::class, 'listSertifikasi']);
-Route::get('pelatihan_statistiks', [StatistikController::class, 'listPelatihan']);
+Route::get('statistik', [StatistikController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
