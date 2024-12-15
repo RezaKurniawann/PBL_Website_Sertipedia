@@ -108,10 +108,8 @@ class NotifikasiController extends Controller
     
         $activeMenu = 'notifikasi';
     
-        // Ambil data pelatihan untuk user
         $detailPelatihan = DetailPelatihanModel::with(['pelatihan', 'user'])
             ->get()
-            ->unique('id_pelatihan')
             ->map(function ($item) {
                 $item->type = 'Pelatihan';
                 return $item;
@@ -120,7 +118,6 @@ class NotifikasiController extends Controller
         // Ambil data sertifikasi untuk user
         $detailSertifikasi = DetailSertifikasiModel::with(['sertifikasi', 'user'])
             ->get()
-            ->unique('id_sertifikasi')
             ->map(function ($item) {
                 $item->type = 'Sertifikasi';
                 return $item;

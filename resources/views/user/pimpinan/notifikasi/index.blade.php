@@ -12,12 +12,12 @@
                 <tr>
                     <th scope="col">Nama Pelatihan/Sertifikasi</th>
                     <th scope="col">Tipe</th>
-                    <th scope="col" class="text-center">Surat Tugas</th>
+                    <th scope="col" class="text-center">Status</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($dataGabungan as $item)
-                    @if ($item->status == "Completed" && $item->image == null)
+                    @if ($item->id_user == Auth::user()->id_user && $item->status != 'Accepted' && $item->status != 'Rejected')
                         <tr>
                             <td>
                                 @if ($item->type == 'Pelatihan')
@@ -28,10 +28,10 @@
                             </td>
                             <td>{{ ucfirst($item->type) }}</td>
                             <td class="text-center">
-                                @if ($item->surat_tugas)
+                                @if ($item->surat_tugas && $item->status == 'Completed')
                                     <a href="{{ Storage::url('surat_tugas/'.$item->surat_tugas) }}" class="btn btn-primary btn-sm" target="_blank">Lihat Surat Tugas</a>
                                 @else
-                                    <span class="text-muted">Belum diunggah</span>
+                                   {{ $item->status ?? 'N/A' }}
                                 @endif
                             </td>
                         </tr>

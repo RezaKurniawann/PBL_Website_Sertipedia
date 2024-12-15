@@ -298,7 +298,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('notifikasi.showUser') }}"
+                        <a href="{{ route('notifikasi.showPim') }}"
                             class="nav-link {{ $activeMenu == 'notifikasi' ? 'active' : '' }}">
                             <i class="nav-icon fas fa-bell"></i>
                             <p>Notifikasi</p>
