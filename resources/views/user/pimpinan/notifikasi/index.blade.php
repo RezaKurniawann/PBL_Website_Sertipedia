@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 @forelse ($dataGabungan as $item)
-                    @if ($item->status == "Ongoing" && $item->user->id_user == Auth::user()->id_user)
+                    @if ($item->status == "Completed")
                         <tr>
                             <td>
                                 @if ($item->type == 'Pelatihan')

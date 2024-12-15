@@ -311,7 +311,7 @@ Route::middleware(['auth:user'])->group(function () {
             Route::get('/{id}/show_ajax', [KompetensiController::class, 'show_ajax']);
         });
         Route::prefix('notifikasi')->group(function () {
-            Route::get('/', [NotifikasiController::class, 'showUser'])->name('notifikasi.showUser');
+            Route::get('/', [NotifikasiController::class, 'showPim'])->name('notifikasi.showPim');
             Route::get('/export/pdf', [NotifikasiController::class, 'exportPimPDF'])->name('pimExport.pdf');
         });
     });

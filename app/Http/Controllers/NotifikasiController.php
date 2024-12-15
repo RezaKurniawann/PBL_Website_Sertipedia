@@ -44,6 +44,7 @@ class NotifikasiController extends Controller
                 return $item;
             });
 
+            
         // Gabungkan data pelatihan dan sertifikasi
         $dataGabungan = $detailPelatihan->concat($detailSertifikasi);
 
@@ -55,50 +56,86 @@ class NotifikasiController extends Controller
         ]);
     }
     public function showUser()
-{
-    $breadcrumb = (object)[
-        'title' => 'Notifikasi',
-        'list' => ['Home', 'Notifikasi']
-    ];
+    {
+        $breadcrumb = (object)[
+            'title' => 'Notifikasi',
+            'list' => ['Home', 'Notifikasi']
+        ];
 
-    $page = (object)[
-        'title' => 'Notifikasi'
-    ];
+        $page = (object)[
+            'title' => 'Notifikasi'
+        ];
 
-    $activeMenu = 'notifikasi';
+        $activeMenu = 'notifikasi';
 
-    $id_user = Auth::user()->id_user;
+        // Ambil data pelatihan untuk user
+        $detailPelatihan = DetailPelatihanModel::with(['pelatihan', 'user'])
+            ->get()
+            ->unique('id_pelatihan')
+            ->map(function ($item) {
+                $item->type = 'Pelatihan';
+                return $item;
+            });
 
-    // Ambil data pelatihan untuk user
-    $detailPelatihan = DetailPelatihanModel::with(['pelatihan', 'user'])
-        ->where('id_user', $id_user)
-        ->get()
-        ->unique('id_pelatihan')
-        ->map(function ($item) {
-            $item->type = 'Pelatihan';
-            return $item;
-        });
+        // Ambil data sertifikasi untuk user
+        $detailSertifikasi = DetailSertifikasiModel::with(['sertifikasi', 'user'])
+            ->get()
+            ->unique('id_sertifikasi')
+            ->map(function ($item) {
+                $item->type = 'Sertifikasi';
+                return $item;
+            });
 
-    // Ambil data sertifikasi untuk user
-    $detailSertifikasi = DetailSertifikasiModel::with(['sertifikasi', 'user'])
-        ->where('id_user', $id_user)
-        ->get()
-        ->unique('id_sertifikasi')
-        ->map(function ($item) {
-            $item->type = 'Sertifikasi';
-            return $item;
-        });
+        $dataGabungan = $detailPelatihan->concat($detailSertifikasi);
 
-    $dataGabungan = $detailPelatihan->concat($detailSertifikasi);
-
-    return view('user.pimpinan.notifikasi.index', [
-        'breadcrumb' => $breadcrumb,
-        'page' => $page,
-        'dataGabungan' => $dataGabungan,
-        'activeMenu' => $activeMenu
-    ]);
-}
-
+        return view('user.notifikasi.index', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'dataGabungan' => $dataGabungan,
+            'activeMenu' => $activeMenu
+        ]);
+    }
+    public function showPim()
+    {
+        $breadcrumb = (object)[
+            'title' => 'Notifikasi',
+            'list' => ['Home', 'Notifikasi']
+        ];
+    
+        $page = (object)[
+            'title' => 'Notifikasi'
+        ];
+    
+        $activeMenu = 'notifikasi';
+    
+        // Ambil data pelatihan untuk user
+        $detailPelatihan = DetailPelatihanModel::with(['pelatihan', 'user'])
+            ->get()
+            ->unique('id_pelatihan')
+            ->map(function ($item) {
+                $item->type = 'Pelatihan';
+                return $item;
+            });
+    
+        // Ambil data sertifikasi untuk user
+        $detailSertifikasi = DetailSertifikasiModel::with(['sertifikasi', 'user'])
+            ->get()
+            ->unique('id_sertifikasi')
+            ->map(function ($item) {
+                $item->type = 'Sertifikasi';
+                return $item;
+            });
+    
+        $dataGabungan = $detailPelatihan->concat($detailSertifikasi);
+    
+        return view('user.pimpinan.notifikasi.index', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'dataGabungan' => $dataGabungan,
+            'activeMenu' => $activeMenu
+        ]);
+    }
+    
     public function detail($id)
     {
         $breadcrumb = (object)[

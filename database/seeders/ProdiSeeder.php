@@ -24,7 +24,7 @@ class ProdiSeeder extends Seeder
             ],
             [
                 'id_prodi' => 3, 
-                'nama' => 'Fullstack Development'
+                'nama' => 'Pengembangan Piranti Lunak Situs'
             ],
         ];
         DB::table('t_prodi')->insert($data);
